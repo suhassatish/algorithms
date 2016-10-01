@@ -25,6 +25,9 @@ i=3, j=2, max = 3, result_set = {LCL, CLC}
 
 time complexity: O (n^2)
 space : O(MN) where M = length(s1), N = length(s2)
+
+Explanation:
+https://www.youtube.com/watch?v=tABtJbLOQho
 """
 
 
