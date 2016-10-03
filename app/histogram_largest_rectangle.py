@@ -14,7 +14,9 @@ Start from first bar, and do following for every bar ‘hist[i]’ where ‘i’
      ii) Let the removed bar be hist[tp]. Calculate area of rectangle with hist[tp] as smallest bar.
     iii) compute max_area so far and if area > max_area, update max_area
      For hist[tp], the ‘left index’ is previous (previous to tp) item in stack and ‘right index’ is ‘i’ (current index).
-  c) push current value (histogram bar) onto max_value stack
+  c) push current value (histogram bar) onto max_value stack,
+  the index in max_index_stack corresponding to this value will be the start of this rectangle looking-back.
+  This should go back farthest to a bar of height >= current-height
 
 3) At the end of iteration, if the stack is not empty, then one by one remove all bars from stack and do step 2b
 for every removed bar.
@@ -22,7 +24,8 @@ for every removed bar.
 #video explanation
 #https://www.youtube.com/watch?v=VNbkzsnllsU
 
-time complexity: O(n)
+time complexity: O(n^2) in the worst case of monotonically increasing histogram bars where you have to push all elements
+ onto the stack. best case
 space complexity: O(2n)
 """
 
