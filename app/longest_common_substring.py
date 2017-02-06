@@ -2,7 +2,10 @@
 Find the longest common substring between 2 strings s1, s2
 
 Algorithm: initialize 2-D matrix to 0s, if there's a character match,
-As i index goes down and j array index goes right ->,
+As i index goes down and j array index goes right
+(early exit optimization atend of shorter of 2 strings is not possible as you have to slide the shorter string
+along every starting position of bigger string eg - CLC, ABCDEFGHIJKCL), where you wont find 'CL' till the end)
+if a[i] == b[j]:
   a) if i=0 OR j=0, increment a[i][j] to 1
   b) if i!=0 AND j!=0, a[i][j] = a[i-1][j-1] + 1
    C  L  C  L (s2)
