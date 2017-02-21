@@ -16,7 +16,7 @@ Merge can start with fewer elements
 Extra credit: Implement priority_queue instead of library functions
 """
 import heapq
-from llist import sllist, sllistnode
+from llist import sllist
 
 
 def merge(list_of_lists):

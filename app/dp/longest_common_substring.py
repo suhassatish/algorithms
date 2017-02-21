@@ -3,8 +3,10 @@ Find the longest common substring between 2 strings s1, s2
 
 Algorithm: initialize 2-D matrix to 0s, if there's a character match,
 As i index goes down and j array index goes right
-(early exit optimization atend of shorter of 2 strings is not possible as you have to slide the shorter string
-along every starting position of bigger string eg - CLC, ABCDEFGHIJKCL), where you wont find 'CL' till the end)
+(early exit optimization atend of shorter of 2 strings is not possible as you have to slide the
+shorter string along every starting position of bigger string eg - CLC, ABCDEFGHIJKCL),
+where you wont find 'CL' till the end)
+
 if a[i] == b[j]:
   a) if i=0 OR j=0, increment a[i][j] to 1
   b) if i!=0 AND j!=0, a[i][j] = a[i-1][j-1] + 1
@@ -62,7 +64,7 @@ def longest_common_substring(s1, s2):
                     else:
                         matrix[i][j] = matrix[i-1][j-1] + 1
 
-                    """if you find a longer substring than the max seen so far, reinitialize the set"""
+                    # if you find a longer substring than the max seen so far, reinitialize the set
                     if matrix[i][j] > rolling_max:
                         rolling_max = matrix[i][j]
                         result = set()
@@ -73,7 +75,7 @@ def longest_common_substring(s1, s2):
                 else:
                     matrix[i][j] = 0
 
-    """although returning the whole set is a desirable behaviour, for a Database function implementation,
-    its better to return a deterministic first match as a string instead of a set.
-    Also, the set is unlikely to have more than 1 element of the same length"""
+    # although returning the whole set is a desirable behaviour, for a Database function
+    # implementation, its better to return a deterministic first match as a string instead of a set.
+    # Also, the set is unlikely to have more than 1 element of the same length
     return sorted(result)[0]
