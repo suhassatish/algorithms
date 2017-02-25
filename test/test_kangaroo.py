@@ -1,5 +1,5 @@
 import unittest
-from kangaroo import will_kangaroos_collide
+from app.kangaroo import will_kangaroos_collide
 
 
 class Test(unittest.TestCase):
