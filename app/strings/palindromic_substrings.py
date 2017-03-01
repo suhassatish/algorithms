@@ -11,7 +11,12 @@ and for each substring,
 b) consider if its a palindrome. (This can be done in 1-pass of 2 pointers i & j
 traversing substring from opposite ends until they meet in the middle i.e., in O(n) time)
 
-so its O(n^3)
+so its O(n^3). We will implement O(n^2) solution below.
+
+Total number of centers = n - 1 (for odd-sized palindrome) + n - 1 (for even-sized palindrome)
+= 2(n - 1)
+In above, dont count last character of string as center of longest palindrome as it will be of
+size 1, and even the first letter-center is of size 1.
 """
 
 
