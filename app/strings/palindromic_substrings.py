@@ -48,5 +48,5 @@ def add_palindrome(str1, palindrome_set, begin_index, end_index):
         end_index += 1
 
 # There is also a more complex O(n) algorithm, but getting it and implementing it in an interview
-#  will probable take longer than 45 minutes
+#  will probable take longer than 45 minutes. Uses manacher's algorithm to keep wing_lengths
 # https://www.akalin.com/longest-palindrome-linear-time
