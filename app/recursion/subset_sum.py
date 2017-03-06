@@ -28,6 +28,8 @@ to get a pseudo-polynomial time solution.
 
 TODO:
 1) Code the dynamic programing solution.
+
+2) Solve a variant of this problem, asked in Google and Facebook interview
 http://www.geeksforgeeks.org/find-subarray-with-given-sum/
 
 2) Return the integers that sum to the target - iterative solution here
