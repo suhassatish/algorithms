@@ -6,8 +6,8 @@ Ignore punctuation, case and whitespace
 import string
 
 
-def is_palindrome(strarr):
-    s = strarr.replace(" ", "").translate(None, string.punctuation).lower()
+def is_palindrome(s):
+    s = s.replace(" ", "").translate(None, string.punctuation).lower()
     # http://stackoverflow.com/questions/265960/best-way-to-strip-punctuation-from-a-string-in-python
     # 1) translate is fastest as it uses C lookups from a map
 
