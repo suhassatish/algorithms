@@ -29,4 +29,15 @@ Kafka allows creation of topics, each topic can have 1 or more partitions.
 Each partition is a single producer-consumer queue.
 
 Typically for guaranteed ordering, a topic has to be a single partition.
+
+Some journalling has been done for taht event.
+Server hosting that particular queue.
+
+Each producer consumer Q is actually a log that is persisted no disk, in batches.
+Checkpoints frequently.
+
+For each subscriber, it maintains a checkpoint of subscriber offset.
+If the kafka server restarts, it will start from the check-pointed offset.
+Onus is on the subscriber client to ensure exactly-once semantics.
+
 """
