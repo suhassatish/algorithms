@@ -40,4 +40,10 @@ For each subscriber, it maintains a checkpoint of subscriber offset.
 If the kafka server restarts, it will start from the check-pointed offset.
 Onus is on the subscriber client to ensure exactly-once semantics.
 
+
+LinkedIn asks question about cluster manager design, or distributed stats aggregator.
+WR/RD QPS for heart-beats is very high. Heart-beat is the data model.
+Last update point of that heart beat say, 30s ago => service will notify and pull
+storage node down. You cannot have a zookeeper for a zookeeper.
+So for that, there are things ike gossip (or gass-up?) protocol.
 """
