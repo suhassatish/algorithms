@@ -76,7 +76,7 @@ def edit_dist_iterative(str1, str2):
                 mat[i + 1][j + 1] = mat[i][j]
             else:
                 mat[i + 1][j + 1] = 1 + min(mat[i][j + 1], mat[i + 1][j], mat[i][j])
-    return mat[i + 1][j + 1]
+    return mat[len(str1)][len(str2)]
 
 if __name__ == '__main__':
     print edit_dist_recursive("tell", "table")  # 3
