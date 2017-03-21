@@ -1,6 +1,26 @@
 """
 https://www.hackerrank.com/contests/hourrank-11/challenges/strange-code
 
+Given a strange counter that counts down from 3 to 1 and doubles everytime it reaches 1,
+find the value at any given time t.
+eg -
+time|value
+1   |3
+2   |2
+3   |1
+
+4   |6
+5   |5
+6   |4
+7   |3
+8   |2
+9   |1
+
+10  |12
+11  |11
+...
+21  |1
+
 constraints:
 1 <= t <= 10^12
 
