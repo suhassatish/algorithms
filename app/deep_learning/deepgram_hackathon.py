@@ -1,4 +1,55 @@
 """
+kur hub - github for deep learning models
+kur hub runs on AWS KEs - you'll get ssh access to train models on this thru kur hub.
+
+Bryan Catanzaro - VP, Applied Deep Learning at Nvidia
+twitter handle - @ctnzr
+
+pre-trained model for image classification by microsoft -
+github.com/kaiminghe/deep-residual-networks
+
+Convolutional Neural Networks -
+Filters with images.
+
+Convolution gives location invariance.
+Application - automatic colorization of black and white images, output = colorized image
+
+Super resolution - High resolution images produced through generative adversarial networks(GAN)
+
+
+speech recognition application at Baidu - trained on 12k hours of data (1.4 years)
+recurrent neural networks, long-short-term-memory
+
+neural machine translation - better than cut & paste from dictionary for english to french
+and other language translations.
+
+speech synthesis with wavenet - better language voice, sounds like human than robot when reading
+audio book
+
+super smash brothers melee game - reinforcement learning does better than top ranked players
+-----------
+Adam - inventor of kur (meaning = dragon) at deepgram.
+Predicted distances to far-off galaxies in his PhD
+
+write a model in few lines of yaml using kur -
+
+model:
+    - input: images
+    -dense: 10
+    -activation: softmax
+variable substitution using jinja2 templating engine.
+
+Train:
+kur train Kurfile.yml
+
+Test:
+kur test Krfile.yml
+
+kur.deepgram.com - code walk thru for python 3.5+ venv required for kur.
+
+eaxmples/mnist.yaml = kur file
+
+------------
 deepgram kur tutorial by Adam
 
 //mnist.yaml setting - can run on tensor flow, pyTorch or keras; keras doesn't run in multi-gpu mode;
