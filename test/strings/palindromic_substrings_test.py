@@ -1,5 +1,5 @@
 import unittest
-from app.palindromic_substrings import palindromic_substrings as ps
+from app.strings.palindromic_substrings import palindromic_substrings as ps
 
 
 class MyTest(unittest.TestCase):
