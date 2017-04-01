@@ -67,7 +67,6 @@ edges as well. Have a hash map of original to clone. This can serve as the visit
 using both bfs or dfs.
 
 """
-from Queue import Queue
 
 
 class Graph(object):
@@ -100,9 +99,7 @@ class Graph(object):
         :return:
         """
         self._init_empty(input_stream_with_edges[0])
-        self._E = input_stream_with_edges[1]
-        if self._E < 0:
-            raise Exception("Number of edges must be non-negative")
+        self._E = 0
         for v,w in input_stream_with_edges[2:]:
             self.add_edge(v, w)
 
@@ -126,6 +123,7 @@ class Graph(object):
         """
         self._adj[v].add(w)
         self._adj[w].add(v)
+        self._E += 1
 
     def v(self):
         return self._V

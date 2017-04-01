@@ -35,7 +35,7 @@ class BreadthFirstPaths(object):
         q = deque()
         q.append(src)
         while q:
-            v = q.pop()
+            v = q.popleft()
             for u in graph_obj.adj(v):
                 if not self._marked[u]:
                     self._dist_to[u] = self._dist_to[v] + 1
@@ -48,7 +48,7 @@ if __name__ == '__main__':
          (7,8), (9,11), (5,3)]
     g = Graph(l)
     bfp = BreadthFirstPaths(g, 6)
-    print bfp._edge_to  # [6, 0, 0, 4, 6, 4, None, None, None, None, None, None, None]
+    print bfp._edge_to  # [6, 0, 0, 4, 6, 0, None, None, None, None, None, None, None]
     print bfp._marked  # [True, True, True, True, True, True, True, False, False, False, False,
     # False, False]
     print bfp._dist_to  # [1, 2, 2, 2, 1, 2, 0, inf, inf, inf, inf, inf, inf]
