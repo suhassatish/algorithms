@@ -61,6 +61,9 @@ class DirectedCycle(object):
         """
         return self._cycle_stk
 
+    def has_cycle(self):
+        return True if self._cycle_stk else False
+
 if __name__ == '__main__':
     g = Digraph([2, None, (0, 1), (1, 0)])
     print DirectedCycle(g).cycle() # should print cycle
