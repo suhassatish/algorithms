@@ -13,7 +13,7 @@ class BreadthFirstPaths(object):
             raise ValueError("Graph object cannot be None. src should be a hashed non-negative "
                              "integer < number of vertices in graph")
         self._marked = [False] * graph_obj.v()
-        self._dist_to = [float('inf')] * graph_obj.v()
+        self.dist_to = [float('inf')] * graph_obj.v()
         self._edge_to = [None] * graph_obj.v()  # edge_to[v] = last edge on the src to v path
         self.bfs(graph_obj, src)
 
@@ -30,7 +30,7 @@ class BreadthFirstPaths(object):
         :param src:
         :return:
         """
-        self._dist_to[src] = 0
+        self.dist_to[src] = 0
         self._marked[src] = True
         q = deque()
         q.append(src)
@@ -38,7 +38,7 @@ class BreadthFirstPaths(object):
             v = q.popleft()
             for u in graph_obj.adj(v):
                 if not self._marked[u]:
-                    self._dist_to[u] = self._dist_to[v] + 1
+                    self.dist_to[u] = self.dist_to[v] + 1
                     self._edge_to[u] = v
                     self._marked[u] = True
                     q.append(u)
@@ -51,5 +51,5 @@ if __name__ == '__main__':
     print bfp._edge_to  # [6, 0, 0, 4, 6, 0, None, None, None, None, None, None, None]
     print bfp._marked  # [True, True, True, True, True, True, True, False, False, False, False,
     # False, False]
-    print bfp._dist_to  # [1, 2, 2, 2, 1, 2, 0, inf, inf, inf, inf, inf, inf]
+    print bfp.dist_to  # [1, 2, 2, 2, 1, 2, 0, inf, inf, inf, inf, inf, inf]
     # shortest path array from src 6
