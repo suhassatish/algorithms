@@ -14,7 +14,7 @@ class BreadthFirstPaths(object):
                              "integer < number of vertices in graph")
         self._marked = [False] * graph_obj.v()
         self.dist_to = [float('inf')] * graph_obj.v()
-        self._edge_to = [None] * graph_obj.v()  # edge_to[v] = last edge on the src to v path
+        self.edge_to = [None] * graph_obj.v()  # edge_to[v] = last edge on the src to v path
         self.bfs(graph_obj, src)
 
     def bfs(self, graph_obj, src):
@@ -39,7 +39,7 @@ class BreadthFirstPaths(object):
             for u in graph_obj.adj(v):
                 if not self._marked[u]:
                     self.dist_to[u] = self.dist_to[v] + 1
-                    self._edge_to[u] = v
+                    self.edge_to[u] = v
                     self._marked[u] = True
                     q.append(u)
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
          (7,8), (9,11), (5,3)]
     g = Graph(l)
     bfp = BreadthFirstPaths(g, 6)
-    print bfp._edge_to  # [6, 0, 0, 4, 6, 0, None, None, None, None, None, None, None]
+    print bfp.edge_to  # [6, 0, 0, 4, 6, 0, None, None, None, None, None, None, None]
     print bfp._marked  # [True, True, True, True, True, True, True, False, False, False, False,
     # False, False]
     print bfp.dist_to  # [1, 2, 2, 2, 1, 2, 0, inf, inf, inf, inf, inf, inf]
