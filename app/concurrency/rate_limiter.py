@@ -61,7 +61,7 @@ large file are stored on different hosts (peers).
 Here, it downloads asynchronously and notifies when complete.
 There is a design trade-off between fairness_index vs avg_download_time.
 """
-
+from Queue import Queue
 from datetime import datetime
 
 
@@ -70,13 +70,15 @@ def rate_limiter(message_received):
     Queue solution maybe better than the below naive solution.
     A simple token-bucket algorithm without queue. If 5 messages have already been sent, in time
     interval, you drop the new message. Else, you lower the rate (throttle).
+    :param message_received:
     :return:
     """
     rate = 5.0  # assume rate should be 5 messages every 8 seconds
     period = 8.0  # every 8 seconds
     allowance = rate
     last_check = datetime.now()
-    while(message_received):
+
+    while message_received:
         current = datetime.now()
         time_elapsed = current - last_check
         allowance += time_elapsed * rate/period
@@ -84,17 +86,45 @@ def rate_limiter(message_received):
             allowance = rate  # throttle
 
         if allowance < 1.0:
-            discard_msg()
+            discard_msg(message_received)
 
         else:
-            fwd_msg()
+            fwd_msg(message_received)
             allowance -= 1.0
 
 
-def discard_msg():
+def rate_limiter_2(request):
+    q_size = 10
+    q = Queue(maxsize=q_size)
+    time_interval = 8.0  # every 8 seconds
+    rate = 5.0
+
+    def on_request_receive(req):
+        current_time = datetime.now()
+
+        if q.qsize() < q_size:
+            # trivial case, we are not at the limit
+            q.put((current_time, req))
+            fwd_msg(req)
+        else:
+            sent = 0
+            while current_time - q.peek() > time_interval and sent < rate:
+                # the oldest request has expired, lets do work
+                ts, req = q.get()
+                fwd_msg(req)
+                q.put((current_time, req))
+                sent += 1
+            else:
+                # no space in queue which means all requests in the queue are still valid
+                discard_msg(req)
+
+    on_request_receive(request)
+
+
+def discard_msg(request):
     pass
 
 
-def fwd_msg():
+def fwd_msg(request):
     pass
 
