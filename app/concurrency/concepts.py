@@ -82,7 +82,7 @@ observers = init_value2, then compiler will error out. But for observers.add(obs
 error out.
 
 Is synchronized a re-entrant lock? A thread goes into synchronized(observer) in notifyElementAdded()
-and then cals removeObserver() which is in another synchronized block. The fact that thread1 held
+and then calls removeObserver() which is in another synchronized block. The fact that thread1 held
 the lock, it is re-entrant and can go into the other synchronized function since it already holds
 the lock.
 
@@ -124,6 +124,10 @@ Due to notifyAll causing spurious wake ups, you should always use the construct 
 while (! condition_met){
     wait()
 }
+http://effbot.org/zone/thread-synchronization.htm
+python equivalent of condition variable.
+from threading import Condition
+cond_var = Condition()
 
 You should NOT use `if` instead if `while`.
  if (! condition_met) {
@@ -231,7 +235,7 @@ Interlocked operations or atomic operations: Take low-level operations like  swa
 load-linked-store-conditional (LL-SC) etc
 and fuse the operations together by the hardware into 1 instruction.
 
-like read from register, load from memory. Hardware locks that cacheline and all other threads
+like read from register, load from memory. Hardware locks that cache line and all other threads
 have to spin. Its a spin lock. From the OS perspective, its just 1 thing to do.
 
 
