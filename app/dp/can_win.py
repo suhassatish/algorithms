@@ -13,7 +13,6 @@ def can_win(a, start_index):
 
 
 def _can_win(a, index, visited):
-    print "index = %s" % index
 
     if a[index] == 0:
         return True
@@ -44,14 +43,17 @@ def valid(a, index):
         return False
 
 if __name__ == '__main__':
-    #board = [0, 3, 1, 2, 3, 0, 10]
-    #print can_win(board, 3)  # True
+    board = [0, 3, 1, 2, 3, 0, 10]
+    print can_win(board, 3)  # True
 
-    #board = [1, 3, 1, 2, 3, 1, 10]
-    #print can_win(board, 3)
+    board = [1, 3, 1, 2, 3, 1, 10]  # no 0 at all
+    print can_win(board, 3)  # False
 
-    #board = [1, 3, 1, 2, 3, 1, 0]
-    #print can_win(board, 3)
+    board = [1, 3, 1, 2, 3, 1, 0]  # 0 reachable on right recursive subtree
+    print can_win(board, 3)  # True
 
-    board = [10, 0, 1, 2, 3, 1, 10]
-    print can_win(board, 3)
+    board = [10, 0, 1, 2, 3, 1, 10]  # 0 reachable on left recursive subtree
+    print can_win(board, 3)  # True
+
+    board = [0, 10, 1, 2, 3, 1, 10]  # 0 not reachable at all
+    print can_win(board, 3)  # False
