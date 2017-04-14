@@ -18,7 +18,8 @@ def top_k_streaming(arr, k):
     Space = O(k)
     Time To build initial min-heap O(k)
     + to compare and insert n-k elements in worst-case = (n-k) * lg k
-    Overall time = k + (n-k) lg k
+    Overall time = k + (n-k) lg k = O(N lg k)
+    Keep k minimum elements using max-heap of size k, find k maximum elements using min-heap of size k
     :param arr:
     :param k:
     :return:
