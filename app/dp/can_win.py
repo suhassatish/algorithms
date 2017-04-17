@@ -25,12 +25,13 @@ def _can_win(a, index, visited):
     if valid(a, left_index) and not visited[left_index]:
         visited[left_index] = True
         left_ret_value = _can_win(a, left_index, visited)
+    if left_ret_value:
+        return True
 
     if valid(a, right_index) and not visited[right_index]:
         visited[right_index] = True
         right_ret_value = _can_win(a, right_index, visited)
-
-    if left_ret_value or right_ret_value:
+    if right_ret_value:
         return True
 
     return False

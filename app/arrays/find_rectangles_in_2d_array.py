@@ -95,6 +95,12 @@ def get_rectangle_coordinates(matrix):
 
 
 def get_rectangle_coordinates2(matrix):
+    """
+    Note: this method does not work for overlapping rectangles. The time complexity is O(n^2 * m^2)
+
+    :param matrix:
+    :return:
+    """
     if matrix is None or len(matrix) == 0 :
         return None
     rows = len(matrix)
