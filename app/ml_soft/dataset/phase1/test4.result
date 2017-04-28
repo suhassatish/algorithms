@@ -1,0 +1,7 @@
+{
+  "valid": false,
+  "error": {
+    "line": 3,
+    "type": "WRONG_CHAR_IN_TAG_NAME"
+  }
+}

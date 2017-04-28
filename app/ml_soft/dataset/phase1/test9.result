@@ -1,0 +1,7 @@
+{
+  "valid": false,
+  "error": {
+    "line": 1,
+    "type": "UNEXPECTED_CLOSING_TAG_CHAR"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "valid": false,
+  "error": {
+    "line": 3,
+    "type": "UNBALANCED_TAG"
+  }
+}

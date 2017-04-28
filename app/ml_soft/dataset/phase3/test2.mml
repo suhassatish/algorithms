@@ -1,0 +1,4 @@
+<NESTED>
+<![CDATA[ Make sure that tag parsing is truly off, even after a >, by putting an invalid
+tag sequence <here ]]>
+</NESTED>
