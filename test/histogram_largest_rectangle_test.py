@@ -1,5 +1,5 @@
 import unittest
-from app.histogram_largest_rectangle import area_largest_rectangle
+from app.linked_lists_stacks_queues.histogram_largest_rectangle import area_largest_rectangle
 
 
 class MyTest(unittest.TestCase):
