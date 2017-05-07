@@ -71,9 +71,9 @@ def word_break(input_string, word_set):
 
     Instead, of above approach, we can find the decompositions of longest words only.
     This is the solution in EPI 17.7 thebedbathandbeyond.com problem
-    In 1st pass, we can find for all substrings s[0:i+1] that are dict words and update
+    In 1st pass, we can find for all n^2 (nC2) substrings s[0:i+1] that are dict words and update
     last_length[i] = len(dict_word) if s[0:i+1] is a valid dict word.
-    Then we last_length[i] is a dict word we return that and are done.
+    Then if last_length[i] is a dict word we return that and are done.
 
     You have 2 nested for-loops and each iteration takes time O(n), so total time is O(n^3)
     EPI describes a solution where the innermost loop runs from k - W to k-1 where W = longest
@@ -112,6 +112,8 @@ if __name__ == '__main__':
     d = {'its', 'it', 'sits', 'sit'}
     print word_break("itsitsitsits", d)  # its its its its
 
-    d = {'cat', 'cats', 'and', 'dog', 'sand', 'dogs'}
+    d = {'cat', 'cats', 'an', 'and', 'dog', 'sand', 'dogs'}
     print word_break("catsanddogs", d)  # cats and dogs
 
+    d = {'a', 'aaa', 'is', 'name'}
+    print word_break("aaaisaname", d)  # aaa is a name
