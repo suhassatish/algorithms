@@ -1,4 +1,5 @@
 """
+TODO -
 http://cs231n.github.io/convolutional-networks/
 Stanford Course (open source) on Convolutional neural networks for Visual Recognition
 
@@ -15,4 +16,9 @@ Stanford Course (open source) on Convolutional neural networks for Visual Recogn
   c) Case studies - LeNet, AlexNet, ZFNet, GoogleNet, VGGNet
 
 3) Computational considerations
+
+-----------------------
+TODO -
+http://blog.christianperone.com/2015/08/convolutional-neural-networks-and-feature-extraction-with-python/
+
 """

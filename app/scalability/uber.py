@@ -94,7 +94,7 @@ as input, it will find different cells at different levels that cover your regio
 DB range-queries. So less DB reads, less object unmarshalling. Implementation detail: Big endian
 is required to store the S2 cell-id for lexicographical sort order.
 ------------------------------------------------------------------------------------
-
+TODO -
 HTTP://HIGHSCALABILITY.COM/BLOG/2015/9/14/HOW-UBER-SCALES-THEIR-REAL-TIME-MARKET-PLATFORM.HTML
 
 
