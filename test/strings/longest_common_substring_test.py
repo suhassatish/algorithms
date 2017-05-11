@@ -1,5 +1,5 @@
 import unittest
-from app.longest_common_substring import longest_common_substring as lcs
+from app.strings.longest_common_substring import longest_common_substring as lcs
 
 
 class MyTest(unittest.TestCase):
