@@ -40,20 +40,6 @@ ReduceFunction() will have to perform all those in a single call() function.
 9) Hive's groupBy doesnt expect the keys to be sorted but map-reduce does it anyway. Spark gives
 you flexibility with partitionBy, groupByKey or sortByKey transformations.
 --------------------------------------------------------------------------
-KEY DIFFERENCES BETWEEN MAP-REDUCE AND SPARK -
-1) An executor JVM in spark can process from multiple different HDFS splits. This is a deviation
- from map-reduce where a map task JVM always reads from the same HDFS split.
-
-2) In the map-reduce world, map-side operator tree and reduce-side operator tree run as single
-threads in map-reduce within an isolated JVM. But in spark, the operator tree can be reused within
-a shared JVM. This could potentially cause concurrency and thread safety issues, with static
-variables and the like.
-
-3) In the map-reduce world, ExecMapper.done is polled to terminate a MapTask JVM. But in spark, if
-2 ExecMappers share the same JVM, the 1 that completes 1st could terminate the JVM before the other
-finishes.
-
---------------------------------------------------------------------------
 https://cwiki.apache.org/confluence/display/Hive/Hive+on+Spark%3A+Join+Design+Master
 Hive on Spark: Join Design Master
 Look at Szehon Ho's visual color-coded Class pipeline diagram - its too complicated to describe
