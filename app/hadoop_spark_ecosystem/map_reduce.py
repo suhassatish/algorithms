@@ -15,7 +15,7 @@ use hashPartitioning as the default partitioning strategy.
 A reducer always sees keys in sorted order within its life time.
 
 --------------------------------------------------------------------------
-KEY DIFFERENCES BETWEEN MAP-REDUCE AND SPARK -
+KEY DIFFERENCES BETWEEN HADOOP AND SPARK -
 1) An executor JVM in spark can process from multiple different HDFS splits. This is a deviation
  from map-reduce where a map task JVM always reads from the same HDFS split.
 
@@ -27,5 +27,25 @@ variables and the like.
 3) In the map-reduce world, ExecMapper.done is polled to terminate a MapTask JVM. But in spark, if
 2 ExecMappers share the same JVM, the 1 that completes 1st could terminate the JVM before the other
 finishes.
+
+4)
+Differences of reduceByKey() in spark vs reduce() in map-reduce -
+Hadoop imposes a sort() before combine(). Spark applies combine() logic with HashMap.
+
+Shuffle process in hadoop will fetch the data until certain amount, then applies
+combine() -> merge() -> reduce()
+In spark, fetch and reduce is done at the same time, so the reduce function needs to be commutative
+(order independent).
+
+5) Comparison in-terms of memory usage -
+  a) map-side: Hadoop needs a big,circular buffer to hold and sort the map() output data. But
+  combine() does not need extra space. Spark needs a hashMap to do combine(). Also, persisting
+  records to local disk needs buckets.
+
+  b) reduce-side: In hadoop, some memory space is needed to store shuffled data. combine() and
+  reduce() require no extra space since their input is sorted and can be grouped and aggregated.
+  In spark, a softBuffer is needed for fetching. and a HashMap is used for storing result of
+  combine() and reduce(). However, part of the data can be stored on disk if configured to use both
+  memory and disk.
 
 """
