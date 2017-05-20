@@ -1,0 +1,266 @@
+Common questions asked for Machine Learning Engineering roles -
+Conceptual understanding of
+1) over-fitting
+2) cross-validation
+3) convexity
+4) the kernel trick
+5) classification
+6) clustering
+7) dimensionality reduction
+
+Conceptual overview of the most common ML algorithms.
+
+------------------------------------------------------------------------
+
+***** reco sys book reading notes ******
+
+PCA assumes the original data is gaussian distributed. If this assumption is wrong, there is no
+guarantee that using it will reduce dimensionality.
+In such cases, SVD and non-negative matrix factorization (MF) are more effective. SVD is the basis
+for LSA
+
+item concept * concept strength * concept features 
+
+
+MF is better than SVD in handling missing values by adding a bias term. 
+
+---------
+k nearest neighbours (kNN) is a lazy learner since it does not build models explicitly, but just
+computes the k-nearest neighbours of a query point and takes the majority label to assign to the
+query point. But how to decide k is the big question. Its 1 of the simplest ML classification
+algorithms.
+
+-------
+gini index is a measure of impurity in a decision tree. 
+-------------
+bayesian classifiers using conditional probability are useful during cold-start conditions. 
+
+**** end reco sys book reading notes *******
+------------------
+**** ML conf 2016 notes ****
+
+reinforcement learning (RL) by Harm van - Maluuba - 
+Cons:
+1) lots of data
+2) sample distribution changes during learning
+3) samples are not independent & identically distributed
+-----------
+deep reinforcement learning - 
+method called DQN 
+
+
+"Something of the previous state, however, survives every change. This is called in the language of
+ cybernetics feedback, the advantages of learning from experience and of having developed reflexes."
+ - Guy Davenport
+
+--------------
+some blogs & links reporting latest developments in AI/ML
+http://www.offconvex.org/
+http://approximatelycorrect.com/
+https://jack-clark.net/import-ai/
+
+------------------
+what are the tradeoff one is willing to accept between model performance and computational
+resources.
+
+netflix - converting stills to polished assets
+--------------------------------------------------------------------------
+AirBnB -
+Sizing the opportunity and scope
+OKRs (objectives & key results) - have a business metric you want to move.
+target metric = business outcome (not precision/recall of your model)
+
+impact of pricing on booking + rebooking
+price filter usage
+variations by market
+
+value is the best predictor to rebooking.
+--------
+model architecture - 
+before: predict price from {location, recency, listing characteristics}
+this mimicked host behaviour.
+
+after: new metric: bookings
+price suggestion based on probability of booked on given day - 
+much more flexible
+prices for each date
+interesting UX opportunities
+--------------------------
+
+search: ranking model could optimize for click-through.
+eg - beach vacations.
+
+but not always relevant, eg - conference in houston.
+
+now:
+-----------------------
+A9 - Amazon - Amazon Search 
+
+1 model for books in france, another for cars in italy , etc
+each model is small and specific.
+
+
+positive labels - added to card, wishlist
+
+negative- shown but not clicked
+------------
+mixing clicks and purchase targets -
+for search query = iPhone
+most clicked = apple iphone 7
+most purchased = $8 lightning to USB cable
+
+so now, ranking from a model trained on a mix of clicks and purchases.
+-----------
+fast feature evaluation - 
+---------------------------
+
+pinterest - 
+multi-armed bandit model for merging ranks based on different criteria- from recommendations, from
+past history, network of friends ,etc
+
+sampling technique = thompson sampling based on user affinities.
+
+affinity modeled as a beta distribution 
+E(beta) = #actions / # views
+---------------------------
+personalization & scalable deep learning with MXNET - AWS Machine Learning
+
+
+**** end ML conf 2016 notes *********
+
+------------------------------------------------
+L-BFGS is an optimization gradient descent algorithm for faster convergence, better than
+traditional stochastic gradient descent (SGD), since tt takes curvature into account.
+
+It models curvature as a (d x d) matrix of partial derivatives, and then takes the inverse of this
+ hessian matrix.
+Taking inverse is an O(d^3) operation and not scalable. Hence we use approximations instead.
+
+exact formula:
+w(t+1) = w(t) - Hinv * gt
+
+approximation:
+w(t+1) = w(t) - gamma_t * H_approx_inv * gt
+where:
+  a) gamma_t = step size computation, needs to satisfy some technical (wolfe) conditions. Adaptively
+   determined from data.
+  b) H_approx_inv = inverse hessian approximation (based on history of L-previous gradients and
+  model deltas)
+
+source: spark summit 2016 Yahoo talk 
+https://www.youtube.com/watch?v=l_1S7W_l2cI&list=PL-x35fyliRwiz70bTSSK4HmOZ4JazCFUj&index=5
+Yahoo has built their own parameter server on spark.
+Subset of state vectors stored in different shards (scaling ML to billions of params using spask
+MLLib @ Yahoo)
+Different columns stored on different shards for efficiency of dot product, matrix multiplication
+and other linear algebra computations.
+
+Speedup tricks borrowed from Vowpal wabbit:
+  1) intersperse communication and computation
+  2) for quicker convergence, parallel line search for step size, curvature for initial hessian
+  approximation
+  3) Network bandwidth reduction using:
+     compressed integer arrays
+     only store indices for binary data
+  4) matrix math on mini batch
+
+------------------
+Word Embeddings implementation on Spark MLLib at Yahoo:
+
+word2vec (unsupervised learning and vector representation of words with embedded semantic meaning) 
+skipGram with negative sampling - training set includes pairs of words and neighbors in corpus,
++ randomly selected words for each neighbor (negative sampling).
+
+algorithm: determine w -> u(w), v(w) so that sigmoid(u(w) dot_product v(w')) is close to
+(minimizes log loss) the probability that w' is a neighbor of w as opposed to a randomly selected
+word.
+
+SGD involces computing many dot products, eg  u(w).v(w')  and vector linear combos,
+eg u(w) += a * v(w')
+------------------
+Spark Summit 2016: Distributed deep learning on spark at Baidu:
+Typical deep learning applications & corresponding training data sizes at Baidu:
+  image recognition - 100M
+  optical character recognition (captcha for web auth) - 100M 
+  speech - 10M
+  click thru rate - 100B
+
+Deep learning libraries comparison:
+ 
+capability           | Caffe  | Tensor Flow          | Torch                | Paddle(Baidu)
+--------------------------------------------------------------------------------------------
+Distributed training | Yes    | Yes                  | No                   | Yes
+communication cost   | medium | hi                   | N/A                  | medium to low
+customizable code    | yes    | sharp learning curve | sharp learning curve | yes
+sparse model support | no     | yes                  | yes                  | yes
+area of focus        | vision | all                  | all                  | all
+spark integration    | yes    | no                   | no                   | yes
+-------
+paper on XG Boost
+
+XGBoost is a very popular gradient boosting library that often wins kaggle competitions.
+gradient boosting is a technique to combine many weak learners or to iteratively improve a weak
+learner into a strong learner.
+
+eg - create residuals of F1(x)  = y , and then build a decision tree for the residuals, then take
+the MSE (mean square error)
+from that model h1(x) = y - F1(x) 
+and then  F2(x) = F1(x) h1(x)
+In general case, Fm(x) = Fm-1(x) + hm-1(x)
+
+Although its an example shown on a decision tree in tutorial below, gradient boosting can be
+applied to any tree or non-tree based model, to convert a weak learner into a strong learner.
+http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?utm_source=Mailing+list&utm_campaign=b94a4a50dc-Kaggle_Newsletter_03-01-2017&utm_medium=email&utm_term=0_f42f9df1e1-b94a4a50dc-398828801
+
+Replacing MSE with MAE (mean absolute error) has 2 drawbacks. 
+1) Computationally expensive. Since each split in the decision tree has to search for a median
+2) It "ruins" our plug-n-play system. We'd only be able to plug-in weak learners that support the
+objective function(s) (MAE) that we want to use.
+On the other hand, many weak learners readily are available for MSE minimization.
+
+Shrinkage is a concept of regularization of gradient boosted functions. 
+Fm(x) = Fm-1(x) + v * gamma * hm(x) where 0 < v <= 1
+If v < 0.1, it dramatically improves a model's generalization ability over gradient boosting without
+ shrinkage (aka regularization)
+The average of the differentiated function shows the general slope to walk towards. Step size in
+that direction is determined by learning rate (0 < LR < 1)
+In other words, each step is shrunken by some factor.
+
+Pre-requisite: You should have a differentiable loss function for the algorithm to minimize.
+Logistic function is typically used for binary classification and softmax function is often used for
+ multi-class classification.
+--------
+Random forest usually does not overfit. 
+sci-kit learn currently only has one-hot encoding of categorical features which is a drawback that
+will be fixed soon. one-hot encoding creates more sparse data that can be a disadvantage.
+-------------
+Notes from XG Boost paper - 
+http://www.kdd.org/kdd2016/papers/files/rfp0697-chenAemb.pdf
+
+ensemble methods outperform XG Boost by only a very small amount. 
+Scalability under all scenarios is the most important feature of XG Boost's success
+-----------
+GPUs do not result in a large improvement in training time when data is sparse. 
+https://cloud.google.com/blog/big-data/2017/02/using-google-cloud-machine-learning-to-predict-clicks-at-scale
+- uses largest click data ever released- by criteo labs, > 1 TB, 10B+ rows of click stream data
+
+While an improvement in loss of 1.5% may seem small, it can make a huge difference in advertising
+revenue or be the difference between first place and 15th place in machine-learning competitions.
+
+Linear models are quite powerful, but we can achieve better results by using a deep neural network
+(DNN). A neural network can also learn complex feature combinations automatically, removing the need
+ to specify crosses (combinations of 2 or more columns. Combination of columns can be determined
+ empirically).
+
+parallelizing XGBoost implementation - 
+1) cache-aware access - keep columnar storage on-disk compressed with parquet, which gives ~26%
+compression. While CPU is utilized to uncompress in-memory, this can be used to hide disk-IO
+latency.
+2) If there are multiple disks and data is sharded across disks, you can have a shared in-memory
+buffer, and different threads can fetch into the in-mem buffer, 1-thread from each disk.
+Then another thread can read off the in-memory buffer and run the gradient descent or other loss
+function minimizing step that is CPU-intensive.
+
+
+Tree-based model is better at handling continuous features (like add_edit_dist and geo_dist and
+name_edit_dist)
