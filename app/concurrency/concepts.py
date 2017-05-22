@@ -129,7 +129,7 @@ python equivalent of condition variable.
 from threading import Condition
 cond_var = Condition()
 
-You should NOT use `if` instead if `while`.
+You should NOT use `if` instead of `while`.
  if (! condition_met) {
     wait()
 } //this has risk of spurious wake-ups with NotifyAll
