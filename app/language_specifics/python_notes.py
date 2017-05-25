@@ -126,11 +126,25 @@ source deactivate
 
 jupyter notebook
 --------------------
-virtual environment commands - 
+# this is an outdated method that didn't work in May 2017 for intern. Anaconda is more up-to-date and easier to use
+# install python2
+# first install pip
+pip install --user virtualenv
 
+# have this in your virtualenv 
+/usr/local/bin/virtualenvwrapper.sh
+
+# add these to your ~/.bash_profile
+export WORKON_HOME=~/.virtualenvs
+export PATH=/usr/local/bin:$PATH
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+source /usr/local/bin/virtualenvwrapper.sh
+
+# virtual environment commands - 
 mkvirtualenv duplo
 workon duplo
 deactivate - to exit virtualenv
+
 ----------
 to reload classes, modules, functions in ipython (it has auto complete, so always use daconsole instead of plain python shell) 
 
