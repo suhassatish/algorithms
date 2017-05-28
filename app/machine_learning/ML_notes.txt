@@ -1,7 +1,81 @@
+
 Common questions asked for Machine Learning Engineering roles -
 Conceptual understanding of
+-----------------
 1) over-fitting
-2) cross-validation
+
+Q) What is the advantage of combining L1 (ridge) and L2 (lasso aka least absolute shrinkage and
+selection operator) regularization?
+A) Ridge (aka L2, uses sum of squares of co-efficients) or lasso (aka L1, uses absolute value of coefficients) are forms of regularized linear regressions.
+Linear regression in 1 variable can be written as
+Y = aX + b + e (error)
+
+The prediction error can be either due to bias or variance or both.
+If multiple independent variables are present (may or may not be correlated),
+it is represented as
+Y = a1X1 + a2X2 + ...anXn + b + e
+
+source: https://en.wikipedia.org/wiki/Tikhonov_regularization
+Ordinary least squares seeks to minimize the sum of squared residuals, that can be compactly
+represented as ||Y - AX||^2 where ||.|| is the euclidean norm. In order to give preference to a
+particular solution with desirable properties, a regularization term can be included in this
+minimization,
+||Y - AX||^2 + ||Γx||^2
+The matrix Γ is usually chosen as a multiple of the identity matrix Γ = αI, giving preference to 
+solutions with smaller norms. This is known as L₂ regularization.
+L₂ regularization is also used in other contexts such as classification with logistic regression, 
+support vector machines and matrix factorization.
+
+The coefficients in A are regularized to control the variance. 
+
+Ridge regression solves the multi-co-linearity problem (correlated independent variables) through
+ shrinkage parameter Γ. Γ controls the size of the coefficients as well as the amount of regularization.
+
+Ridge regression can't zero coefficients.
+ Here, you either select all the coefficients or none of them whereas 
+
+https://en.wikipedia.org/wiki/Lasso_(statistics)  
+(refer to diagram where L1 is like a rotated square on the XY axes with vertexes on the X & Y axes, L2 looks like  a circle around origin)
+LASSO does both parameter shrinkage and variable selection automatically because 
+it zero out the co-efficients of collinear variables.
+  a) Here it helps to select the variable(s) out of given n variables while performing lasso regression.
+  b) If group of predictors are highly correlated, lasso picks only one of them and shrinks the others to zero
+
+  c) The bayesian interpretation for Lasso is that the coefficients form a Laplace-distribution (looks like exponential decay), and hence
+  tends to set more co-efficients to zero.
+  d) Practical consideration - The ridge is a bit easier to implement and faster to compute, which may matter depending on the type of data you have.
+
+  e) Thumb rule - Generally, when you have many small/medium sized effects you should go with ridge. 
+  If you have only a few variables with a medium/large effect, go with lasso. - Hastie, Tibshirani, Friedman
+
+  f) In the disease prediction problem where you have to link the disease to 1 of 7k genes, with very limited number of training/test data samples,
+  ridge is good at grouping similar (correlated genes) but does not completely eliminate trivial genes. Here, lasso is helpful.
+  LASSO is good for eliminating trivial genes, but not good for grouped selection.
+
+Short comings of Lasso - When the number of samples n < number of features (aka covariates) p, lasso can select only n covariates,
+even when more are associated with the outcome. It also tends to select only 1 covariate from any set of highly correlated covariates. 
+Additionally, even when n > p , ridge regularization tends to perform better. Elastic net extends lasso by adding an extra l^2 parameter,
+||Y - AX||₁^2 + ||ΓA||₁^2 + Γ||A||₂ 
+
+
+https://www.slideshare.net/ShangxuanZhang/ridge-regression-lasso-and-elastic-net
+  a) Another type of regularization method is ElasticNet, it is hybrid of lasso and ridge regression both. 
+  b) It is trained with L1 and L2 prior as regularizer. 
+  c) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of Ridge’s stability under rotation.
+
+Pros and Cons of ElasticNet:
+Pros - 
+  a) Enforce sparsity
+  b) No limitation on the number of selected variables
+  c) Encourage grouping predictors in the presence of highly correlated predictors
+Cons -
+  a) Naive elastic net suffers from double shrinkage
+---------------------------
+2) cross-validation - For really large datasets, its usually not worth the trouble to do k-fold cross validation.
+In this case, ML researchers just do train/test/validate split. Cross-validation becomes useful when the dataset is tiny (~100s of examples),
+but you cant learn a complex model. 
+
+----------------------------
 3) convexity
 4) the kernel trick
 5) classification
@@ -14,7 +88,7 @@ Conceptual overview of the most common ML algorithms.
 
 ***** reco sys book reading notes ******
 
-PCA assumes the original data is gaussian distributed. If this assumption is wrong, there is no
+PCA (principal components analysis) assumes the original data is gaussian distributed. If this assumption is wrong, there is no
 guarantee that using it will reduce dimensionality.
 In such cases, SVD and non-negative matrix factorization (MF) are more effective. SVD is the basis
 for LSA
@@ -264,3 +338,5 @@ function minimizing step that is CPU-intensive.
 
 Tree-based model is better at handling continuous features (like add_edit_dist and geo_dist and
 name_edit_dist)
+-----------
+
