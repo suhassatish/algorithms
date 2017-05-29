@@ -178,7 +178,21 @@ help (h)
 where (prints stack trace)
 c (continue)
 n (next)
+---------
+#unit integration tests debugging with python debugger step thru breakpoints
+#all you need to do is call py.test with the --pdb flag and it pops you into the debugger at the point where an exception is raised
+python -m ipdb module.py
 
+Pro Python Best Practices: Debugging, Testing and Maintenance
+By Kristian Rother
+#to set a conditional breakpoint, you can have a .pdbrc file with regular commands along with breakpoint commands as follows
+# source: Pro Python Best Practices: Debugging, Testing and Maintenance, By Kristian Rother
+# contents of .pdbrc file
+from pprint import pprint
+ll
+print(dir())
+b maze_run.handle_key
+b moves:27, level[newy][newx] == '#'  # this is a conditional breakpoint on a condition
 ----------
 python -m ipdb pipeline.py -args
 
@@ -1270,8 +1284,6 @@ def my_function():
 
 #-----------------------------------------
 
-#unit integration tests debugging with python debugger step thru breakpoints
- all you need to do is call py.test with the --pdb flag and it pops you into the debugger at the point where an exception is raised
 
 --------------
 #using SQLAlchemy/ alembic to manage DB migrations within python
@@ -1578,3 +1590,10 @@ students = ['dave', 'john', 'jane']
 >>> newgrades = {'john': 'F', 'jane':'A', 'dave': 'C'}
 >>> sorted(students, key=newgrades.__getitem__)
 ['jane', 'dave', 'john']
+#---------------------------------------
+# Notes about square root function in python 2.0 - its usually done as 9**(1/2.0)
+# ie, sqrt of x is syntactically computed as x ** (1/2.0). The resulting number is a float.
+# The float type has a method is_integer() which is True of its an integer, false otherwise.
+
+(9**(1/2.0)).is_integer()  # Returns True
+(8**(1/2.0)).is_integer()  # Returns False
