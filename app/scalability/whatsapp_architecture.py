@@ -4,6 +4,16 @@ End to end encryption achieved using public - private key encryption.
 Its not decrypted by the web servers.
 
 Messaging using Kafka. Topics with partitions. Hash partitioning with consistent hash ring.
+
+Some more questions to think about -
+How many users are we talking about here?
+How many messages sent?
+How many messages read?
+What are the latency requirements for sender->receiver message delivery?
+How are you going to store messages?
+What operations does this data store need to support?
+What operations is it optimized for?
+How do you push new messages to clients? Do you push at all, or rely on a pull based model?
 ------------------------------------------------------------------------------------------------
 How to achieve exactly-once messaging semantics?
 

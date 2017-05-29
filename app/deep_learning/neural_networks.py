@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Ian Goodfellow's answer on Quora to the question:
 
@@ -28,6 +29,51 @@ you dont pay the computational cost of multiplying with zero and adding up a bun
 3) 5 years ago, people thought RELU worked well as they were sparse, but the actual reason is they
 were piece-wise linear. Max-out (dense N/W) can beat RELU in some cases, and performs the same as
 RELU in other contexts, but its not sparse at all.
+----------------------------------------------------------------
+More on RELu (rectified linear unit): This is a function defined as y = x for x >=0 and 0 for x < 0
+Properties  -
+1) Not differentiable at a single point x = 0. We can still use sub-derivatives. We can use
+sub-gradient descent to optimize such functions.
+  (Aside from wikipedia - https://en.m.wikipedia.org/wiki/Subderivative?wprov=sfla1
+  In maths, sub-derivative, sub-gradient and sub-differential generalize the derivative to functions
+  which are not differentiable. In a convex function with a sharp angle, the tangent at the bend
+  are several lines with different slopes. The slope of such a line is called SUB-DERIVATIVE.
+  The set of all sub-derivatives is called the SUB-DIFFERENTIAL. If function f is convex and its
+  sub-differential at x0 contains exactly one sub-derivative (line), then f is differentiable at x0.
+  )
+
+Why dont we use the soft-plus rectifier (y = ln(1 + e**x)) instead of RELU?
+  (Aside from wikipedia - https://en.wikipedia.org/wiki/Rectifier_(neural_networks)
+  Rectifier is an activation function defined as f(x) = max(0, x) where x = input to neuron
+  Soft-plus is the smooth approximation to the ReLU rectifier
+  )
+
+2) Computationally very cheap
+
+3) Offers sparsity - Sparsity improves signal-to-noise ratio because weak responses are thresholded
+out.
+    Reasons 2) and 3) are advantages over soft-plus.
+    Also, according to Ian Goodfellow, 2) and 3) are not bottlenecks in DNNs since most computation
+    bottlenecks are concentrated in matrix operations and not the activation evaluations.
+
+4) Simple derivatives. d/dx = 1 for x > 0 and 0 elsewhere. This is very important for efficient
+    gradient propagation in very deep neural networks (DNNs)
+-----
+Variations of ReLU -
+1) Noisy ReLU - defined as y = max(0, x + Y ) with Y = normal distribution with mean = 0, σ(x)
+    They have been used with some success in restricted boltzmann machines for computer vision tasks
+
+2) Leaky ReLU - f(x) = x if x > 0; 0.01x otherwise
+
+3) Parametric ReLUs take this even further with definition
+    f(x) = x if x > 0; ax otherwise
+    with a being a learned parameter along with other neural network parameters.
+    For a <= 1, f(x) = max(x, ax). Has a relation to "maxout" networks.
+
+4) Exponential Linear Units (ELU) - Try to make activations closer to zero which speeds up learning.
+ELUs have obtained greater classification accuracy than ReLUs.
+f(x) = x if x >=0 and a(e**x - 1) otherwise,
+where a is a hyper-parameter to be tuned with the constraint a >= 0
 ----------------------------------------------------------------
 http://proceedings.mlr.press/v28/goodfellow13.pdf
 Notes from Ian Goodfellow's research paper on Maxout networks -
