@@ -2,7 +2,7 @@
 Given N, print all valid pairs of parentheses with N pairs.
 eg - brackets(1) = ()
 brackets(2) = ()(), (()))
-brackets(3) = ((())), ()()(), (()))(), ()(()), (()())
+brackets(3) = ((())), ()()(), (())(), ()(()), (()())
 
 We observe that
 
@@ -25,7 +25,7 @@ def _brackets(left_remaining, right_remaining, prefix, valid_set):
         valid_set.add(prefix)
         return
 
-    if left_remaining <= right_remaining and left_remaining > 0:
+    if 0 < left_remaining <= right_remaining:
         #  can still afford to insert '('
         _brackets(left_remaining - 1, right_remaining, prefix + '(', valid_set)
 
