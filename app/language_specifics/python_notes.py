@@ -590,6 +590,9 @@ import heapq
 heapq.heappush(heap, item)
 item = heapq.heappop(heap) # raises IndexError for pop-from-empty
 # for peek, use heap[0]
+item = heapq.heapreplace(heap, item)  # pops smallest and returns it as item, also adds new item
+# onto heap
+
 heapq.nlargest(n, iterable[, key])
 heapq.nsmallest(n, iterable[, key])
 

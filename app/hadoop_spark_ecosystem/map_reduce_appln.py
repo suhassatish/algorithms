@@ -73,4 +73,21 @@ Job1:
 
      # total number of  clicks in country / total number of unique users in country
 
+------------------------------------------------------------------------------------------------
+Some related notes:
+1) If you write Map-Reduce jobs like above, Cascalog will save you a lot of time and effort and
+boilerplate.
+
+2) Cascalog, is a Clojure DSL for writing Map-Reduce jobs very quickly and compactly.
+
+2) Clojure is built for processing collections, which is great if you're working with a lot of data.
+Clojure is designed for concurrency.
+
+TODO: watch Rich Hickey's talk - Clojure creator, on philosophy behind the language -
+http://www.youtube.com/watch?v=f84n5oFoZBc
+
+Examples of what you can do with Clojure -
+http://christophermaier.name/blog/2011/07/17/creating-a-query-dsl-using-clojure-and-mongodb
+
+http://sqlkorma.com/
 """
