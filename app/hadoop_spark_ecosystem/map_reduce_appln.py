@@ -58,6 +58,13 @@ Job1:
         # in cleanup stage (reducers have it) emit the table order by ratio (this is how to do
         secondary sort on values)
         # with this optimization, downstream map4, reduce3, map5 and reduce5 can be avoided.
+        # Secondary key (the value column to secondary sort on) is only used during sorting
+        # before the reduce() function. Its not used in the grouping comparator and partitioning
+        # comparator, where only the primary (aka natural)  key from the
+        composite(key + value sort-column) is used
+        # Brilliant illustration at -
+        # https://www.quora.com/What-is-secondary-sort-in-Hadoop-and-how-does-it-work
+
 ------------------------------------------------------------------------------------------------
     map4():
         country -> (sum_raw_counts, 1)
@@ -72,6 +79,45 @@ Job1:
 
 
      # total number of  clicks in country / total number of unique users in country
+
+------------------------------------------------------------------------------------------------
+Notes from illustration at
+https://www.quora.com/What-is-secondary-sort-in-Hadoop-and-how-does-it-work
+
+Stages in a map-reduce job -
+1) Input phase:
+    a) Creates split using InputFormat.getSplits()
+    b) Read split (this is also part of the map-phase) using RecordReader
+
+2) Map phase:
+    a) Read split using RecordReader.nextKeyValue
+    b) map function defined by implementing Mapper.map interface -> emits k,v
+    c) Partition using Partitioner.getPartition to logically funnel map O/P to reducer.
+        emits k, list(v)
+
+3) Reduce phase:
+    a) Reducer.reduce
+    b) RecordWriter.write to write output to sink (HDFS, HBase, etc)
+-------
+Partitioning, sorting and grouping settings and key utilization -
+Assume for the sake of below discussion that last_name is natural key and first_name is secondary
+key to sort the value column on.
+
+In the partition (last stage of mapper-phase), partitioning (hash vs range) of keys happens first,
+followed by sorting of natural key and then secondary sort of value column specified (if any)
+for the same natural key,
+and then grouping of keys before pushing to reducer.
+
+1) Partitioner class is mapred.partitioner.class aka JobConf.setPartitionerClass
+    Only uses natural key for partitioning, so that they all go to the same reducer. Default is
+    hash-partitioning, but can be also changed to range partitioning or another custom impl.
+
+2) Sort: RawComparator mapred.output.key.comparator.class aka JobConf.setOutputKeyComparatorClass
+    The output key comparator sorts using the entire composite key.
+
+3) Group: RawComparator mapred.output.value.groupfn.class aka
+    JobConf.setOutputValueGroupingComparator
+    The output value grouping compares the natural key, ignoring the secondary sort key.
 
 ------------------------------------------------------------------------------------------------
 Some related notes:
