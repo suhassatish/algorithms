@@ -683,11 +683,14 @@ for item in source():
 
 q.join() # block until all tasks are done
 ----------------
-ideal data structure to read records from database (or flat csv) is namedtuple - 
-name,age,title,department,paygrade
-suhas,29,"Senior Software Engineer",revenge,2
+# ideal data structure to read records from database (or flat csv) is namedtuple -
+# name,age,title,department,paygrade
+# suhas,29,"Senior Software Engineer",revenge,2
 
 EmployeeRecord = namedtuple('EmployeeRecord', 'name, age, title, department, paygrade')
+
+# sample usage - name of the tuple is the first argument, followed by list of fields
+Point = namedtuple('Point', ['x', 'y'])
 
 import csv
 for emp in map(EmployeeRecord._make, csv.reader(open("employees.csv", "rb"))):
@@ -1180,7 +1183,10 @@ The value returned by __hash__() needs to be an integer, and two objects that co
 >>> d = {Hashable('Donald', 'Duck'): 'Daisy Duck'}
 >>> d
 {Hashable('Donald', 'Duck'): 'Daisy Duck'}
-The attributes of this class are marked as internal by the convention of using a leading underscore, but they are not strictly speaking immutable. If you want a truly immutable class in Python the easiest way is subclassing collections.namedtuple, but that is out of scope for this book.
+#The attributes of this class are marked as internal by the convention of using a leading
+#underscore, but they are not strictly speaking immutable. If you want a truly immutable
+# class in Python the easiest way is subclassing collections.namedtuple, but that is out of
+# scope for this book.
 ----------------
 
 parserator train name_data/labeled/labeled.xml,name_data/labeled/company_labeled.xml probablepeople
