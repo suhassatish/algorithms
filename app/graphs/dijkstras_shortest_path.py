@@ -49,6 +49,22 @@ class DijkstrasSP(object):
             else:
                 self.pq.insert(w, self.dist_to[w])
 
+    def path_to(self, v):
+        """
+        Gives the shortest path from src s to vertex v, if it exists. Returns None otherwise (if no
+        path exists from s to v).
+        :param v:
+        :return:
+        """
+        path_stk = []
+        e = self.edge_to[v]
+        while e:  # edge_to[src] is always None by design, hence the while loop always terminates
+            path_stk.append(e)
+            e = self.edge_to[e.src]
+
+        path_stk.reverse()
+        return path_stk
+
 
 if __name__ == '__main__':
     graph_data = [8, 15, (4, 5, 0.35), (5, 4, 0.35), (4, 7, 0.37), (5, 7, 0.28), (7, 5, 0.28),

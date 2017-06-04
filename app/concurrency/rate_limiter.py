@@ -110,8 +110,8 @@ def rate_limiter_2(request):
             sent = 0
             while current_time - q.peek() > time_interval and sent < rate:
                 # the oldest request has expired, lets do work
-                ts, req = q.get()
-                fwd_msg(req)
+                ts, rq = q.get()
+                fwd_msg(rq)
                 q.put((current_time, req))
                 sent += 1
             else:
