@@ -80,8 +80,15 @@ class Digraph(object):
         """
         return self._adj[v]
 
+    def adj(self):
+        """
+        Returns the entire adjacency list of the graph
+        :return:
+        """
+        return self._adj
+
 if __name__ == '__main__':
     graph_arr = [13, 22, (0, 5), (0, 1), (2, 0), (2, 3), (3, 5), (3, 2), (4, 3), (4, 2),
                  (5, 4), (6, 9), (6, 4), (6, 8), (6, 0), (7, 6), (7, 9), (8, 6), (9, 11), (9, 10),
                  (10, 12), (11, 4), (11, 12), (12, 9)]
-    print Digraph(graph_arr)._adj
+    print Digraph(graph_arr).adj()
