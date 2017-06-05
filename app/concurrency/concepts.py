@@ -226,13 +226,15 @@ Use in-process mutex when Most of the time, locks are uncontested.
 
 Semaphores: Almost never use in practice. It keeps track of a count. If count < 0, it blocks.
 Semaphore with count = 1 is a mutex.
+Semaphore is useful when we need to support concurrent connections/downloads. Its also useful
+if you want limited set of users connected to a database server.
 
 When is a mutex faster than a semaphore?
 They mean in-process mutex. When its an in-process mutex and lock is uncontested,
 its faster. There are 2 things people call a mutex on linux. Out-of-process and in-process.
 
 Interlocked operations or atomic operations: Take low-level operations like  swap, add,
-load-linked-store-conditional (LL-SC) etc
+load-linked-store-conditional (LL-SC), compare-and-swap etc
 and fuse the operations together by the hardware into 1 instruction.
 
 like read from register, load from memory. Hardware locks that cache line and all other threads

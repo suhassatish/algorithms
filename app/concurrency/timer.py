@@ -59,6 +59,11 @@ class Timer(Thread):
 
     def __init__(self, interval, function, args=[], kwargs={}):
         Thread.__init__(self)
+        # this is in the threading lib specification when Thread class is sub-classed
+        # If a subclass overrides the constructor, it must make sure to invoke
+        # the base class constructor (Thread.__init__()) before doing anything
+        # else to the thread.
+
         self.interval = interval
         self.function = function
         self.args = args
