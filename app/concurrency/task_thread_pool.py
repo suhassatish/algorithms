@@ -1,4 +1,32 @@
 """
+A thread pool is a group of pre-instantiated, idle threads which stand ready to be given work.
+These are preferred over instantiating new threads for each task, when there is a large number of
+short tasks to be done, rather than a small number of long ones. This prevents the overhead of
+creating a thread a large number of times.
+
+Implementation varies by environment, but the simplified requirements are:
+1) A way to create threads and hold them in an idle state. This can be accomplished by having each
+thread wait at a barrier (semaphore in ThreadPool2 implementation) until the pool hands it work.
+
+2) A container to store the threads (this is missing in ThreadPool2 impl below but exists in
+ThreadPool 1st impl below.
+
+3) Also required is a standard interface or abstract class for threads to
+use in doing work. This can be like the function f() in eg2 below that is passed into Thread()
+constructor target variable which is executed by each individual thread created when t.start() is
+called. In java, this might be an abstract class called Task with execute() method that does work.
+
+4) When thread pool is created, it will instantiate a number of threads to make available or create
+new ones as needed depending on the needs of the implementation.
+When the pool is handed a task, it takes a thread from the Q (or waits for one to become available
+if Q empty), hands it a Task, and meets the barrier. This causes the idle thread to resume execution
+Once exe is complete, thread hands itself back to the pool to be put into the container for re-use
+and then meets its barrier, putting itself to sleep until the cycle repeats.
+
+TODO - trade offs of designs using thread pools
+https://www.ibm.com/developerworks/library/j-jtp0730/
+
+-------------------------------
 count(threads) in thread pool
 
 tasks.run() -> void
@@ -17,34 +45,43 @@ Hint: producer-consumer queue.
 """
 import time
 import logging
-from collections import deque
+from Queue import Queue
 from threading import Thread, Lock, currentThread, Semaphore
-dq = deque()
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
 
 
 class ThreadPool(object):
     def __init__(self, count):
-        self.count = count
         self.shutdown = None
-        threads = []
-        for i in xrange(count):
-            threads[i] = TaskThread(count)
+        self.thread_q = Queue(maxsize=count)
 
     def quit(self):
-        for i in xrange(self.count):
+        for i in xrange(self.thread_q.qsize()):
             self.add_work(self.shutdown)
 
     def add_work(self, task):
-        dq.append(task)
+        self.thread_q.put(TaskThread())
 
 
 class TaskThread(Thread):
-
+    """
+    This is required in java land, but is an overkill boiler plate code in python.
+    A module function is sufficient.
+    """
     def run(self):
-        while True:
-            task = dq.pop()
+        pass
+
+
+class Scheduler(Thread):
+    def __init__(self):
+        Thread.__init__(self)
+        q_size = 10
+        tp = ThreadPool(q_size)
+        for _ in xrange(q_size):
+            tp.add_work(TaskThread())
+        while tp.thread_q:
+            task = tp.thread_q.get()
             task.run()
 
 # Above is IK Yannis impl in class. Alternate thread pool implementation below.
