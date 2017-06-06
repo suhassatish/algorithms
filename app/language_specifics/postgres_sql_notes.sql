@@ -336,6 +336,9 @@ tolerate bad rows - max_error_rows
 \copy flight_times from '/Users/username/data_science/allyears2k.csv' with csv NULL as 'NA' header segment reject limit 100 rows;
 Last error was: invalid byte sequence for encoding "UTF8": 0xe4e22c
 
+\copy employee_geographies from '/data02/tmp/employee_geographies.txt' NULL as 'NULL' header 
+-- note: with \copy, dont put a semi colon at the end, it gives a syntax error
+
 forcibly converting encoding to utf8 works - 
 iconv -f ISO88592 -t utf-8 < demandforce_reviews.txt > demandforce_reviews_utf8.txt
 
