@@ -2,7 +2,7 @@ import unittest
 import threading
 import time
 import copy
-from app.concurrency.reader_writer_locks import RWLock
+from app.concurrency.reader_writer_locks_wr_preference import RWLock
 
 
 class Writer(threading.Thread):
