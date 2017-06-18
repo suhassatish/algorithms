@@ -39,7 +39,10 @@ rbclient_egg_path = os.path.join(os.path.dirname(
 # draft = draft.update(target_people=TARGET_PEOPLE,target_groups=TARGET_GROUPS)
 # rbtools.api.errors.BadRequestError: One or more fields had errors (HTTP 400, API Error 105)
 
-
+"""
+pip install pylint
+pylint match/run/provider_cluster.py
+"""
 # -----------
 
 # rbtools.api.errors.BadRequestError: One or more fields had errors (HTTP 400, API Error 105)
@@ -1488,6 +1491,13 @@ b_4digit_binary[j] = '0'
 # ---------------
 # to run code coverage - either use the nose package , or
 # py.test --cov=mies.dataimport.npi.npi_raw_loader tests/mies/dataimport/npi/npi_raw_loader_test.py
+#------
+"""
+pip install nose 
+pip install coverage
+
+nosetests --with-coverage --cover-erase --cover-package=match.run.provider_cluster
+"""
 # -------------------
 # #python data structure performance speed - set is fastest while list is slowest
 # # set >> tuple > list

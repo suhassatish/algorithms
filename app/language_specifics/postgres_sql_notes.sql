@@ -1,4 +1,5 @@
-\copy infectious_diseases from /home/username/data/locations_482xx.csv csv  header;
+\copy players from /Users/jackson/Downloads/players_data.csv csv header
+
 -----------------
 regular expression on string columns - 
 
@@ -418,6 +419,11 @@ SELECT pg_size_pretty(pg_total_relation_size('big_table'));
 
 --see all DB sizes
 select datname, pg_size_pretty(pg_database_size(datname)) from pg_database order by 2 desc;
+
+--see sum of size of all tables within a schema
+SELECT pg_size_pretty(SUM(pg_total_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::BIGINT)
+FROM pg_tables
+WHERE schemaname = 'matcher_prod';
 
 --how to see each table size within a postgre DB ? this query shows the top 20 tables by size 
 SELECT nspname || '.' || relname AS "relation",
@@ -2011,6 +2017,11 @@ ALTER SEQUENCE id_sequence CACHE 20;
 gpcrondump -x prov_dir_stage -s public -u /data/backup/prov_dir_stage_dbs/medcost_mysql_v6_04
 gpcrondump -x prov_dir_stage --schema-file='/home/gpadmin/username/provider_matching_schemas_to_copy.txt' -u /data/backup/provider_matching
 gpcrondump -x prov_dir_username -t ska_raw_20160607t1303.preprocessed_facilities -t ska_raw_20160607t1303.ska_provider -u /data/backup/provider_matching
+
+gpcrondump -x pd_production --table-file='/home/gpadmin/tables_to_copy.txt' -u /data02/tmp/
+--tables_to_copy.txt can specify schema as below 
+--provider_master_prod_pre_y2017_w23.providers
+gpdbrestore -u /data02/tmp -s prov_dir_ssatish --noanalyze
 
 edit /data/backup/prov_dir_stage_dbs/medcost_mysql_v6_04/db_dumps/<TS>/gp_cdatabase_<TS> prov_dir_username
 
