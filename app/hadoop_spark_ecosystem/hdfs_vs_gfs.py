@@ -3,6 +3,7 @@
 Answer on Quora to question -
 Is HDFS way behind GFS (google file system)? If so, how?
 https://www.quora.com/Is-HDFS-way-behind-GFS-If-yes-how-so
+HDFS block size is typically 64-128 MB per block.
 
 Google has a next-generation cluster-level file system called "COLOSSUS" that builds upon
 the original version of GFS that appeared in 2009 in Jeff Dean's LADIS talk.
