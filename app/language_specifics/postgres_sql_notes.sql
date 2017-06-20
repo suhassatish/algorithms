@@ -2206,3 +2206,51 @@ gpssh -f hostfile-seg rm –rf /data/backup/gp5/*
 ------------------------
 --to start gpfdist server 
 gpfdist -d /data02/gpfdist-username -p 8095 -l /data02/gpfdist-username/gpfdist.log
+
+with aetna_providers as (
+  select provider_id
+  from aetna.layer_joined_plns
+  group by 1
+),
+npc as (
+  select pc.*
+  from (
+    SELECT pc.cluster_provider_id
+    FROM warehouse.provider_clusters pc
+      JOIN aetna_providers ap
+      USING (provider_id)
+    WHERE pc.source = 'MATCHERIZE'
+    GROUP BY 1
+    HAVING count(*) > 1
+  ) a
+    join warehouse.provider_clusters pc
+      using (cluster_provider_id)
+)
+select count(distinct cartel_id) cartels,
+       count(distinct provider_id) providers,
+       count(distinct case when claim_count > 0 then cartel_id else null end) cartels_with_claims,
+       count(distinct case when claim_count > 0 then provider_id else null end) providers_with_claims,
+       sum(claim_count) total_claims,
+       avg(provider_count) avg_provider_count,
+       count(*) total
+from (
+  SELECT cartel_id,
+    provider_id,
+    provider_count,
+    count(cg.id) claim_count
+  FROM (
+         SELECT DISTINCT
+           cpln.cartel_id,
+           cpln.provider_id,
+           count(DISTINCT cpln.provider_id)
+           OVER (PARTITION BY cpln.cartel_id) provider_count
+         FROM aetna.cartel_plns cpln
+           JOIN npc pc
+             ON pc.provider_id = cpln.provider_id
+           JOIN warehouse.providers p
+             ON p.id = pc.provider_id
+         WHERE pc.source = 'MATCHERIZE'
+               AND p.provider_type = 'practitioner') a
+    LEFT JOIN aetna.claim_groups_for_full_pricing cg
+      USING (cartel_id, provider_id)
+  group by 1,2,3) b;
