@@ -166,4 +166,34 @@ Advantages of LSM-trees
 
 Disadvantages of LSM-trees
 ----------------------------------------------------------------------------------------------------
+MySQL InnoDB storage engine - In-mem K-V index where value is not just pointer address to actual
+location of data on disk (called heap file). That is too much of perf penalty for RDs. Desirable
+to store the whole row directly within an index. This is known as clustered index. In InnoDB,
+primary key is always a clustered_index. Secondary index refers to the primary key instead of heap
+file location. In SQL Server, can specify 1 clustered index per table.
+
+A compromise between a clustered index (storing all row data within the index) and
+a nonclustered index (storing only references to the data within the index) is known
+as a covering index or index with included columns, which stores some of a table's columns
+within the index [33]. This allows some queries to be answered by using the
+index alone (in which case, the index is said to cover the query).
+
+The most common type of multi-column index is called a concatenated index, which
+simply combines several fields into one key by appending one column to another (the
+index definition specifies in which order the fields are concatenated). eg - telephone directory
+LN, FN. Useless if you want to find everyone with the same FN. Appln - geospatial data
+
+SELECT *
+FROM restaurants
+WHERE latitude > 51.4946 AND latitude < 51.5079
+    AND longitude > -0.1162 AND longitude < -0.1004;
+PostGIS implements geospatial indexes as R-trees using PostgreSQL's Generalized Search Tree indexing
+facility.
+------
+Full-text search and fuzzy indexes - In lucene, spelling errors are ignored by index searching for
+words within a levenshtein distance of 1, to be able to fuzzy-match.
+
+In Lucene, the in-memory index is a finite state automaton over the characters in the keys, similar
+to a trie.
+
 """

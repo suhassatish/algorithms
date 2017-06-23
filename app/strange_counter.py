@@ -21,14 +21,18 @@ time|value
 ...
 21  |1
 
+
+v = strange_counter(t)
+eg - strange_counter(6) -> returns 4
+
+counter always starts count down from number = 3
+
 constraints:
 1 <= t <= 10^12
 
 1 <= t <= 10^5 for 60% score
 
-v = strange_counter(t)
 
-counter always starts count down from number = 3
 """
 from itertools import count
 
