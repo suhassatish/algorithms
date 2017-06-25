@@ -99,8 +99,8 @@ in in-mem index are also sorted, but not all keys are in index (sparse).
 
     ii) Lucene, an indexing engine for full-text search used by Elasticsearch and Solr uses a
     similar method for storing its term-dictionary. Full-text index is similar in idea, but more
-    complex than K-V index. Key = word, values = [list of doc_ids]. In lucene, this mapping is kept in
-    SSTable-like sorted files.
+    complex than K-V index. Key = word, values = [list of doc_ids]. In lucene, this mapping is kept
+    in SSTable-like sorted files.
 -----------
     Performance optimizations:
     1) Searching for key that doesn't exist can be slow. Memtable look-up, followed by SSTable files
@@ -166,19 +166,20 @@ Advantages of LSM-trees
 
 Disadvantages of LSM-trees
 ----------------------------------------------------------------------------------------------------
-MySQL InnoDB storage engine - In-mem K-V index where value is not just pointer address to actual
+E) MYSQL INNODB STORAGE ENGINE, CLUSTERED, CONCATENATED AND FUZZY-STRING INDEXES -
+In-mem K-V index where value is not just pointer address to actual
 location of data on disk (called heap file). That is too much of perf penalty for RDs. Desirable
 to store the whole row directly within an index. This is known as clustered index. In InnoDB,
 primary key is always a clustered_index. Secondary index refers to the primary key instead of heap
 file location. In SQL Server, can specify 1 clustered index per table.
 
-A compromise between a clustered index (storing all row data within the index) and
+A compromise between a CLUSTERED INDEX (storing all row data within the index) and
 a nonclustered index (storing only references to the data within the index) is known
 as a covering index or index with included columns, which stores some of a table's columns
 within the index [33]. This allows some queries to be answered by using the
 index alone (in which case, the index is said to cover the query).
 
-The most common type of multi-column index is called a concatenated index, which
+The most common type of multi-column index is called a CONCATENATED INDEX, which
 simply combines several fields into one key by appending one column to another (the
 index definition specifies in which order the fields are concatenated). eg - telephone directory
 LN, FN. Useless if you want to find everyone with the same FN. Appln - geospatial data
@@ -190,10 +191,101 @@ WHERE latitude > 51.4946 AND latitude < 51.5079
 PostGIS implements geospatial indexes as R-trees using PostgreSQL's Generalized Search Tree indexing
 facility.
 ------
-Full-text search and fuzzy indexes - In lucene, spelling errors are ignored by index searching for
+FULL-TEXT SEARCH AND FUZZY INDEXES - In lucene, spelling errors are ignored by index searching for
 words within a levenshtein distance of 1, to be able to fuzzy-match.
 
 In Lucene, the in-memory index is a finite state automaton over the characters in the keys, similar
 to a trie.
+------------------------------------------------------------------------------------------------
+F) COLUMNAR COMPRESSION USING BIT-MAP INDEXES AND RUN-LENGTH ENCODING -
+
+1)
+Parquet is a columnar storage format that supports a document data model, based on Google's Dremel.
+(Note: Not a relational-data model). One technique good for columnar compression in OLAP data
+warehouses is "bitmap encoding". Refer diagram on page 98, Figure 3-11.
+
+2)
+A query like `WHERE product_sk IN (30, 68, 69)` can be quickly looked-up by loading the 3 bitmaps
+for the product_sk column for the values of 30, 68, 69 and then doing a bitwise-OR of the results.
+
+For example, bitmap product_sk = 30 run-length encoded looks like -
+Represented by 0 for a row_id index if row_i's product_sk column != 30, else 1,
+[0, 0, 0, 0, 0, 1, 0, 1] is a representation of bitmap product_sk = 30 if rows 5 & 7 have
+product_sk = 30.
+
+3)
+This can be further compressed and represented using run-length-encoding as follows, for sparse
+low-cardinality columns like `country` which has only ~200 distinct entries among billions of rows.
+RLE version of product_sk = 30 bitmap is [5,1,1,1] which says 5 zeros, then one 1 , then one 0,
+then one 1 meaning the row_ids 5  and 7 contain product_id = 30.
+RLE has potential to compress a column down to ~few KBs (size of L1 CPU cache) even for a Billion+
+row-table.
+
+4)
+Cassandra and HBase have a concept of column families, which they inherited from Bigtable. However,
+it is very misleading to call them column-oriented: within each column family, they store all
+columns from a row together, along with a row key, and they do not use column compression. Thus, the
+BigTable model is still mostly row-oriented.
+
+5)
+Column compression allows more rows from a column to fit in the same amount of L1
+cache. Operators, such as the bitwise AND and OR described previously, can be designed to operate on
+such chunks of compressed column data directly. This technique is known as vectorized processing and
+can make use of SIMD (single instruction multiple data) CPU instructions without branching function
+calls, so no potential for BR mis-prediction CPU stall cycles.
+
+6) If DBA's know common query access patterns, like most recent month queried first, then the table
+can be stored using date as the primary sort key. Query optimizer can then scan only the most recent
+month, which will be much faster. Secondary sort keys can also be used, when primary sort keys are
+the same.
+
+7) Another advantage of sorted order is that it can help with compression of columns. If
+the primary sort column does not have many distinct values (eg - `country`), then after sorting, it
+will have long sequences where the same value is repeated many times in a row.
+
+8) Having multiple sort orders in a column-oriented store is a bit similar to having multiple
+secondary indexes in a row-oriented store. But the big difference is that the row-oriented
+store keeps every row in one place (in the heap file or a clustered index), and secondary indexes
+just contain pointers to the matching rows. In a column store, there normally aren't any pointers to
+data elsewhere, only columns containing values.
+
+------------------------------------------------------------------------------------------------
+G) MATERIALIZED VIEWS vs REGULAR VIEWS in DBs and OLAP CUBES-
+
+1)
+A materialized view is an actual copy of the query results, written to disk, whereas a virtual view
+is just a shortcut for writing queries.
+
+2)
+When the underlying data changes, a materialized view needs to be updated, because it is a
+denormalized copy of the data. Such updates make writes more expensive, which is why materialized
+views are not often used in OLTP databases (need low-latency random writes and low latency low-
+thruput reads).
+
+3) OLAP cubes - refer Figure 3-12. Two dimensions of a data cube, aggregating data by summing.
+Advantage of OLAP cubes - Keeps pre-computed cubes so such queries return blazingly fast.
+
+Disadvantage - Pre-computations become outdated if underlying data is updated. Then they need to be
+pre-computed. Querying raw data has the max flexibility. Also, if `price` is not a dimension, you
+cannot calculate what proportion of sales were contributed by items who's price was > $100.
+
+Practical trade-off: Most data warehouses therefore try to keep as much raw data as possible, and
+use aggregates such as data cubes only as a performance boost for certain queries.
+------------------------------------------------------------------------------------------------
+H) OLTP vs OLAP systems -
+
+OLTP -
+1) Queries per second are very high, usually user-facing web application servers are backed by OLTP
+DBs.
+2) Each query RD/WR result set is very small, only few rows.
+3) Disk seek time is the bottleneck.
+
+OLAP -
+1) Small volume of queries, usually from analysts.
+2) Each query result set is huge aggregations over millions of rows.
+3) Disk I/O B/W is the bottleneck.
+***************************************************************************************************
+END OF CHAPTER 3
+***************************************************************************************************
 
 """

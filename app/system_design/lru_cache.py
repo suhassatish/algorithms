@@ -66,7 +66,10 @@ class LRUCache(object):
         :return: None
         """
         if key in self._map:
-            self._dll.remove(key)
+            self._dll.remove(key)  # in the worst-case, this is an O(n) operation scanning thru DLL
+            # till it finds key. You can avoid that by storing the tuple (DLL Node address,value)
+            # as the value in the hash-map. This gets you random access to any node in DLL in O(1)
+            # time.
 
         elif len(self._map) == self.capacity:
             evicted_key = self._dll.popleft()  # remove lease recently used element
