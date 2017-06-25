@@ -117,5 +117,62 @@ DATA FLOW BETWEEN PROCESSES - can happen in 3 ways. Data outlives code in enterp
     second. Thus, you only need backward compatibility on requests, and forward compatibility on
     responses
 
-3) Thru async msg passing -
+3) Thru async msg passing - There are 2 types here - msg brokers (eg - Kafka) vs distributed actor
+  frameworks
+    Msg transmission occurs via an intermediary like actor or msg broker. Similar to DBs in the
+    sense that no direct N/W cnxn exists.
+
+    Has several advantages over RPC as follows -
+    a) Acts as buffer if recipient is unavailable or over-loaded. Hence improves reliability.
+
+    b) Can automatically re-deliver msgs to a process that has crashed, thus prevents msgs from
+    being lost.
+
+    c) Avoids sender needing to know IP address and port of recipient. This is very useful in cloud
+    deployment where virtual m/cs often come and go.
+
+    d) Allows broadcast of 1 msg to several recipients.
+
+    e) Logically decouples sender from receiver.
+
+    This style is asynchronous. Sender doesn't wait for response or for msg to be delivered. It
+    sends and forgets.
+-------------
+    DISTRIBUTED ACTOR FRAMEWORKS -
+
+    a) The actor model is a programming model for concurrency in a single process. Rather than
+    dealing directly with threads (and the associated problems of race conditions, locking, and
+    deadlock), logic is encapsulated in actors.
+
+    b) Each actor typically represents one client or entity, it may have some local state (which is
+    not shared with any other actor), and it communicates with other actors by sending and receiving
+    asynchronous messages.
+
+    c) Message delivery is not guaranteed - in certain error scenarios, messages will be lost.
+    Since each actor processes only one message at a time, it doesn't need to worry about threads,
+    and each actor can be scheduled independently by the framework.
+
+    d) In distributed actor frameworks, this programming model is used to scale an application
+    across multiple nodes. The same message-passing mechanism is used, no matter whether the sender
+    and recipient are on the same node or different nodes.
+
+    e) If they are on different nodes, the message is transparently encoded into a byte sequence,
+    sent over the network, and decoded on the other side.
+
+    f) Location transparency works better in the actor model than in RPC, because the actor model
+    already assumes that messages may be lost, even within a single process. Although latency over
+    the network is likely higher than within the same process, there is less of a fundamental
+    mismatch between local and remote communication when using the actor model.
+    -----------
+    A distributed actor framework essentially integrates a message broker and the actor
+    programming model into a single framework. 3 popular distributed actor frameworks handle msg
+    encoding as follows -
+
+    a) Akka - Uses java's in-built serialization by default. This provides no fwd/backward
+    compatibility. However, this is replaceable with something like protobuf, thus gaining the
+    ability to do rolling upgrades.
+
+    B) Orleans and Erlang OTP (used by whatsApp architecture) are 2 other systems. But schema
+    changes and rolling upgrades are hard in these.
+
 """
