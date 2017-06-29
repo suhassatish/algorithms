@@ -118,7 +118,7 @@ DATA FLOW BETWEEN PROCESSES - can happen in 3 ways. Data outlives code in enterp
     responses
 
 3) Thru async msg passing - There are 2 types here - msg brokers (eg - Kafka) vs distributed actor
-  frameworks
+frameworks
     Msg transmission occurs via an intermediary like actor or msg broker. Similar to DBs in the
     sense that no direct N/W cnxn exists.
 

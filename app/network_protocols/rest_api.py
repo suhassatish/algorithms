@@ -1,5 +1,14 @@
 """
+With a REST API you expose data as resources that you manipulate through HTTP protocol (most common
+but also possible to use other protocols) using the right HTTP verb.
+
 For external component design, REST API is the norm.
+
+Are REST and HTTP the same? Or is REST always over HTTP?
+There is nothing in the REST constraints (specifications) that makes the usage of HTTP as a transfer
+protocol mandatory. It's perfectly possible to use other transfer protocols like SNMP, SMTP and
+others to use, and your API could still very well be a RESTful API.
+
 
 Logical Architecture of most apps today:
 Client (like uber app, FB app etc) <-> API <-> BizLogic <-> Persistent DataStore, ElasticSearch (ELK)

@@ -140,7 +140,7 @@ Some pitfalls to avoid in spark applications -
 rdd.groupByKey().mapValues(_.sum) will produce the same results
 as rdd.reduceByKey(_ + _) . However, the former will transfer the entire dataset across
 the network by creating a ShuffledRDD, while the latter will compute local sums for each key in
-each partition and combine those local sums into larger sums after shuffling.
+each partition (map-side combine) and combine those local sums into larger sums after shuffling.
 
 2)
 Avoid `reduceByKey` When the input and output value types are different.
