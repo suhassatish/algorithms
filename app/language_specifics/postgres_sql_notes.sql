@@ -2254,3 +2254,23 @@ from (
     LEFT JOIN aetna.claim_groups_for_full_pricing cg
       USING (cartel_id, provider_id)
   group by 1,2,3) b;
+------
+--different types of database locks in postgres
+select distinct
+  locktype
+  ,mode
+from pg_locks;
+--|locktype|mode|
+--|object|AccessShareLock|
+--|relation|AccessExclusiveLock|
+--|relation|AccessShareLock|
+--|relation|ExclusiveLock|
+--|relation|RowExclusiveLock|
+--|relation|ShareLock|
+--|resource queue|ExclusiveLock|
+--|transactionid|ExclusiveLock|
+--https://wiki.postgresql.org/wiki/Number_Of_Database_Connections
+--resource contention in databases with more connections - trade-offs
+-------------
+postgres OFFSET is like LIMIT but will skip the 1st so many rows. For deterministic ordering, it needs to be
+used with an ORDER BY query.

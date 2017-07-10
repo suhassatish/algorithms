@@ -34,15 +34,6 @@ def count_occurrences(a, x):
 
 
 def _find_first_index(a, x, lo, hi):
-    """
-    :param a:
-    :param x:
-    :param lo:
-    :param mid:
-    :param hi:
-    :param count:
-    :return:
-    """
     # mid = (lo + hi)/2  # in languages like java, if lo and hi are really large, (lo+hi)/2
     # might overflow. Python (cpython implementation) has auto scaling of integers to arbitrary
     # precision without overflowing
@@ -64,15 +55,6 @@ def _find_first_index(a, x, lo, hi):
 
 
 def _find_last_index(a, x, lo, hi):
-    """
-    :param a:
-    :param x:
-    :param lo:
-    :param mid:
-    :param hi:
-    :param count:
-    :return:
-    """
     # mid = (lo + hi)/2  # in languages like java, if lo and hi are really large, (lo+hi)/2
     # might overflow. Python (cpython implementation) has auto scaling of integers to arbitrary
     # precision without overflowing
