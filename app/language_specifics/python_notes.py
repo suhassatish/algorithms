@@ -504,6 +504,7 @@ then exception wont buble up to ipython;
 # pip install dedupe-variable-name
 #
 # pip install 'dataenv==0.10.2'
+# pip install -U 'scikit-learn==0.18.1'  # upgrades sklearn from 0.17 to 0.18.1
 # -----------------------------------
 # from nltk.tag.stanford import StanfordNERTagger
 # ---------------
