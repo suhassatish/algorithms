@@ -2014,7 +2014,7 @@ ALTER SEQUENCE id_sequence CACHE 20;
 -----------------
 --copying entire schemas from 1 DB into another using gputils (not pg_dump or gpdump) 
 --gpcrondump is just a wrapper using gp_dump under the hood
-gpcrondump -x prov_dir_stage -s public -u /data/backup/prov_dir_stage_dbs/medcost_mysql_v6_04
+gpcrondump -x prov_dir_ssatish -s dliu -u /data_backup/ssatish/
 gpcrondump -x prov_dir_stage --schema-file='/home/gpadmin/username/provider_matching_schemas_to_copy.txt' -u /data/backup/provider_matching
 gpcrondump -x prov_dir_username -t ska_raw_20160607t1303.preprocessed_facilities -t ska_raw_20160607t1303.ska_provider -u /data/backup/provider_matching
 
@@ -2025,7 +2025,7 @@ gpdbrestore -u /data02/tmp -s prov_dir_ssatish --noanalyze
 
 edit /data/backup/prov_dir_stage_dbs/medcost_mysql_v6_04/db_dumps/<TS>/gp_cdatabase_<TS> prov_dir_username
 
-gpdbrestore -u /data/backup/prov_dir_stage_dbs/medcost_mysql_v6_04 -s prov_dir_username --noanalyze
+gpdbrestore -u /data_backup/ssatish/ -s provider_matching_labels --noanalyze
 gpdbrestore -u /data/backup/provider_matching -s provider_matching --noanalyze
 
 --schema-file=filename (copies all schemas)
