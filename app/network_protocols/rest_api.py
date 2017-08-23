@@ -1,4 +1,50 @@
 """
+REST anti-patterns:
+source: https://www.infoq.com/articles/rest-anti-patterns
+1) Tunneling everything through GET
+eg - Deleting a user with
+GET http://example.com/some-api?method=deleteCustomer&id=1234
+
+2) Tunneling everything through POST
+
+3) Ignoring caching
+By including "Cache-control: no-cache" in your HTTP response, simple caching opportunities are lost.
+Supporting efficient caching and re-validation is one of the key benefits of using RESTful HTTP.
+ETags are a mechanism introduced in HTTP 1.1 to allow a client to validate whether a cached
+representation is still valid, by means of a cryptographic checksum
+
+The easiest way to generate correct headers is to delegate this task to a piece of infrastructure
+for example, by generating a file in a directory served by a Web server such as Apache HTTPD.
+
+On the client side, going with a proxy cache such as Squid might be a better option than building
+this logic yourself.
+
+Good resource for web caching -
+https://www.mnot.net/cache_docs/
+
+
+4) Ignoring response codes
+If you use generic response codes like 200 for everything, you are missing an opportunity for
+increased re-use, better interoperability and looser coupling.
+
+5) Misusing cookies
+Using a cookie to propagate a key to some server-side session state is another REST anti-pattern.
+What does "REST should be stateless" mean? Its fine if there is resource state or client state.
+Session state is disallowed due to scalability, reliability and coupling reasons.
+
+If a cookie is used to store some authentication token, that the server can validate without
+reliance on session state, there is a better way than that to do the same - in the URI or header,
+and in rare cases, in the msg body.
+
+6) Forgetting hypermedia
+Clients can follow links sent in hypermedia.
+
+7) Ignoring MIME types
+
+8) Breaking self-descriptiveness
+
+
+----------------
 With a REST API you expose data as resources that you manipulate through HTTP protocol (most common
 but also possible to use other protocols) using the right HTTP verb.
 
