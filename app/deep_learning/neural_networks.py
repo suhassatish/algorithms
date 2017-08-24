@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
 """
+-------
+Back propagation:
+In back propagation of the error function, a general method for non-linear optimization called
+"gradient descent" is applied. The network calculates the derivative of the error function with
+respect to the network weights, and changes them to decrease the error (thus going downhill on the
+surface of the error function).
+For this reason, back-propagation can only be applied on networks with differentiable activation
+functions.
+
+--------
 Ian Goodfellow's answer on Quora to the question:
 
 Q) Why are autoencoders considered a failure?
@@ -108,7 +118,7 @@ Thumb rules:
 1)
 you shouldn't have more than 2F the number of nodes to features in your 1st layer of NN,
 if the features are highly uncorrelated. If they are somehow correlated, you should keep
-numbe of nodes N = 0.5F.
+number of nodes N = 0.5F.
 Therefore 0.5F <= N <= 2F
 
 2) Most data scientists only have about 10s of thousands of labeled training samples.
