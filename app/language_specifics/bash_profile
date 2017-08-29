@@ -1,0 +1,5 @@
+alias ll='ls -altrh'
+alias g='gvim'
+alias grep='grep --color=always'
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
