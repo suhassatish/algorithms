@@ -1,4 +1,6 @@
 alias ll='ls -altrh'
+alias h='history'
+export HISTTIMEFORMAT='%F %T '
 alias g='gvim'
 alias grep='grep --color=always'
 export CLICOLOR=1

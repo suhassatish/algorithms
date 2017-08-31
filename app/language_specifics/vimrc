@@ -1,1 +1,4 @@
 set number
+set hls
+set ic
+syntax on
