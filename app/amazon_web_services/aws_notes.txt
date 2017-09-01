@@ -1,0 +1,16 @@
+PINTEREST talk on - Scalable and Reliable Data Ingestion (Aug 28, 2017)
+********************************************************************************
+Singer logging agent -
+    Simple logging mechanism
+        Applications (eg - microservices) log events to disk
+        Singer monitors file system events and writes to kafka.
+    Performant
+        Staged event driven architecture
+        > 100 MBps
+
+Loging completeness
+    Singer Heartbeat
+    Singer failure detection
+    Logging completeness monioring and alerting
+    Log auditing
+------------------------------------------------------------------------------------------------

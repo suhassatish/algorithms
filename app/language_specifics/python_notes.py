@@ -1405,6 +1405,13 @@ python -m unittest tests.training_set_generator.test_data_interface_test.TestDat
 #
 # to run all tests under tests/ directory -
 """python -m unittest discover -s tests/"""
+#--------------
+# unit testing in django - 
+"""
+python manage.py test adm
+python manage.py test --verbosity 2 adm/tests/test_rule_estimates.py
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+"""
 # --------------------------------------------
 # in python function taking **kwargs argument, keys that are non-strings are not allowed, like int
 # keys.
