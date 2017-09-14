@@ -14,3 +14,6 @@ Loging completeness
     Logging completeness monioring and alerting
     Log auditing
 ------------------------------------------------------------------------------------------------
+# to do a cat on aws s3, use `-` as the destination argument of copy. It will dump contents of file to STDOUT 
+aws s3 cp s3://my_file.txt -
+

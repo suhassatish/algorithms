@@ -1,4 +1,4 @@
-"""
+/*
 Diagnosing memory leaks in Java - Main sources:
 1) When a class manages its own memory, for exmaple - resizing array implementation of queue.
 When an element is freed, any object references contained in the element should be nulled out.
@@ -18,8 +18,10 @@ Its not useful when there are external references to the values associated with 
 
 3) If you implement an API where clients register callbacks but dont de-register them explicitly,
 they will accumulate causing memory leaks. Solution is again, storing them as WeakHashMap.
+*/
+//------------------------
 
-------------------------
+/*
 Explicit Imports vs import java.io.* wildcard imports -
 The real reasons that people use explicit imports rather than wildcard imports are:
 
@@ -35,5 +37,5 @@ imported. This can lead to new compilation errors in code that previously used t
 
 4) Modern IDEs have accelerators, code elision and and other features that help you keep your imports under control if
 you use explicit imports.
+*/
 
-"""

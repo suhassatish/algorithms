@@ -136,4 +136,43 @@ Examples of what you can do with Clojure -
 http://christophermaier.name/blog/2011/07/17/creating-a-query-dsl-using-clojure-and-mongodb
 
 http://sqlkorma.com/
+------------------------------------------------------------------------------------------------
+MEANING OF A FEW MAPRED-SITE.XML PROPERTIES -
+
+1) mapreduce.input.fileinputformat.split.maxsize = 256 MB
+
+This is used in calculating split_size with the following formula
+
+split_size = max(mapred.min.split.size, min(mapred.max.split.size, dfs.block.size))
+
+In Amazon EMR, dfs.block.size = 128 MB (http://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hdfs-config.html)
+
+split size=max(default,min(256 MB, 128 MB))
+
+So if split_size  = 256 MB, each map will process 1 split of 256 MB, ie 2 * 128 MB dfs_blocks on Amazon EMR.
+
+Thumb_rule: mapreduce.input.fileinputformat.split.minsize < dfs.blocksize < mapreduce.input.fileinputformat.split.maxsize
+
+Recommendation: 105 MB (minsize) and 270 MB (maxsize)
+
+------
+2) "mapreduce.job.reduce.slowstart.completedmaps" = 0.95
+This setting controls what percentage of maps should be complete before a reducer is started. By default, we set this
+to .80 (or 80%). For some jobs, it may be better to set this higher or lower. The two factors to consider are:
+
+how much data will each reducer get
+how long each remaining map will take
+If the map output is significant, it is generally recommended that reducers start earlier so that they have a head
+start processing. If the maps tasks do not produce a lot of data, then it is generally recommended that reducers start
+later. A good rough number is to look at the shuffle time for the first reduce to fire off after all the maps are
+finished. That will represent the time that the reducer takes to get map output. So ideally, reducers will fire off
+(last map) - (shuffle time).
+---------
+Resources:
+very useful: https://github.com/linkedin/dr-elephant/wiki/Tuning-Tips
+
+This is also more comprehensive and useful -
+http://hadoop.apache.org/docs/current/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html#Task_Execution__Environment
+------------------------------------------------------------------------------------------------
+
 """
