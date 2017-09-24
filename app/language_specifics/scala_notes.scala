@@ -12,9 +12,14 @@ sbt // this will start sbt console. scala repl (cmd-line interpreter) is bundled
 >compile
 >test
 >run
+>projects // lists projects
+>project <project_name> //to switch to a project
+>assembly //creates a single assembly jar per project
 
 //to run the Main object, in sbt type `run`
 >run 
+
+>run-main com.krux.marketer.mp.pipeline.MPSegmentPipeline2 create --activate --force --name "com.krux.marketer.mp.pipeline.MPSegmentPipeline2 backfill - 2017-09-15 - Suhas - DEV-8295" --start 2017-09-16 --times 1
 
 //submitting assignment solutions
 >submit your.email@domain.com submissionPassword
@@ -501,7 +506,51 @@ def getRefinedY(x: Double, y: Double) : Double =
   (x/y + y)/2
 
 def sqrt(x: Double) = srqtIter(x, 1.0)
-------------------------------
+//-------------------------------------
+/*Every case class has an apply and unapply method. When you construct a case class instance, you call the apply() method */
+case class Currency(value: Double, unit: String)
+Currency(29.95, "EUR") // Calls Currency.apply
+/*
+1) A case class is a class for which the compiler automatically generates the methods for pattern matching.
+
+2) Use the Option type for values that may or may not be present — it is safer than using null.
+
+3) Scala has an abstract class Enumeration which provides a light weight alternative to `case classes`. Each call to the `Value` method
+adds a new unique value to the enumeration.
+*/ 
+
+object WeekDay extends Enumeration {
+  type WeekDay = Value
+  val Mon, Tue, Wed, Thu, Fri, Sat, Sun = Value
+}
+import WeekDay._
+
+def isWorkingDay(d: WeekDay) = ! (d == Sat || d == Sun)
+
+WeekDay.values filter isWorkingDay foreach println
+//-----------------------------------------
+//to try scala REPL with imports within a scala repo, start the scala REPL within the repo by setting the classpath as below.
+//Then scala will start recognizing the imports of the repo
+scala -classpath marketer-analytics/target/scala-2.11/classes/:/Users/ssatish/.ivy2/cache/org.json4s/json4s-jackson_2.11/jars/json4s-jackson_2.11-3.2.11.jar:/Users/ssatish/.ivy2/cache/org.json4s/json4s-core_2.11/jars/json4s-core_2.11-3.2.11.jar:/Users/ssatish/.ivy2/cache/org.json4sjson4s-ast_2.11/jars/json4s-ast_2.11-3.2.11.jar
+
+//to paste multiple lines into scala REPL (like in ipython)
+scala> :paste
+// Entering paste mode (ctrl-D to finish)
+
+//------------------------------
+/*
+TODO - what do keywords `implicit` and `sealed` mean?
+*/
+
+//------------------------------
+/*unit tests in scala
+http://www.scalatest.org/user_guide/writing_your_first_test
+*/
+scalac -cp scalatest-app_2.11.7-3.0.1.jar StackSpec.scala
+scala -cp scalatest-app_2.11.7-3.0.1.jar org.scalatest.run StackSpec
+
+//to run a single unit test in sbt (dont have to worry about classpath)
+> testOnly *MPSegmentPipelineRerunTest
 /* ~~~~~~~~~~~~~~~ REACTIVE CHEAT SHEET ~~~~~~~~~~~~~~~~*/
 
 //PARTIAL FUNCTIONS

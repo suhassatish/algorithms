@@ -3,3 +3,6 @@ set hls
 set ic
 syntax on
 set guifont=Menlo\ Regular:h14
+set tabstop=2
+set shiftwidth=2
+set expandtab
