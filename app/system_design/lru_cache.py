@@ -1,4 +1,20 @@
 """
+Design a cache. Main points to ponder over -
+1) Eviction strategy (FIFO, LRU, LFU)
+2) Access patterns - write-through, write-back, write-around
+3) Size - based on use case
+4) Concurrency
+5) Prefer low latency and high availability over consistency. Low latency is very important for caching.
+---------
+Distributed cache -
+1) Multiple shards depending on peak QPS on single machine. Memcached has 50k QPS by default.
+
+Reading links -
+1) TODO - This one is AMAZING.
+http://codecapsule.com/2012/11/07/ikvs-implementing-a-key-value-store-table-of-contents/
+
+2) https://ivoroshilin.wordpress.com/2013/07/15/distributed-caching-under-consistent-hashing/
+------------------------------------------------------------------------------------------------------------------
 Design a least-recently-used cache, which evicts the least recently used item.
 Lets come up with the API methods first for the cache.
 

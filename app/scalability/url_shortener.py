@@ -125,4 +125,9 @@ Assign a long URL to the unique key and then
 interviewkickstart.com -> shard_id=0 => value of 65 =
 0*62^6 +0*62^5 +0*62^4 +0*62^3 +0*62^2 + 1* 62^1 + 3 -> aaaaabd
 
+References -
+1) https://www.quora.com/What-is-the-architecture-of-a-scalable-URL-shortener
+2) https://blog.codinghorror.com/url-shortening-hashes-in-practice/
+3) http://www.tkkader.com/2012/03/how-to-hire-a-hacker-for-your-startup/
+
 """

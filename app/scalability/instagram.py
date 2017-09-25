@@ -123,4 +123,5 @@ HTTPS & sticky-sessions - In a highly encrypted multi-tenant environment, since 
 
 IPSec and IPv6 tunnels are there to mitigate performance degradation and speed-up TLS hit over HTTPS
 
+http://highscalability.com/blog/2011/12/6/instagram-architecture-14-million-users-terabytes-of-photos.html
 """

@@ -97,5 +97,8 @@ is required to store the S2 cell-id for lexicographical sort order.
 TODO -
 HTTP://HIGHSCALABILITY.COM/BLOG/2015/9/14/HOW-UBER-SCALES-THEIR-REAL-TIME-MARKET-PLATFORM.HTML
 
+Scaling Uber with Node.js
+~/Dropbox/Tech_extras/distributed_systems_big_data/scalability_system_design/scaling_uber_with_NodeJS.pdf
+~/Dropbox/Tech_extras/distributed_systems_big_data/scalability_system_design/scaling_uber_realtime_market_platform.pdf
 
 """

@@ -134,4 +134,9 @@ Push-pull model for event service refresh of timeline -
 
 Hybrid approach - LRU caching of frequent users' timelines being cached.
 Twitter allows upto 5s of staleness per data center geographic region.
+------------------------------------------------------------------------------------
+References -
+1) https://www.quora.com/What-are-the-scaling-issues-to-keep-in-mind-while-developing-a-social-network-feed
+2) https://www.quora.com/Software-Engineering-Best-Practices/What-are-the-best-practices-for-building-something-like-a-news-feed
+3) http://highscalability.com/blog/2013/7/8/the-architecture-twitter-uses-to-deal-with-150m-active-users.html
 """

@@ -81,5 +81,8 @@ a timestamp.
 Then the master sends ack of highest timestamp it received and sends it back to the 2 servers.
 If the local timestamp > (A or B) , then C = new timestamp thats sync-d. This is called 2-phase
 commit protocol. Paxos or raft use similar 2-phase commit approach.
-
+------------------------------------------------------------------------------------------------------------------------
+Lo Search application -
+Thousands of app servers are writing application logs.
+Ability for a user to use a web interface to search in real time across all app servers.
 """

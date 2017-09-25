@@ -52,4 +52,12 @@ beyond a preset threshold.
 
 When message queue backlogs became large garbage collection would destabilize the system.
 So pause GC until the queues shrunk.
+------------------------------------------------------------------------------------------------
+https://www.facebook.com/notes/facebook-engineering/building-facebook-messenger/10150259350998920/
+Building Facebook Messenger (Chat) - 2011
+
+1) Use MQTT protocol to maintain persistent connection from mobile device to backend server without killing battery life
+This is to solve the problem of reliable but slow msg send. MQTT specifically designed to send telemetry data from and
+to space probes. Uses B/W sparingly. Result: phone-phone delivery in 100s of ms.
+
 """

@@ -1,4 +1,8 @@
+"""
+https://ivoroshilin.wordpress.com/2013/07/15/distributed-caching-under-consistent-hashing/
+"""
 #source: http://techspot.zzzeek.org/2012/07/07/the-absolutely-simplest-consistent-hashing-example/
+
 import bisect
 import md5
 

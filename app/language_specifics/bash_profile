@@ -5,3 +5,10 @@ alias g='gvim'
 alias grep='grep --color=always'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
+export KRUX_VAGRANT_PROVISION=~/git/puppet-control/
+export KRUX_VAGRANT_R10K_KE=~/.ssh/id_rsa.pub
+export PATH=~/.m2/apache-maven-3.5.0/bin:$PATH
+export KRUX_DEV_DATA_HOME=/Users/ssatish/data
+export KRUX_SPARK_MASTER="local[2]"
+export SPARK_HOME=/Users/ssatish/spark-1.6.0-bin-hadoop2.4
+export KRUX_ENVIRONMENT=prod

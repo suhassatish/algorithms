@@ -61,5 +61,10 @@ S3 -> Catalyst expressions -> Filtered Data Frame -> Feature Extractor
 JSON Scan -> Filter
 2X runtime gain compared to version 2. Now 25-40 mins for feature generation.
 50~80 executors, 3 cores per executor.
+------------------------------------------------------------------------------------------------
+GENERAL NOTES BELOW ABOUT RECOMMENDATION SYSTEMS DESIGN-
+
+1) https://xamat.github.io//pubs/BigAndPersonal.pdf
+Data and Models behind netflix recommendations
 
 """
