@@ -1,4 +1,21 @@
+TODO topics  -
+1) markov chain monte carlo
+------------------------
+Non-parametric models differ from parametric models. The model structure is not specified a priori
+but is determined from data. Eg of parametric models are neural networks and support vector machines (SVM).
+Examples of non-parametric models are k-nearest neighbors (KNN) and gaussian processes.
+------------------------
+an F-test in regression compares the fits of different linear models. Unlike t-tests that can assess only one regression coefficient at a time, the F-test can assess multiple coefficients simultaneously.
 
+The hypotheses for the F-test of the overall significance are as follows:
+
+Null hypothesis: The fit of the intercept-only model and your model are equal.
+Alternative hypothesis: The fit of the intercept-only model is significantly reduced compared to your model.
+
+If the P value for the F-test of overall significance test is less than your significance level, you can reject the null-hypothesis and conclude that your model provides a better fit than the intercept-only model.
+------------------------
+dummy variables - war_happens - binary 0 or 1 . to model qualitative outcomes
+--------
 Common questions asked for Machine Learning Engineering roles -
 Conceptual understanding of
 -----------------

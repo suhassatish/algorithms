@@ -19,20 +19,7 @@ aws s3 cp s3://my_file.txt -
 
 # to do a recursive listing 
 aws s3 ls --recursive s3://krux-stats/marketing-performance-shared-config/success/2017-08-
-------------------------------------------------------------------------------------------------
-redshift has workload management where number of concurrent queries can be configured. Also different query queue can be defined 
-(slow, fast, etc)
 
-The following 2 tables can be queried to see how many queries are running and in which queue.
-select *
-from wlm_queue_state_vw;
-
-select *
-from wlm_query_state_vw;
-
-some change like concurrency changes dont need rebooting redshift cluster. some of them need a reboot.
-
-Redshift spectrum queries directly off S3.
 
 ------------------------------------------------------------------------------------------------
 TODO - investigate athena? Not ready for production yet.

@@ -1405,14 +1405,21 @@ python -m unittest tests.training_set_generator.test_data_interface_test.TestDat
 #
 # to run all tests under tests/ directory -
 """python -m unittest discover -s tests/"""
-#--------------
+#--------------DJANGO SPECIFIC NOTES BELOW ***************************
 # unit testing in django - 
 """
 python manage.py test adm
 python manage.py test --verbosity 2 adm/tests/test_rule_estimates.py
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 """
-# --------------------------------------------
+
+"""
+python ./manage.py runserver 0.0.0.0:8080
+
+python ./manage.py shell
+# this is extremely useful for handling complex nested objects and a REPL to experiment around
+"""
+# --------------------------------------------END DJANGO SPECIFIC NOTES *************
 # in python function taking **kwargs argument, keys that are non-strings are not allowed, like int
 # keys.
 # so just pass in a dictionary as a regular argument and not as a **kwargs

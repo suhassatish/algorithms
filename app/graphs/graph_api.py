@@ -105,7 +105,12 @@ class Graph(object):
 
     def _init_from_graph(self, graph_obj):
         """
-        This deep copies the input graph_obj to create a cloned graph
+        This deep copies the input graph_obj to create a cloned graph.
+        Sample inputs to test with -
+        1) Single node graph
+        2) A binary tree graph
+        3) A linked list graph
+        4) A cyclic graph with a loop
         :return:
         """
         self._init_empty(graph_obj.v())

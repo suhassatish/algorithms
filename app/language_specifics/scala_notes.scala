@@ -163,10 +163,46 @@ import myPackage.{MyClass1 => A}
 
 //all members of pkg  `scala` , `java.lang` , all members of object `scala.PreDef` are automatically imported
 
-//traits are similar to java interfaces except that they can have non-abstract members:
+//traits are similar to java interfaces except that they can have non-abstract members (like abstract classes):
+//a class can 'mix-in' multiple traits 
 trait Planar {...}
 class Square extends Shape with Planar  //this is like java `implements` keyword for interfaces
+// a trait cannot be initialized directly, but only through a class object.
+//there is a short hand syntax for it
+val addOne = new SimpleTrait{}  //this creates an anonymous class object
 
+//http://www.cakesolutions.net/teamblogs/2011/12/19/cake-pattern-in-depth
+//regular long-hand way of initializing a trait
+class SimpleClass extends SimpleTrait
+val addOne = new SimpleClass
+
+//traits can be nested as follows - 
+trait UserRepositoryComponent {
+  def userLocator : UserLocator
+  def userUpdater : UserUpdater  //making this def instead of val gives us flexibility in implementation with any subtype of trait UserUpdater can be returned
+  trait UserLocator {
+    def findAll: java.util.List[User]
+  }
+  trait UserUpdater {
+    def save(user: User)
+  }
+}
+
+//above trait is implemented as below 
+trait UserRepositoryJPAComponent extends UserRepositoryComponent {
+  val em: EntityManager
+  def userLocator = new UserLocatorJPA(em)
+  def userUpdater = new UserUpdaterJPA(em)
+
+  class UserLocatorJPA(val em: EntityManager) extends UserLocator {
+    def findAll = em.createQuery("from User", classOf[User]).getResultList
+  }
+  class UserUpdaterJPA(val em: EntityManager) extends UserUpdater {
+    def save(user: User) { em.persist(user) }
+  }
+}
+
+//----------------------------
 //general object heirarchy
 scala.Any    //base type of all types, has methods `hashCode` and `toString` that can be overloaded
 
