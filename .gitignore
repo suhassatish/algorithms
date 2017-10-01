@@ -1,3 +1,4 @@
+app/language_specifics/bash_profile
 .idea/
 target/
 *.pyc

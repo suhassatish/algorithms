@@ -1,3 +1,8 @@
+"""
+http://www.geeksforgeeks.org/maximum-size-sub-matrix-with-all-1s-in-a-binary-matrix/
+Given a binary matrix, find out the maximum size rectangle sub-matrix with all 1s.
+
+"""
 import sys
 import random
 from largest_rectangle_under_skyline import calculate_largest_rectangle

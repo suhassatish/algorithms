@@ -12,7 +12,7 @@ solution - detonating bomb at H kills 2 guards, but doesnt kill guard behind wal
 saves him.
 
 Separate into 2 independent dimensions like n-queens problem reduced to 1-dimension.
-hospiral kills (hkill) and vertical_kills (vkill), then kills[i][j] = hkill[i][j] + vkill[i][j]
+horizontal kills (hkill) and vertical_kills (vkill), then kills[i][j] = hkill[i][j] + vkill[i][j]
 
 Its 3 traversals of n-by-n grid
 """

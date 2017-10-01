@@ -14,6 +14,12 @@ Hint: realize that you dont need to access all N*k elements in otder to merge.
 Merge can start with fewer elements
 
 Extra credit: Implement priority_queue instead of library functions
+
+Related question - external sorting.
+
+Another variant of the question -
+https://stackoverflow.com/questions/7153659/find-an-integer-not-among-four-billion-given-ones?rq=1
+
 """
 import heapq
 from llist import sllist

@@ -21,7 +21,9 @@ that recursion into a DP solution.
 
 Assuming there are interleaved heads, can I interleave the tails?
 Can Tail of s1 starting from index 6 and tail of s2 starting from index 8,
-can be interlevead to the tail of t.
+can be interleaved to the tail of t.
+
+http://www.geeksforgeeks.org/check-whether-a-given-string-is-an-interleaving-of-two-other-given-strings-set-2/
 """
 
 def _is_interleaved(s1, s2, k):

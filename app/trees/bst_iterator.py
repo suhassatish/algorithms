@@ -11,8 +11,17 @@ hasNext() and next() should run in avg O(1) time and use O(h) memory where h is 
     / \  /
    4  7 13
 
-Solution: http://www.programcreek.com/2014/04/leetcode-binary-search-tree-iterator-java/
+Solutions:
+1) http://www.programcreek.com/2014/04/leetcode-binary-search-tree-iterator-java/
+
+2) With parent pointer - https://stackoverflow.com/questions/12850889/in-order-iterator-for-binary-tree
+
+3) Without parent, but with stack - https://discuss.leetcode.com/topic/6575/my-solutions-in-3-languages-with-stack
+
+
 Asked in Cloudera onsite interview by Marcelo Vanzin
+
+
 """
 
 
