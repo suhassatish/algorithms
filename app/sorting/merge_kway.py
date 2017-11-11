@@ -10,7 +10,7 @@ May have duplicates, negative numbers.
 Optimal known solution is O(N k lg k) (total Nk elements,
 and insertion into min-heap each time is O(log k) for k-sized heap)
 
-Hint: realize that you dont need to access all N*k elements in otder to merge.
+Hint: realize that you dont need to access all N*k elements in order to merge.
 Merge can start with fewer elements
 
 Extra credit: Implement priority_queue instead of library functions

@@ -95,12 +95,13 @@ Branch mis-predict 5 ns
 L2 cache reference 7 ns
 Mutex lock/unlock 25 ns
 Main memory reference 100 ns
-Compress 1K bytes with Zippy 3,000 ns
-Send 2K bytes over 1 Gbps network 20,000 ns
-Read 1 MB sequentially from memory 250,000 ns
+Compress 1K bytes with Zippy (snappy) 2,000 ns
+Send 2K bytes over 1 Gbps network 177 ns (2016 => 45X faster than 2005)
+Read 1 MB sequentially from memory 7,000 ns (13X faster)
 Round trip within same datacenter 500,000 ns
-Disk seek 10,000,000 ns
-Read 1 MB sequentially from disk 20,000,000 ns
+Disk seek (spinning plater) 3,000,000 ns
+Read 1 MB sequentially from SSD 123,000 ns (16X faster)
+Read 1 MB sequentially from disk 1,000,000 ns (7X faster)
 Send packet CA->Netherlands->CA 150,000,000 ns
 
 Example back of the envelope calculation using above numbers:

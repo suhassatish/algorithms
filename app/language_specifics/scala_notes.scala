@@ -305,6 +305,14 @@ val chars: List[Char] = pairs map {
   case (ch, num) => ch
 }
 
+//list of tuples
+val m: List[(String, String)] = List(("1", "org1"), ("2", "org2"), ("3", "org3"), ("4", "org4"))
+
+m.map{ case (org_id, org) => (Option((org_id.hashCode % 2).toString) ,org_id + "^" + org)}
+  .groupBy(_._1)
+  .mapValues(_.map(_._2))
+//returns Map(Some(1) -> List(1^org1, 3^org3), Some(0) -> List(2^org2, 4^org4))
+
 ----------------------
 //Collections and Data Structures
 
@@ -327,6 +335,10 @@ Set (collection without duplicate elements)
 
 //Mutable Collections
 Array (Scala arrays are native JVM arrays at runtime, therefore they are very performant)
+
+//example of appending aka concatenating to an array
+def batches = Array.concat((0 to numBaseBatches - 1).toArray, (startSpecialBatches to startSpecialBatches + numSpecialBatches - 1).toArray)
+
 //Scala also has mutable maps and sets; these should only be used if there are performance issues with immutable types
 
 //examples
@@ -575,10 +587,22 @@ scala> :paste
 
 //------------------------------
 /*
-TODO - what do keywords `implicit` and `sealed` mean?
+what does keyword `sealed` mean?
+
+Sealed - When using patttern matching with case classes, if abstract superclass is declared as sealed, compiler exhaustively checks for all alternatives.
 */
+sealed abstract class Amount
+case class Dollar(value: Double) extends Amount
+case class Currency(value: Double, unit: String) extends Amount
+//all case classes extending from an abstract sealed class should be in the same file, since compiler needs to know about it at compile time
 
 //------------------------------
+//keyword implicit 
+implicit def int2Fraction(n: Int) = Fraction(n, 1)
+
+val result = 3 * Fraction(4, 5) // calls int2Fraction(3)
+
+//--------------------------------
 /*unit tests in scala
 http://www.scalatest.org/user_guide/writing_your_first_test
 */
@@ -598,4 +622,22 @@ trait PartialFunction[-A, +R] extends Function1[-A, +R] {
 
 every concrete implementation of PartialFunction has the usual `apply` method along with a boolean method `isDefinedAt`
 ------------------------
-//TODO: numbers every scala programmer should know - https://www.youtube.com/watch?v=AITVZISPJes
+//numbers every scala programmer should know - https://www.youtube.com/watch?v=AITVZISPJes - Hunter Payne, Credit Karma
+/*
+Operation                                   |Time                 |Exponent (order of time)
+Generate random number                      | 25 ns               | 1
+Get current time                            | 50 ns               | 1
+Match against 6 cases using Class           | 150 ns              | 2
+Match against 6 cases using Integer         | 150 ns              | 2
+Constructing a Case Class with 4 args       | > 400 ns (~1600 ns) | 2
+Change file attributes (ie update fs inode) | 1300 ns             | 3
+Delete file (ie delete fs inode)            | 1350 ns             | 3 
+Context switch                              | 1100-4500 ns        | 3 
+Lookup value in map with 65536 elements     | 4,750 ns            | 3
+Search an array with 65536 eleements        | 158,000 ns          | 5
+Search a list with 65536 elements           | 340,000,000 ns      | 8
+
+Upto 500 elements, use Array. Map is faster for > 500 elements. Seq data structure is the slowest.
+
+Immutable remove is faster. Mutable is 30% faster for other operations.
+*/

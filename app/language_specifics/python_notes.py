@@ -1410,6 +1410,9 @@ python -m unittest tests.training_set_generator.test_data_interface_test.TestDat
 """
 python manage.py test adm
 python manage.py test --verbosity 2 adm/tests/test_rule_estimates.py
+
+./manage.py test --pattern="tests_*.py"
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 """
 
@@ -1419,6 +1422,16 @@ python ./manage.py runserver 0.0.0.0:8080
 python ./manage.py shell
 # this is extremely useful for handling complex nested objects and a REPL to experiment around
 """
+
+# adds a django migration under the app "common" and names the migration "add_waffle_flags_for_new_feature"
+manage.py makemigrations common --empty --name add_waffle_flags_for_new_feature
+
+# apply migrations
+./manage.py migrate <app_name>  # to migrate an individual app
+>>> import django
+>>> django.VERSION
+# 1.8.14 is krux's django version
+
 # --------------------------------------------END DJANGO SPECIFIC NOTES *************
 # in python function taking **kwargs argument, keys that are non-strings are not allowed, like int
 # keys.

@@ -568,7 +568,6 @@ this works -
 insert into rx_claims_denorm_short select * from rx_claims_denorm r where r.insurance_company_id=43 and r.imported_claim_id > 1500000 and r.imported_claim_id < 2500000;G
 
 LIMITATION! - cannot insert into only selected columns and not all! if you want to do selective column update, use update..command 
------
 mysql has str_to_date() function but postgres doesnt; so instead use the following in postgres in client application - 
 SELECT to_char("date", 'DD/MM/YYYY') FROM mytable;
 ----------------------
