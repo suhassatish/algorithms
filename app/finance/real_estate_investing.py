@@ -32,4 +32,44 @@ Minimum investment is usually $100K, like HEDGE FUNDS.
 
 Terms - approximately 10 years lock-in period. May have extension periods.
 ------------------
+IRR - Internal Rate of Return: Its a metric to measure profitability of potential investments calculated
+with a complicated formula by setting the NPV (Net Present Value) = 0 and solving for r in formula at
+http://www.investopedia.com/terms/i/irr.asp#ixzz4wqQAkCXy
+
+ASSUMING THE COSTS OF INVESTMENT ARE EQUAL AMONG THE VARIOUS PROJECTS, THE PROJECT WITH THE HIGHEST IRR WOULD PROBABLY
+BE CONSIDERED THE BEST AND UNDERTAKEN FIRST.
+
+IRR is sometimes referred to as "economic rate of return” (ERR).
+
+Sometimes cash earned is not re-invested (no compounding), so actual returns maybe lower than IRR. This
+measurement correction is accounted for in MIRR thats a few % points lower.
+------------------
+CASH-ON-CASH RETURN aka CASH YIELD - Its the avg cash earned on cash invested in the property.
+ = Annual Dollar Income / Total Dollar Investment
+
+1) This metric is usually used to measure commercial real estate investment performance.
+
+2) it is not a promised return but is instead a target used to assess a potential investment.
+In this way, the cash-on-cash return is an estimate of what an investor may receive over the life of the investment.
+
+Example - Suppose the total purchase price of the property is $1 million, and the investor puts $100,000 down
+ and borrows $900,000.
+ There are closing fees, insurance and maintenance costs of $10,000 the investor also pays out of pocket.
+
+After one year, the investor has paid $25,000 in loan payments, of which $5,000 is principal repayment and the rest is
+interest. The investor then decides to sell the property for $1.1 million on the one-year date. This means the
+investor's total cash outflow is $135,000, and after the debt of $895,000 is repaid, he is left with a cash inflow of
+$205,000. The investor's cash-on-cash return is then: ($205,000 - $135,000) / $135,000 = 51.9%.
+
+
+
+
+------------------
+
+
+
+
+------------------
+
+
 """
