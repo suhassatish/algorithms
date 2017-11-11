@@ -61,13 +61,22 @@ interest. The investor then decides to sell the property for $1.1 million on the
 investor's total cash outflow is $135,000, and after the debt of $895,000 is repaid, he is left with a cash inflow of
 $205,000. The investor's cash-on-cash return is then: ($205,000 - $135,000) / $135,000 = 51.9%.
 
-
-
-
 ------------------
+Where are the top markets for flipping for 2014? We looked at recent stats released by both
 
+Local Market Monitor and RealtyTrac to bring you our top picks for the country’s most flippable markets.
+https://blog.realtyshares.com/house-flipping-101/
 
-
+1) Sacramento, California
+2) Orlando, Florida
+3) Atlanta, Georgia
+4) Ocean City, New Jersey
+5) Miami, Florida
+6) Dallas County
+7) Jacksonville, Florida
+8) New York, New York (and Metro Area)
+9) Naples, Florida
+10) Los Angeles and Santa Ana, CA
 
 ------------------
 
