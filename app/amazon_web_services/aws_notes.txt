@@ -1,3 +1,8 @@
+          |vCPUs|Mem(GB)|SSD Storage(GB)|
+m3.xlarge	|4	  |15	    |2 x 40         |
+m3.2xlarge|8	  |30	    |2 x 80         |
+
+
 aws emr ssh --cluster-id j-JGE2E1I4ZLTL --key-pair-file ~/ssatish.pem
 operation timed out
 

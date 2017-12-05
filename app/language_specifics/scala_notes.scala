@@ -19,6 +19,8 @@ sbt // this will start sbt console. scala repl (cmd-line interpreter) is bundled
 //to run the Main object, in sbt type `run`
 >run 
 
+>last compile:runMain
+
 >run-main com.krux.marketer.mp.pipeline.MPSegmentPipeline2 create --activate --force --name "com.krux.marketer.mp.pipeline.MPSegmentPipeline2 backfill - 2017-09-15 - Suhas - DEV-8295" --start 2017-09-16 --times 1
 
 //submitting assignment solutions
@@ -43,7 +45,7 @@ object Hello {
 /*Evaluation rules */
 
 def example = 2      // evaluated when called
-val example = 2      // evaluated immediately
+val example = 2      // evaluated immediately (when variable is in scope)
 lazy val example = 2 // evaluated once when needed
 
 def square(x: Double)    // call by value: evaluates the function arguments before calling the function
@@ -641,3 +643,6 @@ Upto 500 elements, use Array. Map is faster for > 500 elements. Seq data structu
 
 Immutable remove is faster. Mutable is 30% faster for other operations.
 */
+
+superclasses are fully initialized before subclasses;
+when a `val` is overridden, its not ;
