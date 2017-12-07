@@ -35,6 +35,20 @@ trait AbstractMPSegmentRedshiftLoaderPipeline
 
   def batchIds: Seq[Int] = Seq.range(0, numBaseBatches) ++ Seq.range(startSpecialBatches, startSpecialBatches + numSpecialBatches)
 
+  def getDailyImpressionsBloomFilterCount(clientUuid: String, day: String
+                                       ): Option[Int] = {
+    val bucket = s"krux-tables"
+    val bloomFilterKuidPath = s"unique-users-bloom-filters/$day/$clientUuid"
+    val bloomFilterKuidCountFile = s"$bloomFilterKuidPath/users.count"
+
+
+    if (new S3Helper().folderExists(bucket, bloomFilterKuidCountFile))
+      Source.fromInputStream(new S3Helper().getObjectForKey(bucket, bloomFilterKuidCountFile).getObjectContent).getLines.toSeq.headOption.map(_.toInt)
+    else {
+      None
+    }
+  }
+
   override def workflow = {
 
     val ec2 = Ec2Resource()
