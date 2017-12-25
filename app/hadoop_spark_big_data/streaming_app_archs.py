@@ -17,12 +17,27 @@ Akka streams handles back pressure very well.
 input -> function1() -> broadcast -> f2() , f4() -> merge() -> f3() -> output
 
 Akka pros:
-Akka DSL provides hi-level concurrency primitives.
-Spark, flink, kafka are implemented in Akka.
-Light-weight and lean.
+1) Akka DSL provides hi-level concurrency primitives.
+2) Spark, flink, kafka are implemented in Akka.
+3) Light-weight and lean.
+4) Akka's actor model is used for ETL at Salesforce MetaMind. Good for infrequent activity like polling for status of
+    spark job on EMR.
+5) Akka-http has intuitive DSL with all HTTP verbs. Can do request proxying, routing, web sockets. Routes are easy to
+    maintain and troubleshoot.
 
 Akka cons:
-Akka doesn't handle clustering (parallel data distribution) out of the box.
+1) Akka doesn't handle clustering (parallel data distribution) out of the box.
+2) Akka was used in spark until spark 1.4 after which they migrated to their in-house built RPC.
+3) Akka needs an ActorSystem. Akka-http not best for simple clients.
+4) Actor model has a learning curve.
+5) Akka-http comes barebones by design. CORS, CSRF need implementation (or 3rd party libraries). Other useful libraries-
+    a) Circle (JSON serialization), github.com/travisbrown/circe
+    b) Typesafe Config (env & cfg), github.com/typesafehub/config
+    c) Slick (Scala style DSL for db queries, ORM), github.com/slick/slick
+    d) HikariCP (Connection pooling), github.com/brettwooldridge/HikariCP
+    e) Flyway (DB migration), flywaydb.org/
+    f) akka-http-session (Authentication, JWT), github.com/softwaremill/akka-http-session
+    g) akka-http-testkit (Testing), doc.akka.io
 
 Book recommendation: Akka in Action
 -------------

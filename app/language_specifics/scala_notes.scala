@@ -646,3 +646,7 @@ Immutable remove is faster. Mutable is 30% faster for other operations.
 
 superclasses are fully initialized before subclasses;
 when a `val` is overridden, its not ;
+
+TODO - 
+https://youtu.be/po3wmq4S15A
+//Functional programing with effects: Rob Norris 
