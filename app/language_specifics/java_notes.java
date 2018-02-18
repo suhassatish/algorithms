@@ -77,3 +77,8 @@ Project metropolis - rewrite most of the JVM in java. Use the Graal compiler pro
 Can have both classpath and modulepath. 
 Moving away from distinction between JDK and JRE. Idea is to now move to Jlink. There is no such thing as JRE any more. 
 */
+//------------------------
+
+//java8 : has added 2 new packages java.util.function and java.util.streams
+//syntax:  (lambda parameter) -> lambdaBody
+//compiler performs type inference for lambda expressions

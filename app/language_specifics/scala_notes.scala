@@ -16,6 +16,11 @@ sbt // this will start sbt console. scala repl (cmd-line interpreter) is bundled
 >project <project_name> //to switch to a project
 >assembly //creates a single assembly jar per project
 
+> submit e-mail@university.org suBmISsioNPasSwoRd
+sbt "submit e-mail@university.org suBmISsioNPasSwoRd"
+sbt "run-main com.alvinalexander.Foo"
+> run-main com.alvinalexander.Foo
+
 //to run the Main object, in sbt type `run`
 >run 
 
@@ -255,6 +260,13 @@ class Array[+T] {
   def update(x: T)
 } // variance checks fails
 Find out more about variance in lecture 4.4 and lecture 4.5
+
+def prepend[U >: T](elem: U): List[U] = new Cons(elem, this) //this works due to the rules below
+/*
+1) Covariant type parameters may appear in lower bounds of method type parameters
+
+2) Contravariant type parameters may appear in upper bounds of method
+*/
 ---------------------
 Pattern Matching
 Pattern matching is used for decomposing data structures:
@@ -326,7 +338,7 @@ Map (lookup data structure)
 
 
 //Immutable Collections
-List (linked list, provides fast sequential access)
+List (linked list, provides fast sequential access). // List is immutable but array is mutable in scala. List stores elements recursively (in a tree-like structure) but array is flat. Both array and list elements must be of the same homgenous type unlike python lists which can be heterogenous.
 Stream (same as List, except that the tail is evaluated only on demand)
 Vector (array-like type, implemented as tree of blocks, provides fast random access)
 Range (ordered sequence of integers with equal spacing)
@@ -346,7 +358,10 @@ def batches = Array.concat((0 to numBaseBatches - 1).toArray, (startSpecialBatch
 //examples
 val fruitList = List("apples", "oranges", "pears")
 // Alternative syntax for lists
-val fruit = "apples" :: ("oranges" :: ("pears" :: Nil)) // parens optional, :: is right-associative
+val fruit = "apples" :: ("oranges" :: ("pears" :: Nil)) // parens optional, :: (operator is pronounced as cons) is right-associative. 
+//It is also evaluated as RHS-most element making function call with the previous element as its arg, and a cascade so on. 
+//Eg - Above expression is equivalent to  Nil.::("pears").::("oranges").::("apples")
+
 fruit.head   // "apples"
 fruit.tail   // List("oranges", "pears")
 val empty = List()
@@ -391,7 +406,7 @@ xs dropWhile p    // the remainder of the list after any leading element satisfy
 xs span p         // same as (xs takeWhile p, xs dropWhile p)
 
 List(x1, ..., xn) reduceLeft op    // (...(x1 op x2) op x3) op ...) op xn
-List(x1, ..., xn).foldLeft(z)(op)  // (...( z op x1) op x2) op ...) op xn
+List(x1, ..., xn).foldLeft(z)(op)  // (...( z op x1) op x2) op ...) op xn; short-hand for fold left is the operator /:
 List(x1, ..., xn) reduceRight op   // x1 op (... (x{n-1} op xn) ...)
 List(x1, ..., xn).foldRight(z)(op) // x1 op (... (    xn op  z) ...)
 
@@ -413,6 +428,10 @@ xs :+ x  // creates a new collection with trailing element x; eg - xs = [1,2,3];
 
 // Operations on maps
 val myMap = Map("I" -> 1, "V" -> 5, "X" -> 10)  // create a map
+val m = Map[Char, Int]() //creates an empty map
+
+val m2 = new Map[Char, Int]; //error: trait Map is abstract; cannot be instantiated 
+
 myMap("I")      // => 1  
 myMap("A")      // => java.util.NoSuchElementException  
 myMap get "A"   // => res12: Option[Int] = None 
@@ -452,13 +471,20 @@ msort(fruits)   // the compiler figures out the right ordering
 A for-comprehension is syntactic sugar for map, flatMap and filter operations on collections.
 
 The general form is for (s) yield e
-
 s is a sequence of generators and filters
 p <- e is a generator
 if f is a filter
 If there are several generators (equivalent of a nested loop), the last generator varies faster than the first
 You can use { s } instead of ( s ) if you want to use multiple lines without requiring semicolons
 e is an element of the resulting collection
+
+//example
+val result = for {
+  user             <- UserService.loadUser("mike")
+  usersChild       <- user.child
+  usersGrandChild  <- usersChild.child
+} yield usersGrandChild
+
 ----------------------
 //Example 1
 // list all combinations of numbers x and y where x is drawn from
@@ -557,7 +583,14 @@ def getRefinedY(x: Double, y: Double) : Double =
 
 def sqrt(x: Double) = srqtIter(x, 1.0)
 //-------------------------------------
-/*Every case class has an apply and unapply method. When you construct a case class instance, you call the apply() method */
+
+/*
+Every case class has an apply and unapply method. When you construct a case class instance, you call the apply() method, which mimics a constructor 
+unapply() method mimics an extractor which is required to be implemented under-the-hood for pattern matching with case statements to work.
+
+Case classes are special because scala automatically creates a companion object for them with an apply() and unapply() methods.
+
+.*/
 case class Currency(value: Double, unit: String)
 Currency(29.95, "EUR") // Calls Currency.apply
 /*
@@ -650,3 +683,45 @@ when a `val` is overridden, its not ;
 TODO - 
 https://youtu.be/po3wmq4S15A
 //Functional programing with effects: Rob Norris 
+/*
+Notes from talk above:
+https://medium.com/@sinisalouc/demystifying-the-monad-in-scala-cc716bb6f534
+Monad: Option (construct to avoid null pointers in scala) and Future (wrapper over some async ops) are 2 monads in scala. 
+Monads are wrappers with 2 functions defined on them, ie 
+  i) unit() ie identity-function that creates a monad M[A] from an object of type A. eg - apply()
+  and 
+  ii) flatMap() ie binding-function 
+  that obey the properties:
+  
+    a) left-identity law: 
+    unit(x).flatMap(f) == f(x)
+
+    b) right-identity law: 
+    m.flatMap(unit) == m
+
+    c) associativity law:
+    m.flatMap(f).flatMap(g) == m.flatMap(x => f(x).flatMap(g))
+
+
+1) Every expression is either referentially transparent or is a side-effect. Its 1 or the other.
+----------
+Tail recursion in scala: 
+If a function calls itself as its last action, the function's stack frame can be reused. This is called tail recursion.
+Tail recursive functions are iteratice processes.
+only directly recursive calls to the current function are optimized. 
+using @tailrec annotation, one can require that a dunction is tail-recursive. 
+
+
+--------------------
+SCALA TODO:
+  a) scala language specifics from `scala for the impatient`, 
+  b) http://danielwestheide.com/blog/2012/11/21/the-neophytes-guide-to-scala-part-1-extractors.html
+  c) redbook for scala
+  d) http://twitter.github.io/effectivescala/
+
+  e) http://twitter.github.io/scala_school/ 
+  From 0 to distributed_service
+
+*/
+
+

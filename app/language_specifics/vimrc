@@ -7,3 +7,5 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set ruler
+autocmd bufwritepost *.js silent !standard --fix %
+set autoread
