@@ -362,6 +362,8 @@ val fruit = "apples" :: ("oranges" :: ("pears" :: Nil)) // parens optional, :: (
 //It is also evaluated as RHS-most element making function call with the previous element as its arg, and a cascade so on. 
 //Eg - Above expression is equivalent to  Nil.::("pears").::("oranges").::("apples")
 
+List[A] ::: List[B]  //the ::: operator preprends a list to another list. This is different from the cons (::) operator in that the left argument to cons is a single item, not an iterable Seq by itself.
+
 fruit.head   // "apples"
 fruit.tail   // List("oranges", "pears")
 val empty = List()
@@ -406,9 +408,14 @@ xs dropWhile p    // the remainder of the list after any leading element satisfy
 xs span p         // same as (xs takeWhile p, xs dropWhile p)
 
 List(x1, ..., xn) reduceLeft op    // (...(x1 op x2) op x3) op ...) op xn
-List(x1, ..., xn).foldLeft(z)(op)  // (...( z op x1) op x2) op ...) op xn; short-hand for fold left is the operator /:
+
+List(x1, ..., xn).foldLeft(z)(op)  // (...( z op x1) op x2) op ...) op xn; short-hand for fold left is the operator /:  
+//foldLeft is internally implemented as a while loop. So it works for both short and long lists. Unlike foldRight, its not implemented recursively
+
 List(x1, ..., xn) reduceRight op   // x1 op (... (x{n-1} op xn) ...)
-List(x1, ..., xn).foldRight(z)(op) // x1 op (... (    xn op  z) ...)
+
+List(x1, ..., xn).foldRight(z)(op) // x1 op (... (    xn op  z) ...). Accumulates results from back to front. But has some problems, so not recommended. https://oldfashionedsoftware.com/2009/07/10/scala-code-review-foldleft-and-foldright/
+//foldRight is implemented recursively but not tail recursively. So for large lists, it fails with StackOverflowException. 
 
 xs exists p    // true if there is at least one element for which predicate p is true
 xs forall p    // true if p(x) is true for all elements
@@ -680,7 +687,6 @@ Immutable remove is faster. Mutable is 30% faster for other operations.
 superclasses are fully initialized before subclasses;
 when a `val` is overridden, its not ;
 
-TODO - 
 https://youtu.be/po3wmq4S15A
 //Functional programing with effects: Rob Norris 
 /*
@@ -715,7 +721,7 @@ using @tailrec annotation, one can require that a dunction is tail-recursive.
 --------------------
 SCALA TODO:
   a) scala language specifics from `scala for the impatient`, 
-  b) http://danielwestheide.com/blog/2012/11/21/the-neophytes-guide-to-scala-part-1-extractors.html
+  b) http://danielwestheide.com/blog/2012/11/21/the-neophytes-guide-to-scala-part-1-extractors.html (part 1 is done. part 2 onwards)
   c) redbook for scala
   d) http://twitter.github.io/effectivescala/
 

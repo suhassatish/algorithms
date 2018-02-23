@@ -40,6 +40,23 @@ Akka cons:
     g) akka-http-testkit (Testing), doc.akka.io
 
 Book recommendation: Akka in Action
+------------
+Akka streams by company called TypeSafe : SFDC lambda hangout -
+
+reactive mongo - async driver for Mongo.
+Reactive streams is a std for async stream processing with non-blocking back pressure.
+
+Akka streams has DSL layers on top of this.
+Source[T, M] produces a stream of Ts and completes with an M.
+Sink [I, M] consumes a stream of Is and completes with an M
+Source ~> Sink = Graph
+Materializer is what runs a Graph.
+
+GearPump is created at Intel. Its a cluster-aware materializer. Materializer creates actors and sends msgs back n forth
+under the hood.
+
+Flow is a Reusable Stream Functor
+
 -------------
 Apache storm - Has spouts and bolts;
 Bolts are the units doing computational work.
