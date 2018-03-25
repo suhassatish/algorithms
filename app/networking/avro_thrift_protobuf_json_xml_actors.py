@@ -106,14 +106,17 @@ DATA FLOW BETWEEN PROCESSES - can happen in 3 ways. Data outlives code in enterp
     parallel, and combine their results. gRPC supports streams, where a call consists of not just
     one request and one response, but a series of requests and responses over time.
 
-    g) Some of these frameworks also provide "service discovery" - that is, allowing a client to
+    g) By design, the gRPC protocol cannot be transported over HTTP. The gRPC protocol mandates HTTP/2 in order to take
+    advantage of the multiplexing and streaming features of an HTTP/2 connection.
+
+    h) Some of these frameworks also provide "service discovery" - that is, allowing a client to
     find out at which IP address and port number it can find a particular service.
 
-    h) There are vast set of tools available for REST - servers, caches, load balancers, proxies,
+    i) There are vast set of tools available for REST - servers, caches, load balancers, proxies,
     firewalls, monitoring, debugging tools, testing tools, `curl`, web browsers, multi-language
     support for REST.
 
-    i) It is reasonable to assume that all the servers will be updated first, and all the clients
+    j) It is reasonable to assume that all the servers will be updated first, and all the clients
     second. Thus, you only need backward compatibility on requests, and forward compatibility on
     responses
 

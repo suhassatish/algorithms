@@ -21,5 +21,12 @@ to learn about topics below:
 3) How to design a microservices application to maintain 12-Factor App compliance
 
 4) How to build a rich, user-experience-based frontend for microservices
+-----------------------
+
+NGINX 1.13.10 can now handle gRPC - https://www.nginx.com/blog/nginx-1-13-10-grpc/
+NGINX does not support HTTP/1 and HTTP/2 at the same time on a cleartext (non-TLS) port.
+It needs prior knowledge as to which version of the protocol will be used.
+If you want to handle both protocol versions over cleartext, you should create a listen port for each.
+
 
 """

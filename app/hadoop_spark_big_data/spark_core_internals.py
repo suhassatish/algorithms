@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 https://github.com/JerryLead/SparkInternals/blob/master/EnglishVersion/2-JobLogicalPlan.md
 Spark Logical Plan -
@@ -165,5 +166,13 @@ into a hash table on the driver and then broadcast to every executor. A map tran
 reference the hash table to do lookups.
 
 ------------------------------------------------------------------------------------------------
+
+RDDs are stored off the JVM heap. Other off heap usages include netty’s direct buffers for shuffle and more.
+
+Some more tips on writing efficient spark jobs with examples -
+http://fdahms.com/2015/10/04/writing-efficient-spark-jobs/
+
+Spark uses Janino compiler from org.codehaus pkg for Catalyst optimizations for DataSets. Any codehaus related exceptions
+might be failures in that layer.
 
 """

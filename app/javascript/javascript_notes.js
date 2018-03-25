@@ -304,3 +304,16 @@ solution: use `Elements` framework
 
 TODO - https://xss-game.appspot.com
 */
+
+var inputSelect = component.find("inputSelect");
+inputSelect && inputSelect.isValid() && inputSelect.get(blablabla)
+//Do these checks for other usecases too where you do .find().get()
+//Reason is there are many situations when the component might be missing 
+//(user gets logged out, tab needs to refresh , component loading failed etc)... better to silently fail in those cases
+
+
+/*
+If you create an aura component in javascript side, you must destroy the component too... otherwise the component will leak
+Better to see if there is a way to put this component in the .cmp file and just add errors in helper by directly accessing the component
+
+*/

@@ -29,4 +29,13 @@ of all gradients for U0;U1; :::;UT.
 LSTM : Long Short-Term Memory Recurrent Networks:
 
 Key idea: Modify the architecture of RNN to allow the error derivatives to flow better.
+
+LSTM/ GRU (gated recurrent unit) cells  - let the gradient flow.
+vanilla RNN replaced with LSTM.
+GRU is more recent (3 years ago).
+GRU is a gating mechanism in recurrent neural networks introduced in 2014.
+Their perf on polyphonic music modeling and speech signal modeling was found to
+be similar to LSTM. They have fewer parameters than an LSTM as there's no output gate.
+
+Application: deep speech
 """

@@ -82,3 +82,22 @@ Moving away from distinction between JDK and JRE. Idea is to now move to Jlink. 
 //java8 : has added 2 new packages java.util.function and java.util.streams
 //syntax:  (lambda parameter) -> lambdaBody
 //compiler performs type inference for lambda expressions
+//--------------
+
+//regular jvm arg to start yourKit profiler with app server JVM
+/Users/ssatish/Downloads/YourKit-Java-Profiler-2017.02.app/Contents/Resources/bin/mac/libyjpagent.jnilib
+
+// if yourKit profiler crashes on start-up, then launch it as so
+/Users/ssatish/Downloads/YourKit-Java-Profiler-2017.02.app/Contents/Resources/bin/yjp.sh
+
+//------------------------
+JAVA 8 NOTES
+
+1) JAVA8 Optional<T> is not SERIALIZABLE. Its hence not good to use in java beans as properties of classes in setters.
+It can be used however, in return types of getters, to wrap NULLs.
+
+2) Stream API is terminal and cannot be stored in variables and reused. To do that, use the collect(toCollection)
+and create a collection out of a stream to be able to reuse it.
+
+//------------------------
+

@@ -84,3 +84,16 @@ $21k/month.
 ------------------------------------------------------------------------------------------------
 dynamoDB - cannot store binary. has to be text.
 writes are expensive ($$)
+
+------------------------------------------------------------------------------------------------
+DNS Limits
+Each Amazon EC2 instance limits the number of packets that can be sent to the Amazon-provided DNS server to a maximum of 1024 packets per second per network interface. 
+This limit cannot be increased. 
+The number of DNS queries per second supported by the Amazon-provided DNS server varies by the type of query, the size of response, and the protocol in use. 
+For more information and recommendations for a scalable DNS architecture, see the Hybrid Cloud DNS Solutions for Amazon VPC whitepaper.
+------------------------------------------------------------------------------------------------
+//stubbing out aws python cli boto3 library stubbing out requests to rest endpoints 
+http://botocore.readthedocs.io/en/latest/reference/stubber.html
+
+
+

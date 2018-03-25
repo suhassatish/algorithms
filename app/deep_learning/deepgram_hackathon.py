@@ -69,14 +69,6 @@ Sort samples by utterance length in the first epoch, then fall back to regular S
 
 batch normalizations -reducing internal covariance shift (internal activations)
 
-LSTM/ GRU (gated recurrent unit) cells  - let the gradient flow.
-vanilla RNN replaced with LSTM.
-GRU is more recent (3 years ago).
-GRU is a gating mechanism in recurrent neural networks introduced in 2014.
-Their perf on polyphonic music modeling and speech signal modeling was found to
-be similar to LSTM. They have fewer parameters than an LSTM as there's no output gate.
-
-
 Make your model easier to optimize before scaling.
 Pick the model that is easier to scale.
 If 5 layer is good enough, then dont go for 7 layers.

@@ -21,6 +21,14 @@ sbt "submit e-mail@university.org suBmISsioNPasSwoRd"
 sbt "run-main com.alvinalexander.Foo"
 > run-main com.alvinalexander.Foo
 
+//check which sbt version
+sbt sbtVersion 
+sbt about
+
+//check which scala version within sbt
+>console
+console> util.Properties.versionString
+
 //to run the Main object, in sbt type `run`
 >run 
 
@@ -51,8 +59,47 @@ object Hello {
 
 def example = 2      // evaluated when called
 val example = 2      // evaluated immediately (when variable is in scope)
-lazy val example = 2 // evaluated once when needed
 
+lazy val example = 2 // evaluated once when needed
+//lazy val denotes a field that will only be calculated once it is accessed for the first time and is then stored for future reference. 
+//--------------------------------------------------------------------------------
+@transient lazy val //on the other hand one can denote a field that shall not be serialized. 
+//Use case: in spark, it maybe costlier to serialize and send a field
+//across a N/W cluster than it is to recompute it. Thats when you use this.  Transient fields of a serializable class will be computed at-most once per deserialization.
+
+class Foo(val bar: String) extends Serializable {
+  @transient lazy val baz: String = {
+    println("Calculate baz")
+    bar + " world"
+  }
+}
+
+// Create object of class Foo
+val foo = new Foo("Hello")
+
+// baz field is only calculated once
+foo.baz
+foo.baz
+
+// Serialize foo
+import java.io._
+val bo = new ByteArrayOutputStream
+val o = new ObjectOutputStream(bo)
+o.writeObject(foo)
+val bytes = bo.toByteArray
+
+// Deserialize foo
+val bi = new ByteArrayInputStream(bytes)
+val i = new ObjectInputStream(bi)
+val foo2 = i.readObject.asInstanceOf[Foo]
+
+// baz field is recalculated once and only once
+foo2.baz
+foo2.baz
+
+//another application is when you have io streams which are simply not serializable. In this case you want to make sure to store the file path 
+//URI to the stream so that the class can read off the stream directly and reconstruct it in-memory without having to deserialize it.
+//-----------------------------------------------------------------------------------
 def square(x: Double)    // call by value: evaluates the function arguments before calling the function
 
 def square(x: => Double) //call by name: evaluates the function first, and then evaluates the arguments if need be
@@ -169,6 +216,10 @@ import myPackage.{MyClass1, MyClass2}
 import myPackage.{MyClass1 => A}
 
 //all members of pkg  `scala` , `java.lang` , all members of object `scala.PreDef` are automatically imported
+
+//package object in scala : If you have some helper method you'd like to be in scope for an entire package, 
+//go ahead and put it right at the top level of the package.
+//Each package is allowed to have one package object. Any definitions placed in a package object are considered members of the package itself.
 
 //traits are similar to java interfaces except that they can have non-abstract members (like abstract classes):
 //a class can 'mix-in' multiple traits 
@@ -332,7 +383,7 @@ m.map{ case (org_id, org) => (Option((org_id.hashCode % 2).toString) ,org_id + "
 
 //Base Classes
 Iterable (collections you can iterate on)
-Seq (ordered sequences)
+Seq (ordered sequences) - subclasses of Seq are List, Vector, Stream, IndexedSeq
 Set
 Map (lookup data structure)
 
@@ -340,7 +391,14 @@ Map (lookup data structure)
 //Immutable Collections
 List (linked list, provides fast sequential access). // List is immutable but array is mutable in scala. List stores elements recursively (in a tree-like structure) but array is flat. Both array and list elements must be of the same homgenous type unlike python lists which can be heterogenous.
 Stream (same as List, except that the tail is evaluated only on demand)
-Vector (array-like type, implemented as tree of blocks, provides fast random access)
+
+Vector (array-like type, implemented as tree (not binary but a larger branching factor. Each node can hold upto 32 (2^ 5) elements) of blocks, provides fast random access)
+//Because vectors strike a good balance between fast random selections and fast random functional updates, they are currently the default implementation of immutable indexed sequences in scala 2.8
+
+
+
+
+
 Range (ordered sequence of integers with equal spacing)
 String (Java type, implicitly converted to a character sequence, so you can treat every string like a Seq[Char])
 Map (collection that maps keys to values)
@@ -604,6 +662,7 @@ Currency(29.95, "EUR") // Calls Currency.apply
 1) A case class is a class for which the compiler automatically generates the methods for pattern matching.
 
 2) Use the Option type for values that may or may not be present — it is safer than using null.
+Using pattern matching on Option is not idiomatic in scala. Instead, just use Option[Int].getOrElse("default value")
 
 3) Scala has an abstract class Enumeration which provides a light weight alternative to `case classes`. Each call to the `Value` method
 adds a new unique value to the enumeration.
@@ -639,10 +698,16 @@ case class Currency(value: Double, unit: String) extends Amount
 //all case classes extending from an abstract sealed class should be in the same file, since compiler needs to know about it at compile time
 
 //------------------------------
-//keyword implicit 
+//keyword implicit : implicit function is defined with a single parameter.
 implicit def int2Fraction(n: Int) = Fraction(n, 1)
 
 val result = 3 * Fraction(4, 5) // calls int2Fraction(3)
+
+//an implicit class must have a primary constructor with exactly 1 argument.
+implicit class RichFile(from: File) extends AnyVal
+//in the above example, you can enrich the `File` class with `RichFile` implicit class which has an added `read` method thats missing in the `File` class.
+//by making it extend `AnyVal`, no `RichFile` objects are created. A call `file.read` is directly compiled into a static method call `RichFile$.read$extension(file)`
+
 
 //--------------------------------
 /*unit tests in scala
@@ -710,6 +775,9 @@ Monads are wrappers with 2 functions defined on them, ie
 
 
 1) Every expression is either referentially transparent or is a side-effect. Its 1 or the other.
+
+`identity` is also a keyword in scala that accepts and returns the same value.
+
 ----------
 Tail recursion in scala: 
 If a function calls itself as its last action, the function's stack frame can be reused. This is called tail recursion.
@@ -729,5 +797,6 @@ SCALA TODO:
   From 0 to distributed_service
 
 */
-
-
+----------------------------
+//A value declared with `val` is actually a constant—you can’t change its contents:
+//To declare a variable whose contents can vary, use a `var`
