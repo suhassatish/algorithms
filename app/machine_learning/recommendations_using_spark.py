@@ -43,9 +43,6 @@ new data frame.Manipulations on row objects are completely opaque, blocking opti
 
  Version3 - column operations to the rescue.
 
-Spark SQL Functions use Tungsten - Its off-heap. There is no GC pressure. Memory
-efficient data structures. Supports rule-based optimizations. Performance is comparable
-to hand-tuned low-level operations. Aggregation, collection, math and string operations.
 
 If you dont have in-built function, then go for UDF.
 Cons of UDF - Data encoding/decoding required.

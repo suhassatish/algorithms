@@ -200,6 +200,24 @@ completed.
 
 Sloppy quorums are optional in all common Dynamo implementations. In Riak they
 are enabled by default, and in Cassandra and Voldemort they are disabled by default.
+----------------------------------------------------------------------------------------------------
 
+TODO - 
+1) paper (blog entry)  on distr systems - Linearizability vs Serializability paper by Peter Bailis
+
+2) Jeff Dean's paper from Feb 2013 - tail at scale by Jeff Dean and Luiz Andre Barosso - communications of ACM
+---------------
+
+COMMON APPLICATIONS AND PATTERNS
+                            | Low Latency        | Low Latency        | Read Your Writes |Comment
+                            | Predictable Reads? | Preditable Writes? |                  |
+Careful Replacement of K/Vs |    No              |   No               |  Yes             |Work across multiple key/values   
+TXI blobs-by-ref            |   Yes              |  Yes               |  Immutable       |Non-linearizable plus immutable
+Ecommerce shopping cart     |   Yes              |  Yes               |   No             |Sometimes gives stale result
+Ecommerce product catalog   |   Yes              |   No               |   No             |Scalable cache -> Stale OK
+Search                      |   Yes              |   No               |   No             |Scalable cache plus search
+Append to Big Files         |   Yes              |   No               |  Immutable       |File append semantics require linearizability of appends
+
+Linearizability and "read your writes" are not always required in modern scalable applicatios. Thruput, not latency matters.
 
 """

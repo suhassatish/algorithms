@@ -315,5 +315,19 @@ inputSelect && inputSelect.isValid() && inputSelect.get(blablabla)
 /*
 If you create an aura component in javascript side, you must destroy the component too... otherwise the component will leak
 Better to see if there is a way to put this component in the .cmp file and just add errors in helper by directly accessing the component
+*/
+//**********************************************************************************************************************************
+
+/*
+
+outerFunc() {
+  innerFunc() {
+
+  }.bind() //this makes sure thisInner == thisOuter , ie this referenced in innerFunc should actually refer to the outerFunc. In closures, its mandatory to use bind when you reference `this` in innerFunc
+}
 
 */
+
+example of promise in sfdc code - 
+https://codesearch.data.sfdc.net/source/xref/app_main_core/app/main/core/ui-force-components/components/force/relatedListHover/relatedListHoverHelper.js#17
+

@@ -175,4 +175,214 @@ http://fdahms.com/2015/10/04/writing-efficient-spark-jobs/
 Spark uses Janino compiler from org.codehaus pkg for Catalyst optimizations for DataSets. Any codehaus related exceptions
 might be failures in that layer.
 
+------------------------------------------------------------------------------------------------
+NOTES FROM BIG DATA WITH SCALA & SPARK - coursera course
+
+1) PARTITIONING -
+
+Important: the result of partitionBy should be persisted. Otherwise, the partitioning is repeatedly applied
+(involv1ing network shuffle) each time the partitioned RDD is used.
+
+eg usage-
+val pairs = purchases.map(p => (p.customerId, p.price))
+val tunedPartitioner = new RangePartitioner(8, pairs)
+val partitioned = pairs.partitionBy(tunedPartitioner)
+
+2) When calling sortByKey(..) on a pairRDD, the default partitioner used is RangePartitioner.
+   When calling groupByKey(..) on a pairRDD, the default partitioner used is HashPartitioner.
+
+3) Operations on RDDs that hold and propagate a partitioner below. All other transformations and/or actions will produce
+a result without a partitioner.
+
+cogroup, groupWith, join, leftOuterJoin, rightOuterJoin, groupByKey, reduceByKey, foldByKey, combineByKey, partitionBy,
+sort, mapValues (if parent has partitioner), flatMapValues (if parent has partitioner), filter(if parent has partitioner)
+
+Note that prominently `map` operation is missing in list above because it can change the key. Hence the partitioning
+strategy based on previous key becomes invalid.
+------------------
+SHUFFLING
+4) To see execution plan and know if something has a shuffle dependency, use `toDebugString`
+
+partitioned.reduceByKey((v1, v2) => (v1 ._1 + v2._1, v1 ._2 + v2._2))
+.toDebugString
+
+Among non-obvious operations, `distinct` and `coalesce` may cause a shuffle.
+------------------
+WIDE (requires N/W shuffle) VS NARROW DEPENDENCIES
+
+    a) TX w/ narrow deps - map, mapValues, flatMap, filter, mapPartitions, mapPartitionsWithIndex
+    b) TX w/ wide deps - cogroup, groupWith, join, leftOuterJoin, rightOuterJoin, groupByKey, reduceByKey, combineByKey,
+        distinct, intersection, repartition, coalesce
+
+    To find out what kind of dependence, use the `dependencies` method on RDDs. This is used internally by Spark
+    scheduler.
+    Narrow dep objects - OneToOneDependency, PruneDependency, RangeDependency
+    Wide dependency objects - ShuffleDependency
+------------------
+SparkSQL uses -
+    1) Catalyst - query optimizer -
+
+    2) Tungsten - off-heap serializer.
+    Spark SQL Functions use Tungsten - off-heap => There is no GC pressure. Memory
+    efficient data structures. Supports rule-based optimizations. Performance is comparable
+    to hand-tuned low-level operations. Aggregation, collection, math and string operations.
+
+SprakSQL data frames are "untyped", ie uses `Rows` data type. So the scala compiler doesnt do any compile-time
+type-checking about column types within a row.
+
+import org.apache.spark.sql.SparkSession
+
+val spark = SparkSession.builder().appName("My App").getOrCreate()
+
+//to create a DataFrame by reading in a data source from file, use the `read`method
+val df = spark.read.json("/path/to/file.json")
+
+//register the DataFrame as a SQL temporary view
+peopleDF.createOrRelaceTempView("people")
+//this gives a name to a DataFrame that can be used in SQL `from` statement
+
+------------------
+DATAFRAME API -
+
+1) `show()`  pretty prints a data frame in tabular view
+    case class Employee(id: Int, fname: String, lname: String, age: Int, city: String)
+    val employeeDF = sc.parallelize( ... ).toDF
+    employeeDF.show()
+
+2) employeeDF.printSchema()
+    prints in nested tree format
+
+3) Syntax for df operations - 3 types of syntax
+    a) df.filter($"age" > 18)
+    b) df.filter(df("age") > 18)
+    c) df.filter("age > 18")
+
+4) val sydneyEmployeesDF = employeeDF.select("id", "lname")
+                                     .where("city == 'Sydney'")
+                                     .orderBy("id")
+
+5) To see methods to call after groupBY, see API of `RelationalGroupedDataset`
+
+6) To see methods within agg, see API of spark.sql.function
+
+7) drop() - drops rows that contain null or NaN in *any* column and returns a new DataFrame
+    drop("all") drops rows that contain null or NaN values in all columns and returns a new DataFrame
+    drop(Array("id", "name")) drops rows that contain null or NaN values in the specified columns and returns a new DF
+
+8) fill(0)
+    fill(Map("minBalance" -> 0))
+
+9) replace(Array("id"), Map(1234 -> 8923)) replaces specified value (1234) in specified column (id) with specified
+replacement value (8923) and returns a new DataFrame.
+
+Common ACTIONS on DFs -
+    collect(): Array[Row]
+    count(): Long
+    first(): Row
+    head(): Row
+    show(): Unit // 1st 20 rows in tabular form
+    take(n: Int): Array[Row]
+
+10) df1.join(df2, $"df1.id" === $"df2.id", "right_outer")
+
+11)
+    averagePrices.head.schema.printTreeString()    //zip: integer, avg(price): double
+    val averagePricesAgain = averagePrices.map {
+        row = > (row(0).aslnstance0f[Int], row(1).aslnstance0f[Double])
+    }
+
+----------------
+Trade-offs of DataFrames -
+
+Cons:
+    1) Bad queries on columns that dont exist are not caught at compile time unlike scala, but at runtime. This can be
+    expensive.
+    2) If the data isn't structured or cannot be represented as scala case classes or std sparkSQL data types, it cannot
+    be cast as DFs. Even if it is, it cannot make use of tungsten encoder's optimization for the std SparkSQL data types
+
+Pros:
+    1) Perf is 4X faster than similar operations on RDDs due to catalyst query optimizer and tungsten serialized
+    encoder.
+-------------------
+DATASET APIs -
+
+type DataFrame = Dataset[Row]
+With Dataset, you get type safety as well as columnar representation and structured optimization using catalyst and
+tungsten. RDDs are a compromise between DataFrames and RDDs.
+
+1) listingsDS.groupByKey(l => l.zip)
+          .agg(avg($"price").as[Double])
+
+2) DataFrame uses the `Column` scala class but Dataset uses `TypedColumn`. To convert between the 2,
+use $"price".as[Double]
+
+3) Calling groupBy on a Dataset returns a RelationalGroupedDataset whose aggregation operations return a DataFrame,
+but calling groupByKey on a Dataset returns a KeyValueGroupedDataset whose aggr ops return a Dataset. So to stay inside
+the Dataset API, use `groupByKey` instead of `groupBy`.
+
+4) val keyValues = List ( (3, "Me"), (1, "Thi"), (2, "Se"), (3, "ssa"), (1, "sisA"), (3, "ge : "), (3, "-) "),
+        (2, "ere"), (2, "t"))
+
+   val keyValuesDS = keyValues.toDS
+
+    keyValuesDS.groupByKey(p => p._1)
+               .mapGroups((k, vs) => (k, vs.foldLeft("")((acc, p) => ace + p._2))).show()
+               .sort($"_1").show()
+-------------------
+5) Using an aggregator
+val keyValues = List((3, "Me"), (1, "Thi"), (2, "Se"), (3, "ssa"), (1, "sisA"), (3, "ge:"), (3, "-)"), (2, "ere"),
+    (2, "t"))
+val keyValuesDS = keyValues.toDS
+val strConcat = new Aggregator[(Int, String), String, String] {
+    def zero: String = " "
+    def reduce(b : String, a : (Int, String)) : String = b + a._2
+    def merge(bl : String, b2 : String) : String = bl + b2
+    def finish(r : String) : String = r
+
+    override def bufferEncoder: Encoder[String] = Encoders.STRING
+    override def outputEncoder: Encoder[String] = Encoders.STRING
+}.toColumn
+
+keyValuesDS.groupByKey(pair => pair._1)
+           .agg(strConcat.as[String])
+
+Encoder is tungsten internal serialization format and is 10X faster than Kryo and more memory-optimized than it as well.
+
+2 ways to introduce encoders -
+import scala.implicit._
+
+or import org.apache.spark.sql.Encoders
+---------------------------------------------------------------------
+WHEN TO USE DATASETS VS DATAFRAMES VS RDDs
+
+Use Datasets (encoders are required) when
+    a) you have structured/semi-structured data
+    b) You need type safety
+    c) you need to work with functional APIs
+    d) you need good performance but it doesnt have to be the best
+
+Use DataFrames when
+    a) You want the best possible performance automatically optimized for you
+    b) You have structured/semi-structured data
+
+Use RDDs when
+    a) You have unstructured data
+    b) You need to fine-tune and manage low-level details of RDD computations
+    c) you have complex data types that cannot be serialized with encoders
+
+Catalyst cannot optimize functional `filter` functions but can optimize structured `filter` (DataFrame WHERE clause)
+functions. Irrespective of that, TUNGSTEN is always running under the hood of Datasets, storing and organizing data in
+a highly optimized way, hence giving speed-ups over regular RDD operations.
+
+LIMITATION: if you have data that cannot be expressed as simple scala `case` classes or SparkSQL data types, its
+difficult to ensure that a Tungsten encoder exists for your data type. Eg - you have an application that uses some
+complicated regular scala Class.
 """
+
+
+
+
+
+
+
+

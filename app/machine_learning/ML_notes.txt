@@ -21,6 +21,9 @@ Conceptual understanding of
 -----------------
 1) over-fitting
 
+Definition of regularization: Its a modification to the learning algorithm to reduce its
+generalization error (ie, test error) but not its training error.
+
 Q) What is the advantage of combining L1 (ridge) and L2 (lasso aka least absolute shrinkage and
 selection operator) regularization?
 A) Ridge (aka L2, uses sum of squares of co-efficients) or lasso (aka L1, uses absolute value of coefficients) are forms of regularized linear regressions.
@@ -76,9 +79,14 @@ Additionally, even when n > p , ridge regularization tends to perform better. El
 
 
 https://www.slideshare.net/ShangxuanZhang/ridge-regression-lasso-and-elastic-net
-  a) Another type of regularization method is ElasticNet, it is hybrid of lasso and ridge regression both. 
-  b) It is trained with L1 and L2 prior as regularizer. 
-  c) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of Ridge’s stability under rotation.
+  a) Another type of regularization method is ElasticNet. It linearly combines the L1 and L2 penalties of the lasso and ridge methods.
+
+  b) It introduces a quadratic term which makes the function strictly convex and hence,
+  having a single minimum. Common applications - SVMs, portfolio optimization, metric learning.
+
+  c) It is trained with L1 and L2 prior as regularizer.
+
+  d) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of Ridge’s stability under rotation.
 
 Pros and Cons of ElasticNet:
 Pros - 
@@ -295,6 +303,9 @@ In other words, each step is shrunken by some factor.
 Pre-requisite: You should have a differentiable loss function for the algorithm to minimize.
 Logistic function is typically used for binary classification and softmax function is often used for
  multi-class classification.
+
+Gradient boosted decision tree - Misclassified training example weights are boosted and a new tree is formed.
+  The final score is weighted sum of scores from all trees.
 --------
 Random forest usually does not overfit. 
 sci-kit learn currently only has one-hot encoding of categorical features which is a drawback that
@@ -331,4 +342,23 @@ function minimizing step that is CPU-intensive.
 Tree-based model is better at handling continuous features (like add_edit_dist and geo_dist and
 name_edit_dist)
 -----------
+AuPR = area under the precision -recall curve where precision = y-axis and recall= x-axis. This uses the prediction of a model as the basis.
 
+In this regard, its different from the area under the ROC (receiver operating characteristics) curve which is TPR (y-axis) vs FPR (x-axis). AUC uses the data as the basis rather than the model prediction.
+
+TPR = same definition as precision while FPR = FP / (FP + TN). FPR is the lateral-inversion mirror image of recall.
+
+AuPR is a good metric to use when there is heavily class-imbalanced data according to this paper.
+http://pages.cs.wisc.edu/~jdavis/davisgoadrichcamera2.pdf 
+
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+
+--------------
+https://medium.com/manifold-ai/torus-a-toolkit-for-docker-first-data-science-bddcb4c97b52
+Tarus - Dockerize machine learning applications to have reproducibel environments. Jupyter notebooks on browser
+and your pycharm IDE can still run off a docker container that can be downloaded from docker hub cloud and shared by
+your team. Cookiecutter scripts available to get started with the right project structure to get this up quickly.
+Also comes with a gui if you're not familiar with docker CLI cmds. Its called "Kitematic" and is available from the
+docker menu.
+
+--------------

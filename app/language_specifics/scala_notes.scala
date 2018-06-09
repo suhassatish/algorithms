@@ -45,7 +45,7 @@ console> util.Properties.versionString
 //in order to make the object executable (runnable) it has to extend the trait `App` or have a `main` method
 import example.Lists._
 
-object Main extends App {
+object Main extends App { //older scala versions had an `Application` trait that executed the block in the static initializer which is not optimized by the JIT just-in-time compiler. Use the `App` trait instead
 	println(Lists.max(List(1,3,2)))
 }
 
@@ -62,6 +62,8 @@ val example = 2      // evaluated immediately (when variable is in scope)
 
 lazy val example = 2 // evaluated once when needed
 //lazy val denotes a field that will only be calculated once it is accessed for the first time and is then stored for future reference. 
+//laziness is not w/o cost. Every time a lazy val is called, a thread-safe check is performed to see if the value has been already initialized.
+
 //--------------------------------------------------------------------------------
 @transient lazy val //on the other hand one can denote a field that shall not be serialized. 
 //Use case: in spark, it maybe costlier to serialize and send a field
@@ -147,9 +149,9 @@ def f(a: Int)(b: Int): Int //curried version (type is Int => Int => Int
 ---------------------------
 /* CLASSES */
 
-class MyClass(x: Int, y: Int) {           //defines a new type MyClass with a constructor
+class MyClass(x: Int, y: Int) {           //defines a new type MyClass with a primary constructor
 	require(y > 0, "y must be positive")    //precondition, triggering an IllegalArgumentException if not met
-	def this(x: Int) = {...}                //auxiliary constructor
+	def this(x: Int) = {...}                //all auxiliary constructors are named `this`. Its a deviation from java/C++ where the class name is the constructor name which can be inconvenient if the class name is changed.
 	def nb1 = x                             //public method computed every time it is called
 	def nb2 = y
 	private def test(a: Int): Int = { ... } //private method
@@ -220,6 +222,9 @@ import myPackage.{MyClass1 => A}
 //package object in scala : If you have some helper method you'd like to be in scope for an entire package, 
 //go ahead and put it right at the top level of the package.
 //Each package is allowed to have one package object. Any definitions placed in a package object are considered members of the package itself.
+//package objects can contain `objects`, `classes` and `traits` but not definitions of functions or variable. This is due to a JVM-limitation.
+
+//there is no enforced relationship b/w dir of src file and pkg (package). If you have 2 files with 2 classes com.horstmann.Employee.scala and com.horstmann.Manager.scala, they dont have to exist in a com/horstmann dir structure.
 
 //traits are similar to java interfaces except that they can have non-abstract members (like abstract classes):
 //a class can 'mix-in' multiple traits 
@@ -271,7 +276,7 @@ scala.AnyRef //base type of all reference types, alias of `java.lang.Object`, su
 List[Any] = List(1, 2, a, bcd) //example showing group of characters becomes a String (ie object reference type and not primitive
 
 scala.Null   // is a subtype of `scala.AnyRef`. `null` is the only instance of type `Null`
-scala.Nothing //is a subtype of `scala.AnyVal` , without any instance
+scala.Nothing //is a subtype of `scala.AnyVal` , without any instance. Where there is a "throw new Exception" its type is `Nothing`
 
 ----------------------
 
@@ -381,11 +386,32 @@ m.map{ case (org_id, org) => (Option((org_id.hashCode % 2).toString) ,org_id + "
 ----------------------
 //Collections and Data Structures
 
-//Base Classes
-Iterable (collections you can iterate on)
-Seq (ordered sequences) - subclasses of Seq are List, Vector, Stream, IndexedSeq
-Set
-Map (lookup data structure)
+//CHAPTER 13: COLLECTIONS
+
+Iterable
+  Seq
+    IndexedSeq //this is super-type of Array but not of List, allows for fast random access
+      Vector //immutable equivalent of ArrayBuffer
+      Range
+      ArrayBuffer //mutable
+
+    List
+    Stream
+    Stack
+    Queue
+    PriorityQueue
+    ListBuffer  //mutates List elements in-place
+
+  Set  //Key methods: contains, subsetOf, union, intersect, diff
+    SortedSet  //mutable
+    LinkedHashSet  //mutable. Remembers order of insertion of elements
+    BitSet //both immutable and mutable
+
+  Map
+    SortedMap
+//to compare elements of a Seq with elements of a Set, use `sameElements` method
+
+
 
 
 //Immutable Collections
@@ -469,6 +495,9 @@ List(x1, ..., xn) reduceLeft op    // (...(x1 op x2) op x3) op ...) op xn
 
 List(x1, ..., xn).foldLeft(z)(op)  // (...( z op x1) op x2) op ...) op xn; short-hand for fold left is the operator /:  
 //foldLeft is internally implemented as a while loop. So it works for both short and long lists. Unlike foldRight, its not implemented recursively
+//For collections, prefer foldLeft instead of empty check & reduce, unless it's expensive to create a zero element. This is recommended by scala experts.
+//foldLeft is not parallelizable in scala while `fold` is.
+//foldLeft and foldRight API methods DO NOT exist in spark. But `reduce`, `fold` and `aggregate` are common methods in both scala and spark
 
 List(x1, ..., xn) reduceRight op   // x1 op (... (x{n-1} op xn) ...)
 
@@ -800,3 +829,236 @@ SCALA TODO:
 ----------------------------
 //A value declared with `val` is actually a constant—you can’t change its contents:
 //To declare a variable whose contents can vary, use a `var`
+
+// =:= is an operator used to restrict types beyond whats defined in class generic definition. This constraint is enforced at compile-time
+case class Foo[A](a:A) { // 'A' can be substituted with any type
+    // getStringLength can only be used if this is a Foo[String]
+    def getStringLength(implicit evidence: A =:= String) = a.length
+}
+
+//example usages below show that getStringLength can only supply the implicit value when A is a `string` type
+scala> Foo("blah").getStringLength
+res6: Int = 4
+
+scala> Foo(123).getStringLength
+<console>:9: error: could not find implicit value for parameter evidence: =:=[Int,String]
+
+A =:= B means A must be exactly B
+A <:< B means A must be a subtype of B (analogous to the simple type constraint <:)
+A <%< B means A must be viewable as B, possibly via implicit conversion (analogous to the simple type constraint <%)
+----------------------------
+Scala Transformers are `map`, `filter`, `flatMap` that return a collection. Analogous equivalent in spark is a `transformation` that returns an RDD and are computed "lazily".
+
+Scala Accessors are `fold`, `reduce`, `aggregate` that return a single value instead of a collection. In spark, analogous of accessor is `action`. They are "eagerly" computed and stored to
+external storage like HDFS.
+
+`aggregate` is parallelizable and its possible to change the return type. In this way, it gives you the best of both worlds - foldLeft (not parallelizable but can change return type) and 
+fold (parallelizable but cannot change return type). If you have to change the return type of your reduction in spark, the only option is aggregate.
+
+----------------------------
+implicit class RichTry[+T](val t: Try[T]) extends AnyVal {
+    def printError: Unit = t match {
+      case Failure(e) => e.printStackTrace()
+      case v =>
+    }
+  }
+
+Try(1/0).printError
+
+----------------------------
+def unapplySeq(object: S): Option[Seq[T]]
+//allows pattern matching of _* ie variable number of arguments. DanielWest Heide blog part 2
+//eg below
+object GivenNames {
+  def unapplySeq(name: String): Option[Seq[String]] = {
+    val names = name.trim.split(" ")
+    if (names.forall(_.isEmpty)) None else Some(names)
+  }
+}
+//unapply usually should return an Option of Some((tuple1, tuple2, ...tuplen))
+//unapply can also return a Boolean if it doesnt extract any value as shown below
+object isCompound {
+  def unapply(input: String) = input.contains(" ")
+}
+
+name match {
+  case Name(first, isCompound()) => ... //names like van der Linden
+  case Name(first, last) => ...
+}
+
+----------------------------
+//a "procedure" is a function in scala that returns a "Unit" and without an `=` assignment thats called just for its side effect.
+def box(s: String) {
+  val border = "-" * (s.length + 2)
+  print(f"$border%n|$s|%n$border%n")
+}
+/* box("suhas") returns below 
+-------
+|suhas|
+-------
+*/
+
+----------------------------
+//consider using the scala-ARM lib (http://jsuereth.com/scala-arm/) for File handling, similar to the try-with-resources java statement
+import resource._
+import java.nio.file._
+for(
+  in <- resource(Files.newBufferedReader(inPath));
+  out <- resource(Files.newBufferedWriter(outPath))
+  ) { ... }
+
+-----------
+//the Try class is designed for failure. If an exception occurs, `Failure` object is returned, else a `Success` object is returned
+import scala.io._
+import scala.util.Try
+val result = 
+  for (
+    a <- Try { StdIn.readLine("a: ").toInt };
+    b <- Try { StdIn.readLine("b: ").toInt } 
+  ) yield a/b
+-------------
+//java equivalent of resizing ArrayList is scala.collection.mutable.ArrayBuffer
+//we can sort an Array in-place but not an ArrayBuffer
+
+//difference b/w java array and scala array 
+/*
+java automatically converts an  Array[String] passed in function arguments to its super-type ie Array[Object] but scala doesnt since its not type safe
+
+val a = Array("mary", "had", "a", "little", "lamb")
+
+someFunction(a.asInstanceOf(Array[Object]))  //assume here that `someFunction`'s declaration takes in an Array[Object] as argument
+*/
+
+-------------
+
+//java.util.ProcessBuilder has a constructor that takes a List<String>. Here's how to call it from scala
+import scala.collection.JavaConversions.bufferAsJavaList
+import scala.collection.mutable.ArrayBuffer
+
+val cmd = ArrayBuffer("ls", "-al", "/home/cay")
+val pb = new ProcessBuilder(cmd) //scala to java implicit conversion due to presence of bufferAsJavaList among imports
+--
+//conversely, when java method returns a `List`, it can be implicitly converted to scala ArrayBuffer with
+import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.mutable.Buffer
+val cmd : Buffer[String] = pb.command() // Java to Scala
+-------
+//LinkedHashMap gives keys in a Map in insertion order
+//scala doesnt provide a mutable TreeMap (only immutable HashMap and TreeMap & mutable (Hash) Map), so if you need mutable TreeMap, have to interoperate
+//with the java version
+import scala.collection.JavaConversions.mapAsScalaMap
+val scores: scala.collection.mutable.Map[String, Int] = new java.util.TreeMap[String, Int]
+
+import scala.collection.JavaConversions.propertiesAsScalaMap
+val props: scala.collection.Map[String, String] = System.getProperties()
+
+import scala.collection.JavaConversions.mapAsJavaMap
+import java.awt.font.TextAttribute._ // Import keys for map below
+val attrs = Map(FAMILY -> "Serif", SIZE -> 12) // A Scala map
+val font = new java.awt.Font(attrs) // Expects a Java map
+--------
+//BELOW NOTES FROM SCALA FOR IMPATIENT CHAPTER 5 : CLASSES
+
+//to peek into the disassembly of compiled bytecode of a JVM class within scala REPL
+scala> :javap -private <ClassName>
+
+//object-private fields
+class Counter {
+  private var value = 0  //scala generates private getter and private setter for this private field. 
+  //Private setter in the JVM looks like public void value_$eq(int).
+  //programer can also provide the setter method `private def value_ =` 
+
+  private[this] var value2 = 1  // scala doesnt even generate any private getter or private setter. most restrictive access privilege
+
+  private val x = 3 // has only private getter generated
+
+  def increment() { value += 1 }
+
+  def isLess(other: Counter) = value < other.value
+  //can access private field of other object
+  
+  def isLess2(other: Counter) = value2 < other.value2  //throws error "value2 is not a member of Counter"
+}
+
+//to make the primary constructor private, use this syntax
+class Person private(val id: Int) { ... }
+//a class user then use an auxiliary constructor to construct a Person object
+
+//timeit method in scala in REPL
+bash$> scalac Hello.scala
+bash$> scala -Dscala.time Hello
+----------------------------------
+
+//important difference with java inheritance : only the child class' primary constructor can call super on the parent's primary constructor
+//debug construction order problems with the "-Xcheckinit" compiler flag.
+------------------
+/*
+multiple inheritance in scala possibly with traits. When a class mixes in multiple traits, the order matters 
+— the trait whose methods execute first goes to the last.
+
+When you extend a class and then change the superclass, the
+subclass doesn't have to be recompiled because the virtual machine understands
+inheritance. But when a trait changes, all classes that mix in that
+trait must be recompiled.
+*/
+-----------------------
+//dynamic invocation: ORMs (ruby on rails, etc) do DB-table-CRUD-ops on objects using dynamic invocation. This can also be done in scala.
+//eg - people.find(last_name = "satish") etc can be done in scala by extending the `Dynamic` trait . 
+//For more details, see the end of Scala for the Impatient Chapter 11 on Operators
+//Caveat: like operator overloading, dynamic invocation (skips compile-time type checks) is a feature that is best used with restraint
+
+-----------------------------------
+//CHAPTER 12 : scala4Impatient : higher-order-functions
+//FUNCTIONS VS METHODS
+def fun = ceil _ //the `_` tells to convert the method `ceil` which has a signature (Double)Double, without a `=>` into a function with signature (Double) => Double, 
+//ie, from without an arrow to with an arrow
+//in scala, you cannot manipulate methods, only functions.
+
+//anything defined with the keyword `def` is a method, not a function
+----
+val f: (String, Int) => Char = _.charAt(_) //here the 1st `_` is the 1st argument of type String and 2nd `_` is a 2nd argument of type Int
+
+//alternatively it can also be written as 
+val f = (_ : String).charAt(_ : Int) // but its less readable and the return type is not obvious unless you peek into the charAt API. So above way is better
+----
+//closure: function inside a function
+def mulBy(factor: Double) = (x: Double) => factor * x
+val double = mulBy(2)
+val half = mulBy(0.5)
+
+
+//currying : process of converting a function that takes 2 arguments into a function that takes 1 argument. That function returns a function that consumes the 2nd argument
+val mul = (x: Int, y: Int) => x * y
+
+val mulOneAtATime = (x: Int) => ((y: Int) => x * y)
+
+mulOneAtATime(6)(7) //this is how you call it
+
+def mulOneAtATime(x : Int)(y : Int) = x * y // short cut syntax using `def` for defining curried functions
+-----------------------------------
+//Partial Functions : a set of case clauses enclosed in {} 
+val f : PartialFunction[Char, Int] = { case '+' => 1 ; case '-' => 0}
+//note that in PartialFunction[A, B], A is the parameter type and B is the return type
+//in the above case, Char is the parameter type and Int is the return type
+
+-----------------------------------
+//annotations add data to the java byte code that can be harvested by external tools. junit, jpa and other java framework annotations can be used in scala, but scala
+//annotations cannot be understood by java frameworks.
+
+-----------------------------------
+// Note from Databrick's guide book - Data Scientist's Guide to Apache Spark - mainly focusing on SparkML 
+
+// In SparkML (MLLib uses RDDs vs sparkML uses DataFrame APIs), when you call an algorithm.fit(...), evaluation is always EAGERLY performed, launching spark jobs immediately.
+val Array(trainingDF, testDF) = df.randomSplit(Array(0.7, 0.3))
+
+import org.apache.spark.ml.classification.logisticRegression
+val lr = new LogisticRegression()
+  .setLabelCol("label")
+  .setFeaturesCol("features")
+
+val fittedLR = lr.fit(trainingDF) //eagerly launches spark jobs
+fittedLR.transform(trainingDF).select("label", "prediction").show() //make predictions with the `transform` method
+
+
+//important NOT to reuse instances of transformers, models and estimators across DIFFERENT pipelines. Always create a new instance of a model before creating another
+//pipeline.
