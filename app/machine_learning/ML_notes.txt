@@ -26,7 +26,7 @@ generalization error (ie, test error) but not its training error.
 
 Q) What is the advantage of combining L1 (ridge) and L2 (lasso aka least absolute shrinkage and
 selection operator) regularization?
-A) Ridge (aka L2, uses sum of squares of co-efficients) or lasso (aka L1, uses absolute value of coefficients) are forms of regularized linear regressions.
+A) Lasso (aka L2, uses sum of squares of co-efficients) or ridge (aka L1, uses absolute value of coefficients) are forms of regularized linear regressions.
 Linear regression in 1 variable can be written as
 Y = aX + b + e (error)
 
@@ -52,25 +52,27 @@ Ridge regression solves the multi-co-linearity problem (correlated independent v
  shrinkage parameter Γ. Γ controls the size of the coefficients as well as the amount of regularization.
 
 Ridge regression can't zero coefficients.
- Here, you either select all the coefficients or none of them whereas 
+ Here, YOU EITHER SELECT ALL THE COEFFICIENTS OR NONE OF THEM (very important property of L1 regularization) whereas
 
 https://en.wikipedia.org/wiki/Lasso_(statistics)  
 (refer to diagram where L1 is like a rotated square on the XY axes with vertexes on the X & Y axes, L2 looks like  a circle around origin)
-LASSO does both parameter shrinkage and variable selection automatically because 
-it zero out the co-efficients of collinear variables.
+LASSO DOES BOTH PARAMETER SHRINKAGE AND VARIABLE SELECTION AUTOMATICALLY (most important property of L2. Due to variable selection,
+    property, it is more often used in Regression and Classification tasks as compared to L1) because
+it zeros-out the co-efficients of collinear variables.
   a) Here it helps to select the variable(s) out of given n variables while performing lasso regression.
   b) If group of predictors are highly correlated, lasso picks only one of them and shrinks the others to zero
 
   c) The bayesian interpretation for Lasso is that the coefficients form a Laplace-distribution (looks like exponential decay), and hence
   tends to set more co-efficients to zero.
-  d) Practical consideration - The ridge is a bit easier to implement and faster to compute, which may matter depending on the type of data you have.
+  d) Practical consideration - The ridge (L1) is a bit easier to implement (su, of absolute-values) and faster to compute
+  (no squres that can arithmetic-overflow or square-roots), which may matter depending on the type of data you have.
 
-  e) Thumb rule - Generally, when you have many small/medium sized effects you should go with ridge. 
-  If you have only a few variables with a medium/large effect, go with lasso. - Hastie, Tibshirani, Friedman
+  e) Thumb rule - Generally, when you have many small/medium sized effects you should go with ridge (L1).
+  If you have only a few variables with a medium/large effect, go with lasso (L2). - Hastie, Tibshirani, Friedman
 
   f) In the disease prediction problem where you have to link the disease to 1 of 7k genes, with very limited number of training/test data samples,
-  ridge is good at grouping similar (correlated genes) but does not completely eliminate trivial genes. Here, lasso is helpful.
-  LASSO is good for eliminating trivial genes, but not good for grouped selection.
+  ridge (L1) is good at grouping similar (correlated genes) but does not completely eliminate trivial genes. Here, lasso is helpful.
+  LASSO (L2) is good for eliminating trivial genes, but not good for grouped selection.
 
 Short comings of Lasso - When the number of samples n < number of features (aka covariates) p, lasso can select only n covariates,
 even when more are associated with the outcome. It also tends to select only 1 covariate from any set of highly correlated covariates. 
@@ -86,7 +88,7 @@ https://www.slideshare.net/ShangxuanZhang/ridge-regression-lasso-and-elastic-net
 
   c) It is trained with L1 and L2 prior as regularizer.
 
-  d) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of Ridge’s stability under rotation.
+  d) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of Ridge’s stability under rotation. (not sure what this means)
 
 Pros and Cons of ElasticNet:
 Pros - 
