@@ -111,6 +111,14 @@ get a good prediction accuracy.
 work quite well and a 0.1-0.3 dropout rate would typically do better for the input layer.
 
 7) The more data you have, the less drouput you actually need.
+---
+8)
+If P_dropout = probability of dropout where an entry in the neural network node weight matrix W_ij is 0,
+then h_drop = γ * d * h where d = d-dimensional vector of 0s and 1s such that an entry d_i = 0 with P_drop and
+    d_i = 1 with probability (1 - P_drop)
+
+γ can be derived to be = 1 / (1 - P_drop)
+
 ----------------------------------------------------------------
 Minimize model complexity -
 Thumb rules:
@@ -126,4 +134,12 @@ Total number of weights in your hidden layers = max (0.5 * total number of train
 You can trick this rule a bit with droupout, but thats about it.
 
 3) Keep an eye out for training error vs test error.
+----------------------------------------------------------------
+
+INITIALIZING WEIGHTS IN A NEURAL NETWORK:
+In order to minimize neurons becoming too correlated and ending up in a poor local minima,
+its often helpful to randomly initialize the parameters. One of the frequent initializations used is called XAVIER
+INITIALIZATION. It states that given a matrix A of m x n dimension, select values A_ij uniformly from [-ε, ε]
+where ε = sqrt(6) / sqrt(m + n)
+
 """

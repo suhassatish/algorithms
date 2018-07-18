@@ -1062,3 +1062,7 @@ fittedLR.transform(trainingDF).select("label", "prediction").show() //make predi
 
 //important NOT to reuse instances of transformers, models and estimators across DIFFERENT pipelines. Always create a new instance of a model before creating another
 //pipeline.
+-----------------------------------
+Every monad is a functor. But free monad of a functor is not the same functor as the functor you started with. Free monad is a recursive structure.
+A functor is something with a map() function
+

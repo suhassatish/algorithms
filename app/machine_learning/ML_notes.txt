@@ -306,6 +306,13 @@ Logistic function is typically used for binary classification and softmax functi
 
 Gradient boosted decision tree - Misclassified training example weights are boosted and a new tree is formed.
   The final score is weighted sum of scores from all trees.
+************************************************************************************************************************
+TIPS ON GRADIENT BOOSTING HYPER_PARAMETER TUNING (from http://explained.ai/gradient-boosting/index.html)
+
+0) 2 main hyper parameters - the learning rate and the number of additive models in the gradient boosted ensemble.
+1) better to keep a small learning rate, ~0.1
+2) better to keep a large number of additive models (M) but not too large to over-fit.
+
 --------
 Random forest usually does not overfit. 
 sci-kit learn currently only has one-hot encoding of categorical features which is a drawback that

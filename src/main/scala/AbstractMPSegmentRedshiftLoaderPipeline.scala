@@ -1,18 +1,18 @@
-package com.krux.marketer.common
+package marketer.common
 
-import com.krux.datapipeline.database.ReportsRedshift
-import com.krux.datapipeline.datasource.DataNodeConversions._
-import com.krux.datapipeline.tags.{Client, Owner, Tags}
-import com.krux.datasource.spark.SparkDataSourceConfigured
-import com.krux.datasource.sql.SqlDataSourceConfigured
-import com.krux.hyperion.Implicits._
-import com.krux.hyperion.activity._
-import com.krux.hyperion.datanode.{RedshiftDataNode, S3DataNode}
-import com.krux.hyperion.expression.Format
-import com.krux.hyperion.resource.Ec2Resource
-import com.krux.hyperion.workflow.{WorkflowExpression, WorkflowNoActivityExpression}
-import com.krux.hyperion.{HyperionCli, activity}
-import com.krux.marketer.datasource._
+import datapipeline.database.ReportsRedshift
+import datapipeline.datasource.DataNodeConversions._
+import datapipeline.tags.{Client, Owner, Tags}
+import datasource.spark.SparkDataSourceConfigured
+import datasource.sql.SqlDataSourceConfigured
+import hyperion.Implicits._
+import hyperion.activity._
+import hyperion.datanode.{RedshiftDataNode, S3DataNode}
+import hyperion.expression.Format
+import hyperion.resource.Ec2Resource
+import hyperion.workflow.{WorkflowExpression, WorkflowNoActivityExpression}
+import hyperion.{HyperionCli, activity}
+import marketer.datasource._
 
 /**
   * Upload Marketing Performance data into redshift
@@ -37,7 +37,7 @@ trait AbstractMPSegmentRedshiftLoaderPipeline
 
   def getDailyImpressionsBloomFilterCount(clientUuid: String, day: String
                                        ): Option[Int] = {
-    val bucket = s"krux-tables"
+    val bucket = s"kx-tables"
     val bloomFilterKuidPath = s"unique-users-bloom-filters/$day/$clientUuid"
     val bloomFilterKuidCountFile = s"$bloomFilterKuidPath/users.count"
 
