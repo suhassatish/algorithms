@@ -48,4 +48,4 @@ Test.Training.WeatherHelperTests = function () {
   }
 }
 
-// https://git.soma.salesforce.com/gist/a-rich/9364be4b6eb2d596e793274935640579
+// https://git.soma.<COMPANY>.com/gist/a-rich/9364be4b6eb2d596e793274935640579

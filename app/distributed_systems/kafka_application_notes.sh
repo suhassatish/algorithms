@@ -13,7 +13,7 @@ bin/kafka-server-start.sh config/server.properties
 #stored data: {"version":1,"brokerid":0,"timestamp":"1508873998105"} (kafka.utils.ZkUtils$)
 
 # Listens on port 9092 by default
-# Registered broker 1 at path /brokers/ids/1 with address ssatish-ltm.internal.salesforce.com:9092
+# Registered broker 1 at path /brokers/ids/1 with address ssatish-ltm.internal.com:9092
 
 #3) create a topic
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic beacon.pixel_gif
