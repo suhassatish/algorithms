@@ -8,7 +8,7 @@ There is no way you can run an 800MB java process on SIQ Azkaban
 If you want to do that, you will need to submit the job as a YARN application to run on EMR.
 Azkaban simply doesnt provide resource management, so we cant have large processes running on it.
 
-But iwth YARN, there can be other issues, like it killing the executor container because it is using too much off-heap
+But with YARN, there can be other issues, like it killing the executor container because it is using too much off-heap
 memory. Can try to boost boost `spark.yarn.executor.memoryOverhead`. 6 GB was low for this setting for an SIQ app, try
 16 GB.
     numExecutors : 80

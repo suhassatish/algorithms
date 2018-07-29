@@ -306,9 +306,9 @@ Pros:
 -------------------
 DATASET APIs -
 
-type DataFrame = Dataset[Row]
+type Dataset = Dataframe[Row]
 With Dataset, you get type safety as well as columnar representation and structured optimization using catalyst and
-tungsten. RDDs are a compromise between DataFrames and RDDs.
+tungsten. Datasets are a compromise between DataFrames and RDDs.
 
 1) listingsDS.groupByKey(l => l.zip)
           .agg(avg($"price").as[Double])
@@ -326,7 +326,7 @@ the Dataset API, use `groupByKey` instead of `groupBy`.
    val keyValuesDS = keyValues.toDS
 
     keyValuesDS.groupByKey(p => p._1)
-               .mapGroups((k, vs) => (k, vs.foldLeft("")((acc, p) => ace + p._2))).show()
+               .mapGroups((k, vs) => (k, vs.foldLeft("")((acc, p) => acc + p._2))).show()
                .sort($"_1").show()
 -------------------
 5) Using an aggregator

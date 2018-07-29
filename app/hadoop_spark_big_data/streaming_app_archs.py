@@ -39,7 +39,7 @@ Akka cons:
     f) akka-http-session (Authentication, JWT), github.com/softwaremill/akka-http-session
     g) akka-http-testkit (Testing), doc.akka.io
 
-Book recommendation: Akka in Action
+Book recommendation TODO: read Akka in Action
 ------------
 Akka streams by company called TypeSafe : SFDC lambda hangout -
 

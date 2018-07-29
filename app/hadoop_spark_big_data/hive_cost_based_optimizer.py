@@ -46,6 +46,6 @@ Hw = 10 * Lw = HDFS write
 Hr = 1.5 * Lr = HDFS read
 
 For table scan operator, IO usage =  Hr * T(R) * Tsz
-where T(R) = number of tuples in relation R; Tsz = size of Tuple (compressed and serialized on disk)
+where T(R) = number of tuples in relation R (rows in table); Tsz = size of Tuple (compressed and serialized on disk)
 
 """
