@@ -63,7 +63,7 @@ A service interface includes -
 ----------------------------------------------------------------------------------------
 Where does shared data go in a microservices world?
 
-Principle: Single system of record. 1 WR and many Read-only, non-authoritatice shared copy.
+Principle: Single system of record. 1 WR and many Read-only, non-authoritative shared copy.
 
 Customer service sends an event to order service whenever a new customer event happens.
 The order service caches that data.

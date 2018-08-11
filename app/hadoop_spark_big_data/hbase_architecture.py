@@ -5,7 +5,7 @@ As a trade-off, cassandra provides high availability at the cost of eventual con
 https://hortonworks.com/blog/apache-hbase-region-splitting-and-merging/
 In hbase, a table is split into chunks of rows called regions. A set of regions are served by a
 region-server (RS). Each region is served by only one RS. So if the RS goes down, that region
-temporarily becomes unavilable until the RS comes back online. When a table is first created, by
+temporarily becomes unavailable until the RS comes back online. When a table is first created, by
 default, only 1 region is created for that table. This means, irrespective of the number of RSes,
 all requests initially go to only the 1st RS. Hence, initial data load cannot make use of the
 whole capacity of the cluster.
@@ -83,10 +83,10 @@ and hence make its changes visible to all new Scans.
 transactions that waiting to be committed (since this is all in the same process, that just mean
 the roll forward happens in a Java finally block).
 
-3) When updates are written to the WAL a single record is created for the all changes.
+3) When updates are written to the WAL a single record is created for all the changes.
 There is no separate commit record.
 
-4) When a RegionServer crashes, all in flight transaction are eventually replayed on another
+4) When a RegionServer crashes, all in-flight transaction are eventually replayed on another
 RegionServer if the WAL record was written completely or discarded otherwise.
 
 ------------------------------------------

@@ -45,7 +45,7 @@ EPI 21.10 distributed throttling casts this problem as a web crawler scraping we
 websites impose a limit that not more than b bytes can be downloaded from a website (by the crawler)
 in a certain time period. Here you need to have a permissions-server which keeps track of how many
 bytes have been downloaded from how many websites by a crawler in a given time-period.
-If we are close to the quote, then the permission server may not allow the crawler to hit the
+If we are close to the quota, then the permission server may not allow the crawler to hit the
 website. If we care about priorities and resource contention (since interviewer brought up Yarn
 resource manager here, he was probably hinting at priority queue), permission-server may have a
 queue to serve requests by various web crawlers. permission-server takes request from head of Q,

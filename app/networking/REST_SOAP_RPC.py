@@ -6,7 +6,7 @@ REST is a general architectural style for APIs leveraging HTTP and related Web t
 the endpoints being resources (like DB tables). You call HTTP verbs on these resources to perform
 CRUD operations. GET (read), PUT (update), POST (create), DELETE (delete).
 
-While Thrift/gRPC are specific RPC systems where your "END POINTS ARE ACTIONS", instead of resources
+While Thrift/gRPC are specific RPC systems where your "END POINTS ARE ACTIONS", instead of resources.
 RPC is agnostic to the transport mechanism used to implement your API, and can be implemented using
 a) HTTP, b) message queues, or c) files.
 
@@ -30,7 +30,7 @@ REST vs SOAP (Simple Object Access Protocol)
 
 1) SOAP is a protocol vs REST is an architectural style (REST can work with HTTP or any other
 protocol too. As long as there's a starting URI entry point to connect to. Resources
-are spposed to return links in server response the clients should follow.)
+are supposed to return links in server response the clients should follow.)
 
 2) SOAP client works like a desktop application, tightly coupled to the server.
     There's a rigid contract that can break with a change on either side.
@@ -44,14 +44,18 @@ Reference: https://stackify.com/soap-vs-rest/
 5) Retry logic - SOAP has built-in retry logic if communication fails, but in REST, client has to retry.
 
 6) SOAP's standard HTTP protocol makes it easier to operate across firewalls and proxies without modifications
-to the SOAP protocol iteself. But it uses the complex XML format (vs REST which allows greater variety of data
+to the SOAP protocol itself. But it uses the complex XML format (vs REST which allows greater variety of data
 formats)  making it slower compared to middleware such as ICE and COBRA.
 
 7) For greater ACID transactional reliability, SOAP is the way to go.
 
-8) SOAP is highly extensible through other protocols and technologies. In addition to WS-Security, SOAP supports WS-Addressing, WS-Coordination, WS-ReliableMessaging, and a host of other web services standards, a full list of which you can find on W3C.
+8) SOAP is highly extensible through other protocols and technologies. In addition to WS-Security, SOAP supports
+    WS-Addressing, WS-Coordination, WS-ReliableMessaging, and a host of other web services standards,
+    a full list of which you can find on W3C.
 
-9) Most new APIs are built using REST and JSON, simply because it typically consumes less bandwidth and is easier to understand both for developers implementing initial APIs as well as other developers who may write other services against it.
+9) Most new APIs are built using REST and JSON, simply because it typically consumes less bandwidth and is easier to
+    understand both for developers implementing initial APIs as well as other developers who may write other services
+    against it.
 
 10) REST provides superior performance, particularly through caching for information that’s not altered and not dynamic.
 

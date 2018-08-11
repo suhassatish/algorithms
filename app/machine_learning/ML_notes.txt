@@ -24,6 +24,13 @@ Conceptual understanding of
 Definition of regularization: Its a modification to the learning algorithm to reduce its
 generalization error (ie, test error) but not its training error.
 
+MOST IMPORTANT CONCEPT ABOUT REGULARIZATION - Its NOT a function of the data. Its a function of the weights W, and
+    L2 norm biases towards choosing lower weight values W_i when there are multiple Ws giving the same loss.
+SVM-loss = avg(data loss) over N examples + λ(regularized loss).
+    The value of λ is usually set by cross-validation. Including the L2 regularized penalty leads to the appealing
+    MAX-MARGIN property in SVMs. The intuition is that no particular input dimension can have an outsized-influence on
+    the outcome and leads to better generalizations.
+
 Q) What is the advantage of combining L1 (ridge) and L2 (lasso aka least absolute shrinkage and
 selection operator) regularization?
 A) Lasso (aka L2, uses sum of squares of co-efficients) or ridge (aka L1, uses absolute value of coefficients) are forms of regularized linear regressions.
@@ -364,10 +371,13 @@ accuracy = (TP + TN) / (TP + TN + FP + FN)
 
 --------------
 https://medium.com/manifold-ai/torus-a-toolkit-for-docker-first-data-science-bddcb4c97b52
-Tarus - Dockerize machine learning applications to have reproducibel environments. Jupyter notebooks on browser
+Tarus - Dockerize machine learning applications to have reproducible environments. Jupyter notebooks on browser
 and your pycharm IDE can still run off a docker container that can be downloaded from docker hub cloud and shared by
 your team. Cookiecutter scripts available to get started with the right project structure to get this up quickly.
 Also comes with a gui if you're not familiar with docker CLI cmds. Its called "Kitematic" and is available from the
 docker menu.
 
 --------------
+
+Hinge loss is the term used when they threshold to max 0 by using max(0, *). Squared hinge loss [max(0, *)]^2 is
+    sometimes used that penalizes violated margins more strongly.

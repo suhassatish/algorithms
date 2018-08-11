@@ -6,7 +6,7 @@ class MyTest(unittest.TestCase):
     """
     to run stand alone unit test in python
     python -m unittest test_module.TestClass.test_method
-    python -m unittest test.palindromic_substrings_test.MyTest.test_ps
+    python -m unittest test.strings.palindromic_substrings_test.MyTest.test_ps
     """
     def test_ps(self):
         input_output_tuples = [
