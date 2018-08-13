@@ -1,0 +1,75 @@
+/*
+If a box overlays on top of another, the one which appears 1st in the file (at the top)
+get precedence to be on top.
+    1) Class names are prefixed with dot.
+    2) Ids (unique within a html page) are prefixed with a #
+*/
+
+.purplebox {  /* this overlays on top of green box */
+
+    z-index : 1;  /*layering tool. When 2 elements have z-index value, the larger one goes on top.
+        for z-index to work, each element has to have a position */
+
+    position : relative;
+    left: 100px;
+    top:-50px;
+    background-color: #B404AE;
+    width: 200px;
+    height: 200px;
+
+    margin: 50px 100px 30px 10px;  /* whole margin CIRCUMFERENCE around the div in all directions in
+    top -> right -> bottom -> left  ie clock-wise order   */
+
+    margin-left: 400px; /* similarly, margin-top, margin-right, margin-bottom */
+
+    /* IMPORTANT NOTE ABOUT PADDING - it always adds pixel dimensions to the width and height of a
+     rectangular div element*/
+    padding: 10px; /* <p> html tag has some in-built `padding` and `margin` */
+    padding: 10px 100px; /* if you only specify 2 dimensions, top and right, it will repeat them for
+     bottm and left*/
+    /*Even this comes in padding-left, padding-right, padding-top, padding-bottom variants */
+}
+
+.greenbox {
+    position: absolute;  /* everything else on the page is ignored and this comes on top */
+
+    position: fixed; /* everything else on page will ignore the presence of the fixed div
+    its fixed relative to the browser window. */
+
+    position: static;  /* this is the default */
+}
+
+.red {
+    border:5px black solid; /* adds to the width of the div.*/
+    border-style:solid ridge dotted dashed; /* `inset`, `ridge` give a kind of 3D look */
+    border-width: 10px 5px 3px 1px;
+    border-color:green yellow blue black;
+    border-radius:10px; /* circle instead of rectangular div */
+}
+
+p {
+    font-family: SansSerif Palatino Serif; /* web-safe fonts, supported in all modern browsers.
+        Here also, you can have back-up fonts specified. In this case, `Palatino` and `Serif` if the
+        browser doesnt support the primary, it will look for the secondaries. */
+
+    font-weight: bold;
+    color: green;
+    font-style: italic;
+    text-decoration: underline;
+    font-size:200%; /* twice as large as text would otherwise have been */
+    font-size:20px; /*default is 16px in most browsers. You can make it absolute as well. */
+    font-size:2em; /* 1em = 16px = std font size in most browsers. */
+}
+
+.greenbox2 {
+    /* by default, text is left aligned*/
+    text-align: justify;
+}
+
+a:visited {
+    color: green; /* all visited links become green. Styling links that have been visited*/
+}
+
+a:hover {
+    font-size: 50px; /* when you hover over text, it becomes bigger */
+}

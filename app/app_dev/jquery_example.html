@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+</head>
+
+<body>
+    <div id="greencircle"></div>
+    <div class="redsquare"></div>
+    <p>This is some text</p>
+    <iframe src="http://www.cnn.com"></iframe>
+
+    <button id="faderOut">Fade Out</button>
+    <button id="faderIn">Fade In</button>
+
+    <script>
+        if(typeof jQuery !== "undefined") {
+            alert('jQuery is installed')
+        }
+
+        $("#greencircle").click(function() {
+            alert($("p").html("You clicked a green circle"));  //alert pop-up will have the same content that was
+            // scraped from the html paragraph
+            //if the html() method of jquery has no arguments. If it has some string argument, that text will be
+            // displayed in the pop-up alert instead of whats in the <p> tag's innerHtml. It also changes the value
+            // displayed in the <p> tag's html
+        });
+
+        $("#greencircle").hover(function() {
+            $("iframe").attr("src", "http://www.ecowebhosting.co.uk");  //grabs the src attribute of iframe html tag, in
+            //this case cnn.com, and replaces it with ecowebhosting when you hover over the green circle
+        });
+
+        $(".redsquare").click(function() {
+           alert($(this).css("width", "400px"))  //grabs the css width attribute of the redsquare.
+            // `This` refers to the element that was clicked, ie redsquare
+            //Square's width is set to 400px on clicking.
+
+            //$(this).hide(); //sets the display attribute to none
+
+            $(this).fadeOut();
+        });
+
+        $("#faderOut").click(function() {
+            $("p").fadeOut("slow", function() {
+                alert("FadeOut complete");
+            });
+        });
+
+        $("#faderIn").click(function() {
+            $("p").fadeIn("slow");
+        });
+
+        $("#greencircle").click(function() {
+            $(this).animate({
+                width: "300px",
+                height: "300px",
+                borderRadius: "150px",
+                marginLeft: "100px",
+                marginTop: "100px"
+                }, 800);
+        });
+
+    </script>
+
+</body>
+</html>

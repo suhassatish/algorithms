@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rob's BBC</title>
+
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+
+</head>
+<body>
+    <div id="container">
+        <div id="topbar">
+            <div class="fixedwidth">
+
+            <div id="logodiv">
+                <img src="images/bbc_logo.png"/>
+            </div>
+            </div>
+
+            <div id="searchdiv">
+                <input type="text" placeholder="Search"/>
+
+
+            </div>
+
+        </div>
+
+        <div class="break"></div>
+
+        <div id="newsbar">
+            <div class="fixedwidth">
+                <p id="newsheader">NEWS</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!--button onclick="alert('Hi')">Click Me!</button-->
+    <button id="myButton">You know you want to click Me...</button>
+
+    <p id="text">Some text</p>
+
+    <button id="textChanger">Change first div text</button>
+
+    <div id="firstDiv">This is some text</div>
+
+    <button id="textAppender">Append some text</button>
+
+    <div id="secondDiv">Javascript is...</div>
+
+    <button id="textCreator">Create some text</button>
+
+    <div id="emptyDiv"></div>
+    <div id="circle"></div>
+
+    <input id="myInput" type="text" value="test" />
+    <button id="stylesChanger">Change the text!</button>
+    <div id="lastDiv">This is some text</div>
+
+
+    <button id="stylesChanger2">Change the text!</button>
+    <div id="middleDiv">This is some text</div>
+    <p>Click on the boxes and circles as quickly as you can!</p>
+    <p class="bold">Your time: <span id="time">0</span>s</p>
+    <div id="box"></div>
+
+    <script type="text/javascript">
+        alert(document.getElementById("text").innerHTML);
+
+        document.getElementById("text").innerHTML="Some more text";
+
+        document.getElementById("myButton").onclick=function() {
+            alert("Hi!");
+        }
+
+        document.getElementById("textChanger").onclick=function() {
+            document.getElementById("firstDiv").innerHTML="This is awesome!";
+        }
+
+        document.getElementById("textAppender").onclick=function() {
+            document.getElementById("secondDiv").innerHTML=document.getElementById("secondDiv").innerHTML + "great!";
+        }
+
+        document.getElementById("textCreator").onclick=function() {
+            document.getElementById("emptyDiv").innerHTML="<ul><li>Cat</li><li>Dog</li></ul>";
+        }
+
+        document.getElementById("circle").onclick=function() {
+            document.getElementById("circle").style.display="none";
+        }
+
+        var newText=document.getElementById("myInput").value;
+        document.getElementById("stylesChanger").onclick=function() {
+            newText=document.getElementById("myInput").value;
+            document.getElementById("lastDiv").innerHTML=newText;
+        }
+
+        var myArray=new Array();
+        myArray[0]="pizza";
+        myArray[1]="chocolate";
+        myOtherArray=["rain","sunshine"];
+        myOtherArray.push("snow");
+        myOtherArray.splice(2, 0, "hail", "cloudy");
+        console.log(myOtherArray.length);
+
+        document.getElementById("stylesChanger2").onclick=function() {
+            document.getElementById("middleDiv").innerHTML=myArray[1];
+        }
+
+        function getRandomColor() {
+             var letters = '0123456789ABCDEF'.split('');
+             var color = '#';
+             for (var i = 0; i < 6; i++ ) {
+             color += letters[Math.round(Math.random() * 15)];
+             }
+ 	 	 return color;
+	 	 }
+
+        function makeBox() {
+            var time=Math.random();
+            time=time*5000;
+            setTimeout(function() {
+                if (Math.random()>0.5) {
+                    document.getElementById("box").style.borderRadius="100px";
+                } else {
+                    document.getElementById("box").style.borderRadius="0";
+                }
+
+                var top=Math.random();
+                top=top*300;
+                var left=Math.random();
+                left=left*500;
+                document.getElementById("box").style.top=top+"px";
+                document.getElementById("box").style.left=left+"px";
+                document.getElementById("box").style.backgroundColor=getRandomColor();
+                document.getElementById("box").style.display="block";
+                createdTime=Date.now();
+                }, time);
+        }
+
+        document.getElementById("box").onclick=function() {
+	 	    clickedTime=Date.now();
+            reactionTime=(clickedTime-createdTime)/1000;
+            document.getElementById("time").innerHTML=reactionTime;
+            this.style.display="none";
+            makeBox();
+        }
+
+        makeBox();
+    </script>
+
+</body>
+</html>

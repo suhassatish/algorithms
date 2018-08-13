@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learning jQuery</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+
+</head>
+<body>
+    <h1>Asyncronous Javascript And XML</h1>
+
+    <script>
+        $.ajax({ //ajax is very powerful if internet connection goes down while loading gmail or any web app. You can handle the error.
+         url:"ajax_example.html"  // gets the contents of the html page ajax_example.html into the `data` variable which is then passed into the callback function.
+         }).done(function(data) {
+            $("h1").append(data);
+         });
+
+
+    </script>
+</body>
+</html>
