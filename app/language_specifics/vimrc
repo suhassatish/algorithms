@@ -9,3 +9,4 @@ set expandtab
 set ruler
 autocmd bufwritepost *.js silent !standard --fix %
 set autoread
+set spell

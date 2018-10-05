@@ -186,6 +186,11 @@ new MyClass(1, 2)  // creates a new object of type
 (all other special characters)
 
 //associativity of an operator is determined by its last character: right-associative if ending with `:`, left-associative otherwise
+/*
+https://stackoverflow.com/questions/6559996/scala-list-concatenation-vs/32135472#32135472
+Because of List being singly-linked and immutable in scala, concatenating lists with ::: is better than ++ due to explanations 
+above in stack overflow
+*/
 
 //note that assignment operators have lowest precedence . scala language spec 2.9 sections 6.12.3, 6.12.4 for more info
 ----------------------
@@ -1065,4 +1070,12 @@ fittedLR.transform(trainingDF).select("label", "prediction").show() //make predi
 -----------------------------------
 Every monad is a functor. But free monad of a functor is not the same functor as the functor you started with. Free monad is a recursive structure.
 A functor is something with a map() function
+--------------
+//working example of reflection in scala 
+val y = 5
+val foo = (x: Int) => x + 1 + y
+println(foo.getClass.getName)
+val c = foo.getClass.getClassLoader.loadClass(foo.getClass.getName)
+val m = c.getMethod("apply", classOf[Object])
+println(m.invoke(foo, 1.asInstanceOf[Object]))
 

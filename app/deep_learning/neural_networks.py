@@ -141,5 +141,20 @@ In order to minimize neurons becoming too correlated and ending up in a poor loc
 its often helpful to randomly initialize the parameters. One of the frequent initializations used is called XAVIER
 INITIALIZATION. It states that given a matrix A of m x n dimension, select values A_ij uniformly from [-ε, ε]
 where ε = sqrt(6) / sqrt(m + n)
+----------------------------------------------------------------
+https://papers.nips.cc/paper/4687-large-scale-distributed-deep-networks.pdf
+Jeff Dean's paper on distributed training of large neural networks with model parallelism, in addition to data parallelism - 
+1) Downpour SGD, a highly asynchornous variant of SGD, works surprisingly well for training nonconvex deep learning models
+
+2) Sandblaster L-BFGS, a distributed version of L-BFGS can be competitive with SGD, and its efficient use of network bandwidth 
+  enables it to scale to a large number of concurrent cores for training a single model.
+
+3) When working with a  computational budget of 2k CPU cores or less, a combo of downpour SGD with adagrad adaptive learning rate 
+  procedure, emerges as the clear winner.
+
+4) THe hypothesis is that adagrad auto-stabilizes volatile params in the face of async-updates, adjusting learning-rates to the
+  demands of different layers in the deep n/w.
+
+5) A cluster of CPU m/cs can train even modestly sized deep-leraning models faster than a GPU, w/o GPUs limitations on model size.
 
 """

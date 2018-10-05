@@ -29,7 +29,7 @@ MOST IMPORTANT CONCEPT ABOUT REGULARIZATION - Its NOT a function of the data. It
 SVM-loss = avg(data loss) over N examples + λ(regularized loss).
     The value of λ is usually set by cross-validation. Including the L2 regularized penalty leads to the appealing
     MAX-MARGIN property in SVMs. The intuition is that no particular input dimension can have an outsized-influence on
-    the outcome and leads to better generalizations.
+    the outcome and leads to better generalizations. Its common to regularize only the weights W and not the biases b.
 
 Q) What is the advantage of combining L1 (ridge) and L2 (lasso aka least absolute shrinkage and
 selection operator) regularization?
@@ -379,5 +379,14 @@ docker menu.
 
 --------------
 
-Hinge loss is the term used when they threshold to max 0 by using max(0, *). Squared hinge loss [max(0, *)]^2 is
-    sometimes used that penalizes violated margins more strongly.
+Hinge loss aka max-margin loss is the term used when they threshold to max 0 by using max(0, *). Squared hinge loss
+    [max(0, *)]^2 is sometimes used that penalizes violated margins more strongly. Hinge loss is often used in
+    multi-class SVM classifiers while cross-entropy loss is used in softmax classifiers.
+-------------
+Hyperparameter relative importances for binary classification - einstein modeling research for AuPR curves
+
+Logistic Regression -  elasticNet (0.9) >> maxIter (0.1) >> reg (0.01) > tol (0.005)
+Random Forest - maxDepth (0.7) >> numTrees (0.2) >> minInstances (0.05) > minInfoGain (0.03) > maxBin (0.02)
+DecisionTree - minInstances (0.6) > maxDepth (0.4) >> maxBin (0.001) > minInfoGain (~0)
+--------------
+ 

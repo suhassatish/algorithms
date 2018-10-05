@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 """
+TODO - read
+https://medium.com/recombee-blog/machine-learning-for-recommender-systems-part-1-algorithms-evaluation-and-cold-start-6f696683d0ed
+http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/, 
+https://datasciencemadesimpler.wordpress.com/tag/alternating-least-squares/, 
+
 ***** reco sys book reading notes ******
 
 PCA (principal components analysis) assumes the original data is gaussian distributed. If this assumption is wrong, there is no
