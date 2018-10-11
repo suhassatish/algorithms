@@ -93,6 +93,73 @@ Under-the-hood, beam can have different runners - spark, flink, apex, google dat
 Google data flow is batch and stream processing engine used internally for many years now.
 
 Devs program to the beam API, without worrying about runners under the hood.
+****************************************************************************************************
+----------------------------------------------------------------------------------------
+SFDC Tech Talk Oct 6, 2018 : Karthik Ramaswamy
+APACHE PULSAR - Broker (serving) and bookie (storage) decoupled to be scaled independently.
 
------------
+Broker has no state.
+
+Bookie fsync's to Journal WAL. Once broker gets ack from all bookies, it acks back to producer. This ensures data is replicated and persisted durably. Using group commits, batch update thruput and latency improve.
+--------------
+ISOLATION -
+
+Metadata needs zookeeper. For sequencing the segment. As long as any 3 bookies are available, they can keep going. Write availability is very high.
+
+Bookie and broker failure.
+------
+Fencing protocol for resiliency.
+2 aspects of failure - window of maintenance time, actual failure scenario.
+
+Can cfg dont do replication until some time has elapsed.
+------
+In kafka, partitions are assigned to brokers permanently. A single partition entirely
+stored on single node. Rentention is infinite. Capacity expansion doesnt require
+expensive rebalancing of 4-5 hours of downtime.
+----------------------------------------------------------------------------------------
+
+UNIFIED MESSAGING MODEL -
+jms & rabbitMQ = queueing model.
+
+Exclusive partition.
+Geo replication is 1st class citizen built into pulsar. Asynchronus replication be default.
+Can be done synchronously using special type of zookeeper.
+-------------
+Multi-tenancy.
+
+7-8X faster than kafka. Always journal enabled.
+2.3M topics in production currently supported.
+------------
+Processing data modeled as streams: Access patterns -
+1) pub/sub data consumed as its produced
+2) heavy weight DAG compute - Done with Heron. Storm v2. Spouts/bolts. No restriction on # of stages. Spouts/bolts run in their own processes instead of threads. Helps in profiling and debuggability.
+------
+3) light-weight compute. TX and react to data as it arrives.
+More like a lambda function.
+--------
+4) Interactive query of stored streams
+-------
+Operational issues - slow hosts, N/W issues, data skew, load variations, SLA violations
+Developer issues - tracability.
+
+2017 PAPER - SELF-REGULATING TUNING SYSTEMS
+Self-tuning based on traffic, self-stabilizing, self-healing in presence of slow hosts.
+------------
+Q&A:
+Functions are attached to tenant or namespace to know ownership of teams. Can pass CPU, memory
+that the function needs. You can specify I/P and O/P topics.
+
+Q: Schema registry. Support avro , protobuf, json, crypt.
+Enforces schema registry. Notion of schema versioning.
+-----
+Q: Exactly-once semantics. We use dedupe mechanism using msgId and seqId. If it hasnt been ackd and failed, if the same msg comes again, they dedupe it.
+
+Storm doesnt support notion of state. Heron supports state as higher synchrounous snapshots.
+Every operator checkpoints itself and then global checkpoint is returned.
+
+Data has to be retained b/w snapshots.
+------------
+Topics are grouped into bundles. Multiple bundles owned by 1 broker. If a broker is getting hot,
+bundles are split and some topics are offloaded to least loaded brokers. 
+
 """
