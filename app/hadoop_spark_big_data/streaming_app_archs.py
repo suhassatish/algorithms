@@ -160,6 +160,6 @@ Every operator checkpoints itself and then global checkpoint is returned.
 Data has to be retained b/w snapshots.
 ------------
 Topics are grouped into bundles. Multiple bundles owned by 1 broker. If a broker is getting hot,
-bundles are split and some topics are offloaded to least loaded brokers. 
+bundles are split and some topics are offloaded to least loaded brokers.
 
 """

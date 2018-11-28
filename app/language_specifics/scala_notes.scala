@@ -822,14 +822,17 @@ using @tailrec annotation, one can require that a dunction is tail-recursive.
 
 --------------------
 SCALA TODO:
-  a) scala language specifics from `scala for the impatient`, 
-  b) http://danielwestheide.com/blog/2012/11/21/the-neophytes-guide-to-scala-part-1-extractors.html (part 1 is done. part 2 onwards)
-  c) redbook for scala
-  d) http://twitter.github.io/effectivescala/
+  a) http://danielwestheide.com/blog/2012/11/21/the-neophytes-guide-to-scala-part-1-extractors.html (part 1 is done. part 2 onwards)
+  b) redbook for scala
+  //https://www.scala-exercises.org/fp_in_scala/getting_started_with_functional_programming
+  //exercises from the red book
 
-  e) http://twitter.github.io/scala_school/ 
+  c) http://twitter.github.io/effectivescala/
+
+  d) http://twitter.github.io/scala_school/ 
   From 0 to distributed_service
-
+  
+  e) "https://people.mpi-sws.org/~dreyer/tor/papers/wadler.pdf"
 */
 ----------------------------
 //A value declared with `val` is actually a constant—you can’t change its contents:
@@ -1078,4 +1081,269 @@ println(foo.getClass.getName)
 val c = foo.getClass.getClassLoader.loadClass(foo.getClass.getName)
 val m = c.getMethod("apply", classOf[Object])
 println(m.invoke(foo, 1.asInstanceOf[Object]))
+----------
+g /usr/local/etc/sbtopts
+//setup global versio of sbt in this file
+------------
+cd ~/git/einstein/suggested-articles2/datagen/smarticle
+sbt package
+for einstein suggested article smart agent repo
+https://github.salesforceiq.com/ServiceDS/suggested-articles/
 
+if sbt 0.13 and 1.0 incompatibility errors show up, delete all target folders and re-compile
+cd ${your_project}
+rm -fr project/target
+rm -fr project/project/target
+-------------------------------------
+//NOTES FROM FUNCTIONAL SCALA - John DeGoes
+//https://github.com/jdegoes/functional-scala
+
+//types exist only at compile-time. Types erasure happens after JVM byte-code is generated.
+//methods, pkgs ,types, statements are not values in scala. Cant assign them into a val.
+val foo = (i : Int) => bar(i)
+def bar(i: Int) = ???
+
+//AlgebraicDataTypes are composed of sums and products of other types. Very important in creating data abstractions. 
+//scala 2 has limitation of 22 elements in a tuple. Thats going away in scala3.
+
+//sealed traits are how you give names in scala to a sum type. If its not sealed, its not a sum type
+sealed trait CoffeePreference
+case object Black extends CoffeePreference
+case object WithCream extends CoffeePreference
+case object WithSugar extends CoffeePreference
+case object WithSugarAndCream extends CoffeePreference
+case object Both(l : CoffeePreference, r: CoffeePreference) extends CoffeePreference
+
+//scala 3 has the concept of enums instead of sealed traits to represent sum types
+
+//unions can be opened or closed. Open unions are not sum types (trait thats not sealed). Closed unions are sum types. 
+
+//you should never extend case classes.
+
+//scala compiler has a problem of breaking binary compatibility, and due to that, instead of sealed trait, production code should use sealed class
+-----------
+domain => range
+aka domain => co-domain
+
+you can make a fn a lambda or closure and assign it to a val.
+all functions `f: A => B` satisfy the following properties:
+  1) totality: if a: A, then f(a) : B
+  2) determinism: If a: A and b:A and a == b then f(a) == f(b)
+  3) purity: The only effect of evaluating f(x) is computing the return value.
+
+-------
+recommend using scalaz subset of scala. There are tools to enforce that subset. 
+There are no reflections at runtime, no nulls, etc in scalaz
+--------
+kotlin doesnt have higher-kinded types which is supported by scala. These allow you to abstract to another level.
+List[A] is a higher-kinded type.
+
+kinds can be regarded as a type of types. 
+// Int  : *
+//List : * => *
+// Option : * => *
+// Future : * => *
+// Try : * => *
+//Kind: type constructors :: value : types
+
+//[*, *] => *, ie a type constructor that takes two type parameters
+//ex = {Map, Either, Tuple2, Product2, ...}
+trait Algorithm[Container[_]] {
+  def runAlgorithm[A](container: Container[A]): Int = ???
+}
+
+val listAlgorithms: Algorithm[List] = ???
+
+
+//partial functions - used to adapt functions that have the wrong number of parameters.
+val plus: (Int, Int) => Int = (a, b) => a + b
+val list: List[Int] = 1 :: 2 :: 3 ::4 ::5 :: Nil
+
+val increment: Int => Int = plus(1, _)
+list.map(plus(1, _))
+list.map(increment)
+
+//partial application of higher-kinded types
+type MapString[A] = Map[String, A]
+val mapSized: Sized[Map[String, _]] = ???
+
+TODO - day 1 -  exercise 9, 10, 11 as prereq for day2
+---------
+If you created datatype DT but not type class TC, put implicit in companion object of TC.
+https://leanpub.com/fpmortals
+https://typelevel.org/blog/2016/08/21/hkts-moving-forward.html
+https://medium.com/bigpanda-engineering/understanding-f-in-scala-4bec5996761f
+-------
+DAY 2 - 
+NOTES FROM FUNCTIONAL SCALA - John DeGoes
+while merging 2  maps, if V is a semigroup, Map[K, V] is a semigroup. For same keys, the values can be merged (reduced) if V is a semi-group.
+
+Semigroup has an append() method. It is associative. It doesnt always have to combine things. eg - max semigroup.
+
+every monoid[A] also implies a Semigroup[A]
+//2 rules whether you append 0 to `a` on left or right , doesnt matter.
+//eg - list concatenation; integer addition with 0; integer multiplication with 1. 
+
+a commutative monoid has `append`, and `0`. application - mutiple google accounts. doenst matter which account you sign into first. 
+---
+Functor heirarchy is one of abstractions.
+Functor is type classed.  Type constructor of kind * -> *
+trait Functor[F[_]]
+
+Functor[Int] will get a kind error from scala compiler.
+Functor[List[Int]] works.
+
+It has a single method called `map()`
+
+It satisfies 2 laws - 
+1) identity law
+2) composition law
+
+Functors compose very well. Product of 2 functors is a functor. 
+Sum of functors is also a functor.
+----------
+common examples of functors are List, Future, Option  and their sum of 2 entities are as follows - 
+List - Nil or Cons
+Future - Success or Failure
+Option - Some or None
+
+Functor gives us the capability to turn all `RETURN a` instructions into `RETURN f(a)`
+--------
+next step up the functor heirarchy is apply.
+
+`?` symbol is exactly like _ for values, but its for types. 
+
+trait Apply[F[_]] extends Functor[F] {
+  def ap[A, B](f: F[A => B])(fa: F[A]): F[B]
+
+  def zip[A, B](fa: F[A], fb: F[B]): F[(A, B)]
+
+}
+-------------------
+next step up is the Applicative in the functor heirarchy. 
+It adds def point. An ordinary `A` value in scala and lift it up into a return value F[A]
+
+trait Applicative[F[_]] extends Apply[F] {
+  def point[A](a: => A): F[A]
+}
+eg - list.apply, future.success
+---------------
+monad has a capability called bind 
+
+trait Monad[F[_]] extends Applicative[F] {
+  def bind[A, B](fa: F[A])(f: A => F[B]) : F[B]
+}
+//context-sensitive sequential operations can be represented as monads.
+
+//traverse is a more powerful traversable. you can do effectful for-loops with it. 
+//traverseImpl() is what you have to implement, everything else comes for free.
+
+// |@| is the symbol for zip() in scalaz library
+// |+| is the symbol for append() in scalaz library
+
+//Optics is a technique where you can modify deeply nested data structures like traverse, with ease.
+---------------
+trait Traverse[F[_]] extends Foldable[F] with Functor[F] {
+  def traverseImpl[G[_]: Applicative, A, B](fa: F[A])(f: A => G[B]): G[F[B]]
+}
+//you get a sequence for free with this, which lets you take an option of lists and convert it into a list of options
+
+//*********************----------
+//CHEAT SHEET - 
+object reference {
+  // Associatively combines two values of type A
+  trait Semigroup[A] {
+    def append(l: A, r: => A): A
+  }
+  // Adds a zero that doesn't change values
+  trait Monoid[A] extends Semigroup[A] {
+    def zero: A
+  }
+  // Maps the return values of programs
+  trait Functor[F[_]] {
+    def map[A, B](fa: F[A])(f: A => B): F[B]
+  }
+  // Combines two programs and preserves both of their
+  // return values (in a tuple):
+  trait Apply[F[_]] extends Functor[F] {
+    def zip[A, B](fa: F[A], fb: F[B]): F[(A, B)]
+
+    final def ap[A, B](fab: F[A => B])(fa: F[A]): F[B] =
+      map(zip(fab, fa))(t => t._1(t._2))
+  }
+  // Lifts an `A` value into an `F` program that just returns it.
+  trait Applicative[F[_]] extends Apply[F] {
+    def point[A](a: => A): F[A]
+  }
+  // Composes a program that returns an `A` with a function
+  // that, given the A, will return another program that
+  // returns a B.
+  trait Monad[F[_]] extends Applicative[F] {
+    def bind[A, B](fa: F[A])(f: A => F[B]): F[B]
+  }
+  // Folds over elements of a data structure.
+  trait Foldable[F[_]] {
+    def foldRight[A, Z](fa: F[A])(f: (A, Z) => Z): Z
+    def foldMap[A, B: Monoid](fa: F[A])(f: A => B): B
+  }
+  // Effectfully loops over element of a data structure,
+  // collecting the results of those effects back into the
+  // same type of data structure.
+  trait Traverse[F[_]] extends Foldable[F] with Functor[F] {
+    def traverseImpl[G[_]: Applicative, A, B](
+      fa: F[A]
+    )(f: A => G[B]): G[F[B]]
+  }
+}
+
+https://typelevel.org/cats/nomenclature.html
+//*************
+
+//DAY 3 - John A De Goes 
+Lens[S, A] //ex - S is Person object, A is Int, like age of Person
+/* 2 things  
+1) we can retrieve an A from S
+  get : S => A
+2) functional set an A in an S where
+  set : A => S
+---
+If S is not a Product type, but a Sum type. 
+eg - If S is City where you live in,
+*/
+Prism[S, A]
+/*
+If there are 100 cities, we need 100 Prisms.
+1) get: S => Option[A]
+2) set: A => S
+*/
+
+These are the 3 core optics types - 
+1) term & product
+2) term & sum
+3) term & collection
+---------------------
+Fibers are light weight threads . Start with no stack, then it can dynamically grow, more than 1 MB limit of that of a thread.
+Overhead of fiber is much lesser , so can get to 100K or 1M fibers, much more than 10K limit of threads.
+
+Give massive scalability, bunch of fibers share a thread. Fibers dont block. They suspend and stop until data is available.
+Using ZIO, you can easily build concurrent apps.
+No longer have to think about locks and threads. Write declarative code.
+Lazy computation of results - if you want to run bunch of Futures in parallel, Future.firstSuccessOf() will pick the 1st winner while the others keep wasting resources.
+
+what happens with Future if you sequence(List[Future]) ? If 1 of them fails, it returns a failure . The other 99 ones keep running, consuming resources.
+
+So Future is extraordinarily wasteful. ZIO is on the other end of the spectrum, very lazy. 100 things in parallel in ZIO , 1 succeeds, others are all cleaned up 
+immediately.
+
+Try..Finally works for synchronous code, but not designed to work with callbacks, ie asynchrounous code. 
+ZIO gives you that Try..Finally that works across asynchronous resources. Runs finalizers in reverse linear order. So there are strongest guarantees possible. 
+Modern apps are mostly async. So you need Try..Finlally that works with async to clean up your resources.
+
+
+*> this is called fish operator in scalaz.zio library and works sequentially
+
+//JVM thread blocking vs Fiber suspending
+//JVM threads consume resources - OS rsrcs, memory. When Fiber suspends, none of that overhead. A thread that blocks forever will consume rsrcs forever,
+//but a fiber may be GCd if its not referenced. Its trivial to leak threads, but its much harder to leak fibers. 
+
+//finalizers should never throw exceptions or fail with errors.  (in finally block)
