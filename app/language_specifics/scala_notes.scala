@@ -1088,7 +1088,6 @@ g /usr/local/etc/sbtopts
 cd ~/git/einstein/suggested-articles2/datagen/smarticle
 sbt package
 for einstein suggested article smart agent repo
-https://github.salesforceiq.com/ServiceDS/suggested-articles/
 
 if sbt 0.13 and 1.0 incompatibility errors show up, delete all target folders and re-compile
 cd ${your_project}
@@ -1347,3 +1346,6 @@ Modern apps are mostly async. So you need Try..Finlally that works with async to
 //but a fiber may be GCd if its not referenced. Its trivial to leak threads, but its much harder to leak fibers. 
 
 //finalizers should never throw exceptions or fail with errors.  (in finally block)
+//https://gitter.im/jdegoes/functional-scala
+//TODO https://www.youtube.com/watch?v=y_QHSDOVJM8
+// https://github.com/jdegoes/functional-scala
