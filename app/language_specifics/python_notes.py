@@ -105,6 +105,7 @@ class DietPizza(BasePizza):
 #install anaconda 3.4.1 for mac OS X, downloaded from continuum analytics website (latest as of
 # May 2017); installs python 3.6 along with it
 
+conda create --prefix env_conda_pyspark3p6 python=3.6
 #creates a conda environment with certain versions of library packages
 """
 conda env update -f provider_matching/wartime/facility_clustering/environment.yml
