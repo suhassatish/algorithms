@@ -56,10 +56,79 @@ Soft or hard anti-affinity roles can be specified such as podA & podB consume lo
 Dont put them together.
 ------------------------------
 Spark on Kubernetes project recently announced to work at Spark Summit 2017.
+TODO - https://spark.apache.org/docs/latest/running-on-kubernetes.html
+
 Number of executors auto scaling - spark core scheduler decides that.
 
 To re-provision executors on different cluster nodes, use kubernetes.
 ---------
 helm is like apt-get for kubernetes.
+**********************************************************************************
+
+May 4, 2019  - tensorflow with kubernetes - ACM
+Notes -
+
+https://training.play-with-docker.com/
+interactive browser based docker tutorial - free.
+
+Linux containers require the Docker host to be running a Linux kernel. For example, Linux containers cannot run directly on Windows Docker hosts. The same is true of Windows containers - they need to run on a Docker host with a Windows kernel.
+---------
+https://katacoda.com/courses/kubernetes
+
+https://kubernetes.io/docs/reference/kubectl/overview/
+
+https://docs.bitnami.com/
+cloud hosted kubernetes - ssh based login with pem file
+------------------------
+katacoda - deploying kubeflow tutorial
+
+    export GITHUB_TOKEN=99510f2ccf40e496d1e97dbec9f31cb16770b884
+    export KUBEFLOW_VERSION=0.2.5
+    curl https://raw.githubusercontent.com/kubeflow/kubeflow/v${KUBEFLOW_VERSION}/scripts/deploy.sh | bash
+    kubectl get pods
+    kubectl apply -f ~/kubeflow/katacoda.yaml
+
+complete example can be viewed at https://github.com/tensorflow/k8s/tree/master/examples/tf_sample
+
+2) cat example.yaml
+https://www.tensorflow.org/deploy/distributed
+
+3) kubectl apply -f example.yaml
+
+kubectl get tfjob
+kubectl get pods | grep Completed
+kubectl logs $(kubectl get pods | grep Completed | tr -s ' ' | cut -d ' ' -f 1)
+
+kubectl get svc
+kubectl get pods jupyter-admin
+
+MODEL_COMPONENT=model-server
+MODEL_NAME=inception
+MODEL_PATH=/serving/inception-export
+
+cd ~/kubeflow_ks_app
+ks generate tf-serving ${MODEL_COMPONENT} --name=${MODEL_NAME}
+ks param set ${MODEL_COMPONENT} modelPath $MODEL_PATH
+
+ks param set ${MODEL_COMPONENT} modelServerImage katacoda/tensorflow_serving
+
+ks param list
+
+ks apply default -c ${MODEL_COMPONENT}
+
+kubectl get pods
+
+cat ~/model-client-job.yaml
+
+kubectl apply -f ~/model-client-job.yaml
+
+kubectl get pods
+
+kubectl logs $(kubectl get pods | grep Completed | tail -n1 |  tr -s ' ' | cut -d ' ' -f 1)
+
+More information on serving models via Kubernetes can be found at
+https://github.com/kubeflow/kubeflow/tree/master/components/k8s-model-server
+------
+vagrant up - starts server on 10.10.10.10
 
 """

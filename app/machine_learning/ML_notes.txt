@@ -119,7 +119,56 @@ but you cant learn a complex model.
 Conceptual overview of the most common ML algorithms.
 
 ------------------------------------------------------------------------
+MAR, 2019 - EDGAR VALESCO TALKS ON REINFORMCENT LEARNING LECTURES -
 
+maximize expected cumulative reward.
+
+stochastic tasks - every action can end up in different states depending on randomness and probabilities.
+
+Agent takes an action in an env, and ends up in a new state.
+You get (state, action, reward) pairs after each state and action.
+
+Components of RL -
+1) you need  POLICY, ie a mapping from states in the env and actions to take in that state.
+It can be a look-up table, stochastic (ie probabilistic randomness) or search process.
+
+2) REWARD - defines the goal of a reinforcement learning problem. In game, its to maximize the score.
+Learning to run can be a more abstract reward tto define mathematically. Reward is not LOSS, since it
+need not be differentiable.
+
+Exploration vs exploitation trade-offs -
+There's an approach  called episolon greedy which adds a bit of random noise.
+Its not just simulated annealing . There's a cost to choosing a behaviour.
+-------
+MODEL-BASED VS MODEL-FREE METHODS -
+A model of the environment. Used for planning eg in chess or alpha-go , use monte-carlo methods to
+look ahead. Consider future situations before they're experienced.
+
+Model based methods not very common in the real world.
+Model-free methods are trial and error learners. Use value functions to learn. Eg - robot walking.
+---
+EVOLUTIONARY METHODS - genetic algorithms, simulated annealing, etc.
+These never estimate value functions. Clone n envs, in each env, agent uses policy. You see which ones
+collected the most reward. Then you use the best 10% cream of the crop, and then going to next permutations
+to mimic evolution.
+
+-------
+Reward hypothesis for walking - walk fast + walk forward + walk smoothly + walk for as long as possible.
+
+At time step t, the agent picks At to maximize (expected) Gt.
+Discounted return Gt = R_t+1 + gamma R_t+2 +gamma^2 R_t+3
+short-term reward vs long-term reward.
+
+gamma is usually chosen as 0.9
+
+---
+Finite Markov Decision Processes (MDPs)
+
+Probability of a state and reward depends only on previous state and action.
+This is because you have to include all previous interactions in current interaction.
+
+
+-----------------
 **** ML conf 2016 notes ****
 
 reinforcement learning (RL) by Harm van - Maluuba - 

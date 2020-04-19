@@ -1,5 +1,53 @@
 # -*- coding: utf-8 -*-
 """
+
+Jan 20, 2020
+realityengines.ai deep learning recommendation systems workshop - ZGC Innovation Center @ Silicon Valley
+Non-temporal vs temporal ordering - search coffee makers on Tuesday vs a week from now. Seasonality patterns like
+thanksgiving shopping. More important for Amazon.
+
+Netflix - temporal data is less important.
+
+Non-temporal data -
+    for each user, split items 80/10/10 for train/ validation/ test
+
+temporal -
+    select points in time that give 80/10/10 split
+    given a user and history, predict next item
+
+Metrics -
+top-n precision / recall -
+    % of items from true top n in the predicted top n, for every user.
+    % of items from predicted top n, in the true top n
+
+top-n coverage - uniqueness of top-n items over the whole set
+
+NDCG - gives higher weight to higher ranked items
+-----------
+Overview of Baselines -
+1) Top popular
+2) User/item k-nearest neighbors
+3) Matrix factorization - to come up with good embeddings
+U x d , d x V. Assume matrix has low dimension. Find the best "latent factors"
+----
+Automated featurization.
+GRU for temporal data.
+Input dimensions? Length of the item attribute, 1 more dimension for time.
+
+Links to notebook -
+bit.ly/realityengines
+bit.ly/customRecommendations
+
+---
+Amazon doesnt use Deep Learning.
+
+Some popular recommender systems NN architecture papers -
+1) youtube recommender system
+2) pixie pinterest recommender system
+3) latent cross RNN
+4) google play
+
+********************************************************************************
 TODO - read
 https://medium.com/recombee-blog/machine-learning-for-recommender-systems-part-1-algorithms-evaluation-and-cold-start-6f696683d0ed
 http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/, 

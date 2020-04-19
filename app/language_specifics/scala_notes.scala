@@ -1349,3 +1349,28 @@ Modern apps are mostly async. So you need Try..Finlally that works with async to
 //https://gitter.im/jdegoes/functional-scala
 //TODO https://www.youtube.com/watch?v=y_QHSDOVJM8
 // https://github.com/jdegoes/functional-scala
+---------------
+//community-einstein-with-dependencies
+gradle clean
+gradle jar //this target should exist in build.gradle as a json key
+---------------
+
+// scala console shell REPL multi line testing - 
+"/opt/input/data/training/(.+(?=\\/))(\\/)(.+(?=\\.))(.avro)".r.findAllMatchIn("/opt/input/data/training/1ccb-salesforce/ai/dev/00DR0000000ATM0MAO/feb600a2-3bfc-431b-b410-365bbedd87e1/part-00067.avro").size
+
+---------------
+// https://stackoverflow.com/questions/20466546/getting-the-parameters-of-a-case-class-through-reflection
+def caseMap[T: TypeTag: reflect.ClassTag](instance: T): List[(String, Any)] = {
+  val im = rm.reflect(instance)
+  typeOf[T].members.collect {
+    case m: MethodSymbol if m.isCaseAccessor =>
+      val name  = m.name.toString
+      val value = im.reflectMethod(m).apply()
+      (name, value)
+  } (collection.breakOut)
+}
+---------------
+//scala RuntimeException e
+e.toString = scala.MatchError: blah (of class java.lang.String)
+e.getMessage = blah (of class java.lang.String)
+e.getCause = empty line \n and then the rest of the stack trace
