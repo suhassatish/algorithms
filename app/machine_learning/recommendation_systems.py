@@ -1,6 +1,88 @@
 # -*- coding: utf-8 -*-
 """
+********************************************************************************
+Apr 10, 2020 - Real-time, Contextual and Personalized Recommendations
+https://www.youtube.com/watch?v=2qood2d-HYk
 
+COLLABORATIVE FILTERING - has 2 types
+    a) MEMORY BASED APPROACH - Find similar users based on cosine similarity or pearson correlation & take weighted avg
+        of ratings.
+        Pro: Easy creation and explainability of results
+        Con: Poor performance for sparse data, so non scalable
+    b) MODEL BASED APPROACH - use ML to find user ratings of unrated items. eg - PCA, SVD, NN, Matrix factorization.
+        Pro: Dimensionality reduction deals with missing or sparse data
+        Con: Inference is intractable due to hidden / latent factors.
+
+Big drawback - cold-start problem for new product launches.
+
+CONTENT BASED FILTERING MODEL - used for cold-start.
+    a) Purchase behavior
+    b) Text embeddings - word2vec, TFIDF, etc for document similarity
+    c) Image embeddings - transfer learning with DeepImageFeaturizer, ResNet model architecture with softmax activation
+        at the end, etc. Can use this model & add dense layers and dropout and take embeddings from penultimate layer of
+        transfer learned model.
+
+HOW TO PERSONALIZE?
+    a) Awareness - 1st time visitors, start of shopping journey
+        Candidate generation: - popularity based recommendation to get top 40 products
+        Success Metrics: AUR (avg unit retail ie avg $ amt spent for particular type of item),
+            UPT (units (purchased) per TX), CTR, etc
+        Ranking: location closer to user / device / seasonal purchase patterns
+
+    b) Consideration - browsing history, early exploration phase. Visitors with past 1 month / in-session browsing BH
+        Candidate generation: product attr & product interaction
+        Ranking: Based on last product interacted weighted by intent (click, add to cart, etc)
+
+    c) Purchase - strong positive. Visitors who have purchased in last 6 months.
+        Candidate generation:
+            1) Rank browsing interactions after purchase with intent and time to find top 10 products that will be
+                liked by user.
+            2) Collaborative filtering to find similar users and auxillary accessory items
+        Ranking: based on intent and actions
+
+ENGINEERING ARCHITECTURE v1 - Used elastic search, but it dodnt work well for them.
+
+ENGINEERING ARCHITECTURE v3 - Ref: ~/Dropbox/Tech_extras/recommender_systems/arch-v3Apr2020-ecommerce.png
+    Click stream data -> segment web hook -> publish to SNS MQ -> subscribed by AWS lambda to filter -> WR to redis.
+
+    Client User Request -> (product code) -> Api Gateway -> Trigger AWS Lambda indexer -> DynamoDB WR ->
+        Triggers AWS Lambda parser to query Redis
+    Web Server Response Path:
+        Redis returns query result -> AWS lambda ranks the returned result set -> WR ranked results to dynamoDB ->
+            Triggers AWS Lambda to call API gateway with response -> Similar products shown to client user
+
+    Hybris -> replicate to Redshift -> Transactions purchases / returns -> Matri factorization stored in EC2 -> WR to
+        redis
+
+ENGG ARCH v4:
+    AWS ELB Elastic Load Balancers
+
+ENGG ARCH v5:
+    Adds ECS EC2 Container Service
+    ECR - Elastic Container Registry
+    AWS Batch
+    Batch Jobs Scheduling AWS Step Functions (helps stitch apps using Lambda, Fargate & Sagemaker)
+    Kinesis for user segments filtering and ingestion
+
+PERSONALIZATION THINKING AHEAD -
+    1) Ask users' permissions to take their instagram fashion style photos (eg Levi's jeans) to personalize recs.
+    2) Bayesian Personalized Ranking & other ranking algorithms
+    (TODO: read up http://ethen8181.github.io/machine-learning/recsys/4_bpr.html
+        https://towardsdatascience.com/recommender-system-using-bayesian-personalized-ranking-d30e98bba0b9)
+    3) Purchase propensity based recommendations
+    4) Customer lifetime value based recommendations
+
+Q&A:
+    Q: How are you solving for position bias?
+    A: Noticing people clicking on 10th rec. Learning to rank algorithm will solve for this.
+
+    Q: Biggest challenge?
+    A: Business buy-in & getting stakeholder trust. Start simple with easily interpretable models.
+
+    Q: Which worked well?
+    A: item-based filtering worked better. Because everyone bought men's jeans.
+
+********************************************************************************
 Jan 20, 2020
 realityengines.ai deep learning recommendation systems workshop - ZGC Innovation Center @ Silicon Valley
 Non-temporal vs temporal ordering - search coffee makers on Tuesday vs a week from now. Seasonality patterns like
@@ -41,7 +123,7 @@ bit.ly/customRecommendations
 ---
 Amazon doesnt use Deep Learning.
 
-Some popular recommender systems NN architecture papers -
+Some popular recommender systems NN architecture papers - TODO
 1) youtube recommender system
 2) pixie pinterest recommender system
 3) latent cross RNN
@@ -53,7 +135,7 @@ https://medium.com/recombee-blog/machine-learning-for-recommender-systems-part-1
 http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/, 
 https://datasciencemadesimpler.wordpress.com/tag/alternating-least-squares/, 
 
-***** reco sys book reading notes ******
+***** reco sys book reading notes ***************************************************
 
 PCA (principal components analysis) assumes the original data is gaussian distributed. If this assumption is wrong, there is no
 guarantee that using it will reduce dimensionality.
@@ -76,10 +158,10 @@ gini index is a measure of impurity in a decision tree.
 -------------
 bayesian classifiers using conditional probability are useful during cold-start conditions.
 
-**** end reco sys book reading notes *******
+**** end reco sys book reading notes ****************************************************
 ------------------
 
-***** ------------------    Notes from Leah McGuire talk (SFDC PMTS Einstein)  *************
+**************************************************    Notes from Leah McGuire talk (SFDC PMTS Einstein)  *************
 https://www.youtube.com/watch?time_continue=570&v=Eh802ZeAcC4
 
 1) item-item similarity (jaccard similarity  = (A intersect B) / (A U B)) recommenders are more stable and scalable
@@ -157,6 +239,6 @@ serving up the most popular items can give a huge lift (> 20% lift in recall on 
 
 
 
-***** ------------------    Notes from Leah McGuire talk (SFDC PMTS Einstein)  *************
+**************************************************   Notes from Leah McGuire talk (SFDC PMTS Einstein)  *************
 
 """

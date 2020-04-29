@@ -23,6 +23,25 @@ This helps prevent pinging google servers to check if a site is a malicious link
 Cassandra also uses bloom filters to save IO when performing a key lookup. Each(sorted string) table
 has a bloom filter associated with it that Cassandra checks before doing any disk seeks, making
 queries for keys that dont exist almost free.
+
+Probability of false positives in a bloom filter is given by the formula
+[1 - e^(-kn/m)]^k
+where k = number of hashes;
+    n = number of items in the filter
+    m = number of bits in the filter
+Source: https://drive.google.com/file/d/1UdaO2YrJzDigkXSadtE6wWUqrg8lKe6P/view
+Above also shows on slides 20-22 that read(), write() and sendfile() syscalls make 2 copies - 1 from user space to
+    kernel space and 2nd one is a DMA (direct memory access) from kernel space to hardware.
+
+    But using mmap() call, avoids the 2nd copy and manipualtes data in memory directly without syscalls.
+    The inverse of mmap() is munmap().
+
+    Issues with Mmap on JVM:
+        1) OS Page alignment
+        2) Direct ByteBuffer Cleanup
+        3) Limited number of mmap handles
+        4) 32-bit signed integer addressing (2 GB limit)
+https://xunnanxu.github.io/2016/09/10/It-s-all-about-buffers-zero-copy-mmap-and-Java-NIO/
 """
 
 
@@ -41,12 +60,12 @@ class BloomFilter(object):
         self.bit_array.setall(0)
 
     def add(self, string):
-        for seed in xrange(self.hash_count):
+        for seed in range(self.hash_count):
             result = mmh3.hash(string, seed) % self.size
             self.bit_array[result] = 1
 
     def lookup(self, string):
-        for seed in xrange(self.hash_count):
+        for seed in range(self.hash_count):
             result = mmh3.hash(string, seed) % self.size
             if self.bit_array[result] == 0:
                 return "Nope"
@@ -85,7 +104,7 @@ def main():
 
     start = datetime.datetime.now()
     if 'google' in huge:
-        print "exists"
+        print ("exists")
     finish = datetime.datetime.now()
     print (finish-start).microseconds  # 4
 

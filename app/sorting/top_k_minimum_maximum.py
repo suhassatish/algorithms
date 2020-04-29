@@ -29,10 +29,10 @@ def top_k_streaming(arr, k):
 
     # if it comes here, len(arr) guaranteed to be > k
     min_pq = []
-    for i in xrange(k):
+    for i in range(k):
         heapq.heappush(min_pq, arr[i])
 
-    for i in xrange(k, len(arr)):
+    for i in range(k, len(arr)):
         if arr[i] > min_pq[0]:  # peeks at min element of heap so far (O(1) time)
             heapq.heappop(min_pq)
             heapq.heappush(min_pq, arr[i])
@@ -57,5 +57,5 @@ def top_k_linear_time(arr, k):
 
 
 if __name__ == '__main__':
-    print top_k_streaming([12, 90, -01, 789, -9, 0, 23], 3)  # [90, 789, 23]
-    print top_k_linear_time([12, 90, -01, 789, -9, 0, 23], 3)
+    print(top_k_streaming([12, 90, -1, 789, -9, 0, 23], 3))  # [90, 789, 23]
+    print(top_k_linear_time([12, 90, -1, 789, -9, 0, 23], 3))

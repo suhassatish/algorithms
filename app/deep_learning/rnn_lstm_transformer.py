@@ -1,4 +1,14 @@
 """
+April 2020 - Key Insights From Andrew NG's DeepLearning.ai News Letter
+3 Findings from https://arxiv.org/pdf/2001.08361.pdf - Scaling Laws for Neural Language Models
+1) Transformers outperform LSTMs when trained to convergence.
+2) When data and compute resources are limited, its better to train a larger model in smaller number of steps than
+    to train a smaller model to convergence.
+3) Found a way to use optimal batch size, because, exceeding the critical batch size degrades performance.
+4) Optimal batch size depends on the model's loss, not the dataset size or the number of parameters. Optimal batch size
+    increases as the loss decreases.
+
+------------------------------------------
 The basics: From "A Tutorial on Deep Learning Part 2: Autoencoders, CNNs and RNNs" - Oct 20, 2015
 Google Brain
 
