@@ -1,0 +1,72 @@
+Fri, Aug 3, 2018 -
+
+Find High impact, high  feasibility (low cost) projects in industry: mental models
+    1) cheap prediction
+    2) automate complex SW pipelines
+    3) eg - rules-based model tuning can be automated using ML
+    4) what are accuracy requirements? (reco engine 60% is good enough)
+    5) how costly are wrong predictions?
+
+----------
+Choosing a metric -
+    1) Combine metrics to optimize a single number
+    2) Formula will and can change
+
+----------
+Choosing baseline for lower bound on performance
+----------
+
+Day 2 -
+Debugging DL models -
+Start with simplest model, add complexity later.
+
+Sensible default for adam optz learning rate is 3e-4
+
+activations - relu( FC and conv models), tanh for LSTMs
+
+Init: normal (relu), glorot normal (tanh).
+
+regularization: initially none. Makes it hard to debug.
+
+data normalization: none.
+
+Normalize scale fo input data by subtracting mean and dividing by std dev
+
+---
+start with small data set -
+10K images for training, 1k for validation, 500 for test.
+------------------------------************************
+https://stats.stackexchange.com/questions/181/how-to-choose-the-number-of-hidden-layers-and-nodes-in-a-feedforward-neural-netw
+How many layers to choose in a neural network architecture?
+
+1) # of input layers is always 1. # of nodes in input layer = # of input features + an extra node sometimes for bias term
+
+2) # of output layers = 1 for regression or classification, unless softmax is used in which case the output layer
+has one node per class label in your model.
+
+3) # of hideden layers -
+    0 - Only capable of representing linear separable functions or decisions.
+    1 - Can approximate any function that contains a continuous mapping
+        from one finite space to another.
+    2 - Can represent an arbitrary decision boundary to arbitrary accuracy
+    with rational activation functions and can approximate any smooth
+    mapping to any accuracy.
+
+One hidden layer is enough for a large majority of the problems. However, a 2-hidden layer network can represent
+almost any function. There is very little evidence that adding more than 2 hidden layers will help the model in any
+perceivable way. If the data is linearly separable, there is no hidden unit required at all.
+
+Some thumb rules -
+    a) # of hidden nodes in a layer = mean of nodes in (input & output) layers
+    b) Upper bound on number of hidden neurons that wont result in over-fitting is
+        Nh = Ns / [a * (Ni + No)]
+
+    where Nh = # of hidden units
+    Ns = # samples in training dataset
+    Ni = # input nodes
+    No = # output nodes
+    α = an arbitrary scaling factor between 2 - 10
+
+    b-ii) You want to limit the # of free parameters in your model (aka degrees or # non-zero wts) to a small portion
+        of the # degrees of freedom in your data.
+        Degrees of freedom in data = Ns * (Ni + No)

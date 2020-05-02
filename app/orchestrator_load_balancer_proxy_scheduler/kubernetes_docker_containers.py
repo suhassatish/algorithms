@@ -71,7 +71,9 @@ Notes -
 https://training.play-with-docker.com/
 interactive browser based docker tutorial - free.
 
-Linux containers require the Docker host to be running a Linux kernel. For example, Linux containers cannot run directly on Windows Docker hosts. The same is true of Windows containers - they need to run on a Docker host with a Windows kernel.
+Linux containers require the Docker host to be running a Linux kernel.
+For example, Linux containers cannot run directly on Windows Docker hosts.
+The same is true of Windows containers - they need to run on a Docker host with a Windows kernel.
 ---------
 https://katacoda.com/courses/kubernetes
 

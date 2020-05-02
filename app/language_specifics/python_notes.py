@@ -105,7 +105,7 @@ class DietPizza(BasePizza):
 #install anaconda 3.4.1 for mac OS X, downloaded from continuum analytics website (latest as of
 # May 2017); installs python 3.6 along with it
 
-conda create --prefix env_conda_pyspark3p6 python=3.6
+# conda create --prefix env_conda_pyspark3p6 python=3.6
 #creates a conda environment with certain versions of library packages
 """
 conda env update -f provider_matching/wartime/facility_clustering/environment.yml
@@ -1425,12 +1425,12 @@ python ./manage.py shell
 """
 
 # adds a django migration under the app "common" and names the migration "add_waffle_flags_for_new_feature"
-manage.py makemigrations common --empty --name add_waffle_flags_for_new_feature
+# manage.py makemigrations common --empty --name add_waffle_flags_for_new_feature
 
 # apply migrations
-./manage.py migrate <app_name>  # to migrate an individual app
->>> import django
->>> django.VERSION
+# ./manage.py migrate <app_name>  # to migrate an individual app
+import django
+django.VERSION
 # 1.8.14 is krux's django version
 
 # --------------------------------------------END DJANGO SPECIFIC NOTES *************
@@ -1446,11 +1446,11 @@ sys.maxint
 sys.maxint.bit_length()
 #
 # #similarly,
-long.bit_length()
+# long.bit_length()
 #
 # #left pad to 8 bits in binary - using string formatter and removing the 0b string prefix
 # #https://docs.python.org/2/library/string.html#grammar-token-width
-format(int(raw_input().strip(), 16), '08b')
+# format(int(raw_input().strip(), 16), '08b')
 #
 # #right justify a string by left padding with zeros
 a = '1'
@@ -1598,7 +1598,7 @@ c = countdown(5)
 next(c)  # 5
 
 for i in c:
-    print i
+    print(i)
 # 4\n3\n2\n1
 #
 # #--

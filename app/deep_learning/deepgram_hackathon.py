@@ -68,6 +68,7 @@ Sorta Grad - improving training stability.
 Sort samples by utterance length in the first epoch, then fall back to regular SGD.
 
 batch normalizations -reducing internal covariance shift (internal activations)
+This is usually inserted after fully connected or convolutional layers, and before nonlinearity.
 
 Make your model easier to optimize before scaling.
 Pick the model that is easier to scale.

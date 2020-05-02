@@ -1,0 +1,432 @@
+************************************************************************************************************
+Feb 28, 2020 - REALM paper reading by e.ai research - Retrieval-Augmented Language Model Pre-Training
+
+Maximum inner product search (MIPS) algorithm to find the approximate top K documents that scales sub-linearly with
+increase in documents.
+
+Pre-trained on [MASK] language model (LM). There are roughly 2 types of predictions -
+    1) 1 is syntactic based prediction.  eg - predicting prepositions. Grammar-based prediction.
+    2) 2nd requires context from vocabulary.
+---
+Select and mask salient spans within a sentence for masked LM task.
+
+Null document added to top-k to model the case when prediction doesnt require any additional context.
+-----
+Warm up the model in cold start situation by doing another pre-training task. The BERT embedding to capture the
+similarity between query and document. This is called Inverse Cloze Task. This initialization is key for DOT product
+to capture relevance.
+
+
+************************************************************************************************************
+NLP Models Playlist (recommended by Ankur which goes from basic to advanced)
+1. Take Andrew Ng's course on Sequence models first
+2. 2014 - Google - [1409.3215] Sequence to Sequence Learning with Neural Networks (seq2seq)
+3. 2015 - Bengio - [1409.0473] Neural Machine Translation by Jointly Learning to Align and Translate (main attention paper)
+4. 2017 - Google - [1706.03762] Attention Is All You Need (Transformer)
+4a. 2020 - Google - [2001.04451] Reformer: The Efficient Transformer
+4b. 2018 - Google - [1810.04805] BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+4c. 2018 - OpenAI - https://openai.com/blog/language-unsupervised/ (GPT)
+4d. 2019 - OpenAI - https://openai.com/blog/better-language-models/ (GPT2)
+************************************************************************************************************
+Building Language Technologies for Social Good  - e.ai guest speaker - Fri, Jan 31, 2020
+model changes a biased text to non biased. evaluated for fluency, retaining the same meaning and reducing bias.
+
+Diyi Yang is an assistant professor in the School of Interactive Computing at Georgia Tech
+
+sentence encoder, then Document encoder
+sentence level classification loss , then how persuasive the document is. combine these 2 loss functions.
+
+github.com/Vasonv/Persuasion_Strategy
+---
+Neutralizing Biased Text - eg - in news headlines.
+inappropriate subjectivity in language - attitudes, presuppositions, casting doubt
+
+3 types of subjectivity bias -
+    a) framing bias
+    b) epistemological bias
+    c) demographic bias
+
+2 methods - concurrent vs modular
+concurrent - is easier to train but opaque and not interpretable
+modular - is interpretable but not straight forward to train.
+---
+
+Modeling social roles via Gaussian Mixture Model
+---
+
+
+************************************************************************************************************
+Word Representation Models - 2 kinds
+
+1) Count-based distribution models. eg -
+    a) SVD (Singular value decomposition)
+    b) PPMI (positive pointwise mutual information) - used in UberEats SearchQuery-Restaurant matching application below.
+
+2) Neural network-based models
+    a) SGNS: Skip-gram negative sampling / Continuous Bag of Words
+    b) GloVe
+
+Paper Levy et al challenges the conventional wisdom that NN-based models are superior to count-based models.
+While model design is important, hyperparameters are also KEY for achieving reasonable results.
+
+------------
+GLOVE - GLOBAL VECTORS FOR WORD REPRESENTATIONS - Its an unsupervised learning algorithm for Natural Language Processing
+https://github.com/stanfordnlp/GloVe
+
+Highlights -
+------------
+1) Nearest neighbors - Euclidean distance or cosine similarity b/w 2 word vectors is an effective method for measuring
+semantic or linguistic similarity b/w 2 words.
+
+2) Linear substructures - Instead of a single scalar number to represent the difference between 2 words as in something
+like a levenshtein distance measure, glove computes differences between word vectors. For example - man and woman
+can be similar in terms of levenshtein distance, but their word vector differences captures semantic differences in
+their juxtaposition and context, depending on which they maybe diametrically opposite to each other.
+
+Training -
+------------
+Trained on global word-word co-occurence matrix in a corpus. 1-time upfront cost to parse whole document to compute this
+matrix. Further computations are easier since its a sparse matrix.
+
+It is a log-bilinear model with a weighted least-squares objective.
+
+Training objective for GloVe is to learn word vectors for words such that their dot product is equal to logarithm of
+word-word co-occurrence probability.
+------------
+
+Related application - Uber Eats : matching search query to restaurant orders
+https://eng.uber.com/uber-eats-query-understanding/
+
+1) Treat an entire search query phrase of many words as 1 *word*.
+2) If 2 queries lead to an order from the same restaurant, they share the same *context*.
+
+3) Given 2 queries q1 and q2, they compute the point-wise mutual information (PMI) between them as follows -
+
+
+pmi(q1, q2) = log [ p(q1, q2) / ( p(q1)^a * p(q2)^b ) ]
+    where p(q1) is the marginal distribution of q1 defined as ∑_q2▒〖p(q1,q2)〗
+P(q1, q2) can be approximated as the co-occurrence frequency of query q_1 and q_2 within the same context.
+************************************************************************************************************
+
+Negative sampling is a simplified model of Noise Contrastive Estimation (NCE). NCE guarantees approximation to softmax.
+Negative sampling doesnt.
+
+************************************************************************************************************
+
+DEPENDENCY PARSING LECTURE - BUILDING A TREEBANK vs BUILDING A GRAMMAR
+
+DISADVANTAGE of manually annotated tree bank for sentences -
+1) To get started off with, its a lot slower and less useful than building a grammar.
+
+ADVANTAGES -
+1) Reusability of the labor
+    Many part-of-speech taggers, etc can be built on it. Valuable resource for linguistics.
+
+2) Broad coverage, not just a few intuitions
+3) Frequencies and distributional information
+4) A way to evaluate systems
+------------
+
+Phrase-structure-grammar is also known as context-free-grammar (CFG).
+
+appos - a positional phrase
+
+Prepositions dont have any dependents. `by` is a case marker of Brownback.
+
+Arrow direction from HEAD to DEPENDENT.
+
+Constraint:
+Only 1 word can be a dependent of ROOT.
+
+------------
+
+4 common methods of DEPENDENCY PARSING -
+1) Dynamic programing - O(N^3) algorithm with heads at the ends rather than in the middle.
+2) Graph algorithms - create minimum spanning tree for a sentence.
+3) Constraint satisfaction - edges are eliminated that dont satisfy hard constraints.
+4) used in the assignment - transition-based-parsing or deterministic-dependency-parsing: Greedy choice of attachments
+guided by good ML classifiers. Linear time algorithm. Very scalable. Shift-reduce parser
+
+-----------
+Pre-processing: pass the sentences 1st through a part-of-speech tagger. Then through a shift-reduce parser that attaches
+dependency arrows.
+
+HOW IS ACCURACY MEASURED of SHIFT-REDUCE PARSER?
+
+Accuracy = # correct deps / # of deps
+
+1) 1st look only at dependency arrow directions. This is called Unlabled Accuracy Score (UAS)
+2) Or look at direction of arrow and part of speech. This is Labled Accuracy Score (LAS)
+-------------
+Some part-of-speech tagging terminology:
+
+NP = noun phrase
+NNS = plural noun
+NN = singular noun
+PP = prepositional phrase
+VP = verbal phrase
+NUM = numerical modifier
+AMOD = adjective modifier
+
+POS tags and dependency labels are also represented as d-dimensional vectors. Smaller discrete sets also exhibit
+many semantical similarities. eg - NNS should be close to NN. NUM should be close to AMOD.
+
+************************************************************************************************************
+
+LECTURE8 - RNNs AND LANGUAGE MODELS -
+
+PROBLEM EXAMPLE APPLICATION: Type-ahead search. To predict the next word for example, when the search box contains
+"students opened their _____", to predict word w_j from the vocabulary given the 1st 3 words in the search query.
+
+P(w_j | students opened their) = count(students opened their w_j) / count(students opened their)
+
+2 problems can arise here due to sparsity of matching n-grams in the corpus:
+    a) Numerator can be 0. Partial solution: SMOOTHING. ie, Add small δ to count for every w_j ε V.
+    b) Denominator can be 0. Partial solution: BACKOFF. ie, Just condition on "opened their" if "students opened their"
+        never appears in corpus.
+------------
+NEURAL LANGUAGE MODEL (fixed window) advantages over n-gram-
+1) No sparsity problem
+2) Model size is O(n), not O(exp(n))
+
+DISADVANTAGES -
+1) Each x(i) uses different rows of W. We dont share weights across windows.
+2) Fixed Window is often too small. Increasing window size increases the size of each hidden layer.
+------------
+
+RNN-model - model visual from Lecture 8, slide 26
+RNNs apply the same weight W_h at each step.
+
+ADVANTAGES -
+1) Can process any length input
+2) Model size doesnt increase for longer length input
+3) Computation for step t can, in theory, use information from many steps back
+4) Weights are shared across time steps => representations are shared
+
+DISADVANTAGES -
+1) Recurrent computation is slow
+2) In practice, difficult to access info from many steps back
+------------
+
+The gradient wrt a repeated weight in the matrix W at time t is the sum of the gradient wrt each time it appears.
+
+Traditional EVALUATION METRIC for RNN-language models is PERPLEXITY, ie inverse probability of dataset, normalized
+by number of words.
+
+PP = Π_(t = 1 to T) 1/ [Σ_(j = 1 to |V|) (yj(t) yj_hat(t))]^(1/T)
+
+Lower is better. Minimizing loss is equivalent to minimizing perplexity.
+------------
+
+RNN applications - speech to text, machine translation, text summarization,part-of-speech tagging,
+named entity recognition, text sentiment classification. (These are all called conditional language models)
+
+For sentence classification, we need sentence encoding, an extension of word embeddings. For this, we use the final
+state of a sentence RNN with word embeddings. (slide 49). Whats better than that is teh element-wise max or mean of all
+hidden states.
+-------------
+Microsoft Research open data for NLP applications - https://msropendata.com/
+--------------
+RNN notes for language modeling-
+1) Loss for a single sequence = avg of cross-entropy loss of all words in a sequence
+
+2) When reporting performance of a language model, metric generally used is PERPLEXITY, which is the inverse probability
+    of correct word.
+    Cross-entropy = log(perplexity)
+3) Minimizing the geometric mean of perplexity is equivalent to minimizing the arithmetic mean of cross-entropy across
+    the training set.
+
+4) Heirarchical softmax computation at the output layer of an RNN is the slowest, most computationally expensive step.
+    With time complexity O(D_h * |V|). Asuming |V| the #words in vocabulary >> D_h , the number of hidden units per
+    layer. Softmax converts output scores into a probability distribution.
+
+    It can be sped-up to a certain extent with negative sampling, although that only improves training time and not
+    testing time.
+
+************************************************************************************************************
+
+LECTURE9 - VANISHING GRADIENTS AND FANCY RNNs
+
+1) Main concept: While taking derivatives with respect to the various matrices for back-propagation, there is a chain
+    rule-derived term to calculate derivative of next hidden state wrt previous hidden state (dh_t / dh_k).
+    That can quickly become zero (vanishing gradient) or infinity (exploding gradient). Hence, the LOCALITY ASSUMPTION
+    OF GRADIENT DESCENT BREAKS DOWN.
+    Some intuitions:
+    a) Gradients can be seen as a measure of influence of the past on the future.
+    b) When we observe the gradients backpropagating in time going to 0, we cannot be sure if
+        (i) the future is not influenced by the past
+        OR
+        (ii) wrong cfg of params
+
+SOLUTIONS TO THE VANISHING GRADIENT PROBLEM:
+1) Initialize the W(*)s to identity matrix I and f(z) to rect(z) = max(z, 0) aka ReLU. These make a HUGE difference!
+2) Keep around memories to capture long distance dependencies.
+3) Allow error messages to flow at different strengths depending on the inputs.
+    2) and 3) together are implemented with GRUs (gated recurrent unit) and LSTMs (long short term memory).
+
+---------------
+GRUs - Lecture 9, slide 20
+
+Example application of GRU where simple memory-less RNN fails:
+    Jane walked into the room. John walked in too. It was late in the day. Jane said hi to _____.
+
+    1) It has 2 gates - an update gate (z_t) and a reset gate (r_t).
+    2) It has a memory unit ~h_t
+    3) If reset gate unit is ~0, then this ignores previous memory and only stores the new word information.
+        This allows model to drop information that is irrelevant in future.
+
+    4) Final memory h_t combines current and previous time steps. h_t = z_t o h_(t-1) + (1 - z_t) o ~h_t
+
+    5) Update gate z controls how much of past state should matter now. If z ~= 1, we can copy info in that unit thru
+        many time steps.
+
+    6) Units with short-term dependencies often have reset gates very active.
+
+    7) Units with long term dependencies have active update gates z.
+
+    8) GRUs are much more versatile and adaptive than vanilla RNNs in which elements of the hidden vector h they update.
+---------------
+LSTMs - Lecture 9, slide 28
+
+Has 3 gates - input gate, forget gate and output gate. Each cell can be controlled whether to forget its contents or not
+
+Research results: An ensemble of 5 LSTMs with a beam of size 2 is cheaper than a single LSTM with a beam of size 12.
+---------------
+Bi-directional RNNs - For classification, incorporates info from words both preceding and following.
+    Hidden layer now represents (Summarizes) the past and future around a single token.
+---------------
+TIPS FOR TRAINING A GATED RNN
+
+1) Use an LSTm or GRU: it makes your life so much simpler
+2) Initialize recurrent matrices to be orthogonal.
+3) Initialize other matrices with a sensible (small) scale
+4) Initialize forget bias to 1: default to remembering
+5) Use adaptive learning rate algorithms: Adam, AdaDelta
+6) Clip the norm of the gradient: 1-5 seems to be a reasonable threshold when used together with Adam or AdaDelta
+7) Either only dropout vertically or learn how to do it right.
+8) Be patient!
+************************************************************************************************************
+LECTURE 10 - STATISTICAL VS NEURAL MACHINE TRANSLATION (SMT VS NMT)
+
+1) SMT - core idea: learn a probabilistic model from data. ALIGNMENT is complex (French to English translations
+are not always word to word, ie not always 1-1. There could be 1-many or many-1 mappings.
+    a) Uses Bayes rule to break down into 2 separate models learnt independently - 1 language model and another
+        translation model.
+
+2) NMT is a technique of 2-RNNs used sequentially, the neural architecture is called sequence-to-sequence.
+    a) Encoder RNN produces an encoding of the source sentence. Decoder RNN is a Language Model that generates
+        target sentences conditioned on encoding.
+
+ADVANTAGES of NMT -
+1) Better performance - more fluent, better use of context, better use of phrase similarities
+2) A single neural network to be optimized end-to-end. No subcomponents to be individually optimized.
+3) Requires much less human engineering effort. No feature engineering, same method for all language pairs.
+
+DISADVANTAGES OF NMT -
+1) NMT is less interpretable, hard to debug
+2) NMT is difficult to control. Cant easily specify rules or guidelines for translation. => Safety concerns
+
+EVALUATING TRANSLATIONS -
+1) Compare n-grams usually 3 or 4-grams to human translations. But a sentence can have many translations and even good
+    ones can get poor scores if they dont align with the human labeled version. BLEU (Bilingual Evaluation Understudy)
+
+ATTENTION is a way to focus on particular parts of the input.
+    1) Improves sequence-to-sequence a lot. Its very useful to
+    2) Allows decoder to focus on certain parts of the source.
+    3) Attention solves the bottlenexk problem of decoder relying too much on the last hidden state of the encoder.
+        It allows decoder to look directly at the source, bypassing the bottleneck.
+
+    4) Attention helps with the vanishing gradient problem, and provides a shortcut to far away states.
+
+    5) Attention provides some interpretability. By inspecting the attention distribution, we can see what the decoder
+        was focusing on. We get alignment for free.
+
+Resources: https://www.youtube.com/watch?v=quoGRI-1l0A
+Deeplearning.ai Andrew Ng, illustration @ time 9:42 in video above.
+
+************************************************************************************************************
+
+Service Einstein DS - Paper reading session, Fri Oct 5, 2018. Edgar Valesco on transfer learning papers
+
+PAPER 0: ELMo (AllenNLP)
+PAPER 1 : ULMFIT (fastAI)
+Problem: Small data , models overfit. Catastrophic forgetting.
+NLP models are more shallow than Computer Vision models. Thats what they solve in this paper.
+
+Solution: Inductive transfer learning for any NLP task. Similar to fine tuning imageNet models.
+
+REFERRING TO DIAGRAMS (3-columns ) in paper:
+If you're doing case classification, you fine tune on case text thats relevant for each org. 2 techniques -
+1) discriminative fine tuning - different training for each layer. Slowly increases LEARNING RATE with each layer,
+    and decreases in triangle shape.
+
+2) 3 layer LSTM, add 2 linear layers on top of that. ReLu and softmax, feed forward NN.
+    Shaded rectangles on the right. Most general features are on bottom. Layer 3 you unfreeze 1st, tune for 1 epoch,
+    then unfreeze layer2 (while keeping layer 3 unfrozen) , 2 e pochs , and so on until convergence.
+
+Outperforming state of the art on 6 tasks. Single arch across a ,b,c . With No feature engg or preprocessing, no
+    additional labels. Use wikiText from wikipedia. Least explored part of the paper.
+----
+Part 2 : Target task LM fine-tuning. Discriminative fine-tuning tune each layer with different learning rates.
+
+Part3 - Target task classifier fine-tuning.
+Use BatchNorm, Dropout. Maxpool hidden states from previous time stamps and do as many as they fit in GPU memory.
+
+Last trick: gradual unfreezing, 1-layer at a time and training until convergence.
+
+Q: do they evaluate how it performs w/o 2nd step?
+A: they have some cool studies
+---------------
+PAPER 2 : OpenAI transformer
+
+Previous 2 approaches use RNN. This one doesnt, it uses something complex called a transformer.
+************************************************************************************************************
+Service Einstein DS - Paper reading session, Fri Oct 12, 2018. Feifei Jiang
+
+labeling - web scraping. But noisy, Not very reliable.
+
+Noise layer = normalized confusion matrix? Yes.
+
+DNN -> softmax -> Q (linear TX) -> NLL
+                   Noise layer
+
+y~ = noisy label
+y* = true label
+
+Estimating noise matrix Q with clean data.
+
+Since matrix inversion is not always computationally feasible, you transform it into an optimization problem where
+you minimize min(C*R - C~)
+-----
+you minimize trace(Q).
+
+-------
+Re-weighting of Noisy data - log likelihood of noisy data with a gamma parameter to down weight the noisy term.
+
+To verify the model, 2 types of experiments.
+1) where they noise distribution. Image has house number. 26k test data. 600 training data images of door numbers.
+Swap training data labels to make it noisy.
+
+2) on noisy data where its unknown which is a noisy label vs not.
+
+2% improvement in computer vision is a significant improvement.
+
+************************************************************************************************************
+BERT presentation - DS journal club
+
+1) 3 embedding layers linearly added instead of 1 - token embedding + segmentation embedding + position embedding
+Word-piece segmentation: Decode & encode 100%. Word-piece doesnt do that. Splitting words based on capitalization.
+Capitalization is a big tell for named-entity recognition.
+************************************************************************************************************
+Globally-Locally Self-Attentive Dialogue State Tracker - Feifei paper presentation Fri, Feb 1, 2018
+
+1) Action encoder
+2) Utterance encoder
+3) Slot-value encoder
+
+KEY TAKE-AWAY - if you dont have enough training instances, ie if you only have 0-100 training data rows,
+then GLAD model (with global and local bi-LSTM and with global & local self-attention) outperforms the simpler
+models without either global or local model.
+
+
+

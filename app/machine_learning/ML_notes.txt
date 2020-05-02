@@ -433,6 +433,7 @@ Hinge loss aka max-margin loss is the term used when they threshold to max 0 by 
     multi-class SVM classifiers while cross-entropy loss is used in softmax classifiers.
 -------------
 Hyperparameter relative importances for binary classification - einstein modeling research for AuPR curves
+~/Dropbox/Tech_extras/ML/hyperparameter-tuning-approaches-tradeOffs.png
 
 Logistic Regression -  elasticNet (0.9) >> maxIter (0.1) >> reg (0.01) > tol (0.005)
 Random Forest - maxDepth (0.7) >> numTrees (0.2) >> minInstances (0.05) > minInfoGain (0.03) > maxBin (0.02)
