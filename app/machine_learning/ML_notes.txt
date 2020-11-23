@@ -440,3 +440,11 @@ Random Forest - maxDepth (0.7) >> numTrees (0.2) >> minInstances (0.05) > minInf
 DecisionTree - minInstances (0.6) > maxDepth (0.4) >> maxBin (0.001) > minInfoGain (~0)
 --------------
  
+How is logistic regression affected by multi-collinearity?
+Colinearity has two main effects on logistic regression:
+
+The variances of the parameter estimates are large
+The model is unstable - that is, small changes to the data can result in large changes to parameter estimates, even reversing their sign and making them significant in the other direction.
+If your only goal is prediction (or categorization) then colinearity isn’t problematic. But you may get a very distorted idea of what the model is doing.
+
+--------------

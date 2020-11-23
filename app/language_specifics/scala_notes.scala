@@ -752,6 +752,8 @@ scala -cp scalatest-app_2.11.7-3.0.1.jar org.scalatest.run StackSpec
 
 //to run a single unit test in sbt (dont have to worry about classpath)
 > testOnly *MPSegmentPipelineRerunTest
+
+> testOnly *InputDispatchingProcessTest -- -z "EntityMapping from"
 /* ~~~~~~~~~~~~~~~ REACTIVE CHEAT SHEET ~~~~~~~~~~~~~~~~*/
 
 //PARTIAL FUNCTIONS
@@ -1374,3 +1376,27 @@ def caseMap[T: TypeTag: reflect.ClassTag](instance: T): List[(String, Any)] = {
 e.toString = scala.MatchError: blah (of class java.lang.String)
 e.getMessage = blah (of class java.lang.String)
 e.getCause = empty line \n and then the rest of the stack trace
+---------------
+
+/*
+ammonite scala REPL - meetup Haoyi Li on Jul 9, 2020
+
+> amm
+welcome to ammonite scala REPL 2.13.2
+> browse(res17)
+
+import $ivy.`org.jsoup` 
+do ^ within the amm REPL.
+----------
+
+1-time hack in build.sbt to explicitly get the latest version of nlp-expansion 0.1.9 from local - 
+"com.salesforce.communities.datascience" % "nlp-expansion" % "0.1.9" from "file:///Users/ssatish/.ivy2/cache/com.salesforce.communities.datascience/nlp-expansion/jars/nlp-expansion-0.1.9.jar",
+
+this doesnt get transitive dependencies though
+*/
+
+val o = null match {
+  case v if v > 0 => 1
+  case v if (v: Long) == 0 => 2
+  case _ => 3
+}

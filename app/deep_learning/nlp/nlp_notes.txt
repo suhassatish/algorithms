@@ -1,3 +1,13 @@
+Fri, Oct 16, 2020 - DS journal club
+
+https://arxiv.org/pdf/2005.14165.pdf
+GPT3 paper
+
+Language models are few shot learners.
+
+https://einstein.ai/presentations/ctrl.pdf
+CTRL - A CONDITIONAL TRANSFORMER LANGUAGE
+MODEL FOR CONTROLLABLE GENERATION
 ************************************************************************************************************
 Feb 28, 2020 - REALM paper reading by e.ai research - Retrieval-Augmented Language Model Pre-Training
 
@@ -362,7 +372,7 @@ If you're doing case classification, you fine tune on case text thats relevant f
 
 2) 3 layer LSTM, add 2 linear layers on top of that. ReLu and softmax, feed forward NN.
     Shaded rectangles on the right. Most general features are on bottom. Layer 3 you unfreeze 1st, tune for 1 epoch,
-    then unfreeze layer2 (while keeping layer 3 unfrozen) , 2 e pochs , and so on until convergence.
+    then unfreeze layer2 (while keeping layer 3 unfrozen) , 2 epochs , and so on until convergence.
 
 Outperforming state of the art on 6 tasks. Single arch across a ,b,c . With No feature engg or preprocessing, no
     additional labels. Use wikiText from wikipedia. Least explored part of the paper.

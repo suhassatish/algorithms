@@ -2,7 +2,10 @@ import heapq
 from edge_weighted_digraph import EdgeWeightedDigraph
 from index_min_pq import IndexMinPQ
 
-
+"""
+Unlike Dijkstra's algorithm, the Bellman–Ford algorithm can be used on graphs with negative edge weights, 
+as long as the graph contains no negative cycle reachable from the source vertex s. 
+"""
 class DijkstrasSP(object):
     def __init__(self, ewd, src):
         """

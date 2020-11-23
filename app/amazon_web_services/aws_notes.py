@@ -3,28 +3,11 @@ m3.xlarge	|4	  |15	    |2 x 40         |
 m3.2xlarge|8	  |30	    |2 x 80         |
 
 
-aws emr ssh --cluster-id j-JGE2E1I4ZLTL --key-pair-file ~/ssatish.pem
-operation timed out
-
-use this security group from next time while spinning up EMR clusters. It already has access to port 22. dont
-add a custom rule to open port for my laptop's IP on inbound connections to port 22.
-sg-87428eee
-
-aws emr create-cluster --applications Name=Ganglia Name=Hadoop Name=Hive Name=Hue Name=Mahout Name=Pig Name=Tez --ec2-attributes '{"KeyName":"ssatish","InstanceProfile":"EMR_EC2_DefaultRole","SubnetId":"subnet-83f898da","EmrManagedSlaveSecurityGroup":"sg-8dedd4e9","EmrManagedMasterSecurityGroup":"sg-8cedd4e8"}' --service-role EMR_DefaultRole --enable-debugging --release-label emr-5.9.0 --log-uri 's3n://aws-logs-185354050431-us-east-1/elasticmapreduce/' --name 'suhas-attribute-metrics-poc' --instance-groups '[{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"m3.xlarge","Name":"Master Instance Group"},{"InstanceCount":2,"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core Instance Group"}]' --scale-down-behavior TERMINATE_AT_INSTANCE_HOUR --region us-east-1
-
-aws emr create-cluster --applications Name=Ganglia Name=Hadoop Name=Hive Name=Hue Name=Mahout Name=Pig Name=Tez --ec2-attributes '{"KeyName":"ssatish","InstanceProfile":"EMR_EC2_DefaultRole","SubnetId":"subnet-83f898da","EmrManagedSlaveSecurityGroup":"sg-87428eee","EmrManagedMasterSecurityGroup":"sg-87428eee"}' --service-role EMR_DefaultRole --enable-debugging --release-label emr-5.9.0 --log-uri 's3n://aws-logs-185354050431-us-east-1/elasticmapreduce/' --name 'suhas-attribute-metrics-poc' --instance-groups '[{"InstanceCount":1,"InstanceGroupType":"MASTER","InstanceType":"m3.xlarge","Name":"Master Instance Group"},{"InstanceCount":2,"InstanceGroupType":"CORE","InstanceType":"m3.xlarge","Name":"Core Instance Group"}]' --scale-down-behavior TERMINATE_AT_INSTANCE_HOUR --region us-east-1
-
-
-to connect to EMR cluster  (master public DNS on amazon console shows you how to create one) -
-ssh -i ~/ssatish.pem hadoop@ec2-54-172-195-113.compute-1.amazonaws.com
 
 aws emr list-clusters
 aws emr create-default-roles
 aws emr list-steps --cluster-id myClusterID
 --------
-my aws account user id for krux is
-185354050431 
-
 canonical user id is a longer string, and is required to grant s3 bucket access permissions.
 -------
 default aws EMR user is hadoop and hive logs are at 
@@ -96,4 +79,7 @@ For more information and recommendations for a scalable DNS architecture, see th
 http://botocore.readthedocs.io/en/latest/reference/stubber.html
 
 
+awslogs get /aws/sagemaker/TrainingJobs ${SAGEMAKER_JOB_ID} --profile 201643537510-data-engineers-prod -s2d > ${SAGEMAKER_JOB_ID}.txt
+
+awslogs get /aws/sagemaker/TrainingJobs ${SAGEMAKER_JOB_ID} --profile 001550251112-data-engineers-staging -s2d > ${SAGEMAKER_JOB_ID}.txt
 

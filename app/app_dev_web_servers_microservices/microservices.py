@@ -1,4 +1,16 @@
 """
+Aug 19, 2020 - Microservices Micro class IK Gaurav Gargate - Sr Dir @ Confluent
+
+uService Infra -
+
+Gateway
+Identity Services - authN, authZ, rate limiter, IP whitelisting - end result of auth is you get a jwt injected into header
+
+Chain of request filters and response filters.
+
+Each microservice talks to its own DB. Thats the correct design pattern to use.
+
+----------------------------------------------------------------------------------------
 StitchFix Talk on Microservices at Global Big Data SW Architecture Conference, Jun 2017
 @randyshoup
 Shared on slide share already.

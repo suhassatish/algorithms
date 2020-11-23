@@ -2,13 +2,21 @@ alias ll='ls -altrh'
 alias h='history'
 export HISTTIMEFORMAT='%F %T '
 alias g='gvim'
+alias s='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl'
 alias grep='grep --color=always'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
-export KRUX_VAGRANT_PROVISION=~/git/puppet-control/
-export KRUX_VAGRANT_R10K_KE=~/.ssh/id_rsa.pub
 export PATH=~/.m2/apache-maven-3.5.0/bin:$PATH
-export KRUX_DEV_DATA_HOME=/Users/ssatish/data
-export KRUX_SPARK_MASTER="local[2]"
-export SPARK_HOME=/Users/ssatish/spark-1.6.0-bin-hadoop2.4
-export KRUX_ENVIRONMENT=prod
+export SPARK_HOME=/Users/ssatish/spark-2.4.3-bin-hadoop2.7
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/sfdc-openjdk1.8.0_172.jdk/Contents/Home
+export WORKON_HOME=~/.virtualenvs
+export PATH=/usr/local/bin:$PATH
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+source /usr/local/bin/virtualenvwrapper.sh
+
+# added by Miniconda3 installer
+#export PATH="/Users/ssatish/miniconda3/bin:$PATH"
+
+# update PATH to include personal bin if it exists
+[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+

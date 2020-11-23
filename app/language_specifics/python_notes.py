@@ -1288,6 +1288,15 @@ then exception wont buble up to ipython;
 #
 # LOG = logging.getLogger(__name__)
 # ----------
+# how to print logging from modules you want and disable logging from other external 3rd party libraries - define a logger by name and get that logger
+#
+#https://stackoverflow.com/questions/35325042/python-logging-disable-logging-from-imported-modules
+#logger = logging.getLogger('my_module_name') - do this, it doesnt call the root logger but your specific logger
+#Obviously you have to use logger.debug instead of logging.debug since the latter is a convenience function that calls the debug method of the root logger.
+#
+#This is mentioned in the Advanced Logging Tutorial. It also allows you to know which module triggered the log message in a simple way.
+#
+#
 # variable argument substitution within exceptions thrown -
 #
 # if query_res == []:
@@ -1718,3 +1727,10 @@ sorted(students, key=newgrades.__getitem__) # ['jane', 'dave', 'john']
 #
 (9**(1/2.0)).is_integer()  # Returns True
 (8**(1/2.0)).is_integer()  # Returns False
+
+-------
+# pip install from local egg file not in pypi index
+# pip install --no-index --find-links=/opt/program/libs sa-models
+
+# to package sa-models whl - 
+python3 setup.py sdist bdist_wheel
