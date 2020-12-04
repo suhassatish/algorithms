@@ -157,4 +157,33 @@ Jeff Dean's paper on distributed training of large neural networks with model pa
 
 5) A cluster of CPU m/cs can train even modestly sized deep-leraning models faster than a GPU, w/o GPUs limitations on model size.
 
+----------------------------------------
+
+Variational autoencoders (VAE) are powerful generative models from neural networks with common applications being to
+generate purely synthetic music, generating fake human faces, etc
+Source - https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf
+
+1) An autoencoder is typically a pair of 2 connected networks - an encoder and a decoder.
+
+2) The entire network is trained as a whole.
+
+3) The loss function is usually either the mean-squared error or cross-entropy b/w o/p and i/p.
+Latter is also called reconstruction loss (side effect is that it forms clusters in latent space for classes ie MNIST
+digits for example) which penalizes the n/w if o/p is different from the i/p.
+
+4) The fundamental problem with autoencoders, for generation  is that the latent space they convert their inputs to
+and where their encoded vectors lie, may not be continuous, or allow easy interpolation. A 2D visualization of the
+latent space may reveal clusters with gaps b/w them (discontinuities). So sampling the latent space with discontinuities
+will result in decoder generating an unrealistic output, because it has no idea of how to deal with that region of the
+latent space. During training, it never saw encoded vectors coming from that region of the latent space.
+
+5) Variational autoencoders have a continuous latent space allowing easy random sampling and interpolation.
+It does this by having its encoder not output an encoding vector of size n, but 2 encoding vectors of size n -
+a vector of means μ and another vector of standard deviations σ.
+
+6) KL-divergence is introduced into the loss function, which is a measure of how much 2 probability distributions
+diverge from each other. Minimizing KL-divergence here means optimizing μ and σ to closely resemble the target
+distribution.
+
+7) KL-loss has a dense packing nature.
 """

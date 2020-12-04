@@ -1,3 +1,93 @@
+Transfer learning in NLP - Nov, 2020 state of the art - Thomas Wolf
+https://www.youtube.com/watch?v=-mo5iO7DAt0
+
+Transfer learning from pretrained models which are an ensemble of a few popular ones below like -
+ GPT3
+ BERT
+ ELMO, etc
+---
+Model size and computational efficiency - 3 main techniques for reducing model size-
+1) Distillation - DistilBert - 95% of Bert perf in a model 40% smaller and 60% faster
+2) Pruning - paper - movement pruning: adaptive sparsity by fine-tuning
+
+3) Quantization - from FP32 to INT8 -
+    sacrifices only 0.5% of F1-score from 90% to 89.5%
+    model size reduces from 438 MB to 181 MB
+    single thread runtime reduces from 160s to 90s per epoch
+    4 threads parallelism performance improves from 85s to 46s
+----
+
+Inductive bias question - the generalization problem
+1) brittleness - fail when text is modified, even with meaning preserved.
+2) spurious - memorize  artifacts and biases instead of truly learning. This is measured by 3 heuristics -
+    a) Lexical overlap - Defn: Assume that a premise entails all hypothesis constructed from words in the premise.
+        eg - Model reads the sentence "the doctor was paid by the actor" and interprets it as "the doctor paid the actor"
+        if it had seen a lot of training examples which had lexical overlap with the labels (hypothesis) not
+        contradicting the premise
+
+    b) Subsequence - Defn: Assume that a premise entails all of its contiguous subsequences.
+        eg - Model reads the sentence "The doctor near the actor danced" and interprets it as "the actor danced"
+
+    c) Constituent - Defn: Assume that a premise entails all complete subtrees in its parse tree.
+        eg - Model reads the sentence " If the artist slept, the actor ran" and interprets it as "the artist slept"
+
+-----
+
+Shortcomings of language modeling in general -
+Need for grounded representations.
+Limits of distributional hypothesis - difficult to learn certain types of information from raw text.
+    a) Human reporting bias - not stating the obvious
+    b) common sense isnt written down (eg - text that frequently talks about black sheep assumes most sheep are white)
+    c) facts about named entities
+    d) no relation with other modalities (image, audio, ...)
+
+Possible solutions:
+    a) incorporate structured knowledge (eg - databases - ERNIE: Zhang et al 2019)
+    b) Multimodal learning (eg visual representations - VideoBERT: Sun et al 2019)
+    c) Interactive / human-in-the-loop approaches (eg dialog: Hancock et al 2018)
+----
+
+Continual and meta-learning - Current transfer learning performs adaptation once. ie, if you try to teach it too many
+new things, it suffers from catastrophic forgetting of something it had previously learnt. Different approaches to
+ tackle this from literature -
+ 1) memory
+ 2) regularization
+ 3) task-specific weights, etc
+
+Its much harder to do transfer learning in NLP as compared to images. The reason is you need very large corpora
+to see strong enough effects. Training this is computationally expensive.
+----
+Hugging Face - transformer python library for transfer learning
+huggingface.co
+
+A bottleneck in DL NLP pipelines is often tokenization - converting strings to model inputs.
+
+Tokenizer lib
+github.com/huggingface/tokenizers
+    - available in python, node.js, RUST at -
+    1) pip install tokenizers
+    2) npm install tokenizers
+    3) crates.io/crates/tokenizers
+
+Features -
+    1) Encode 1 GB in 20 sec
+    2) BPE / byte-level BPE / WordPiece / SentencePiece
+    3) bindings in python / js/ rust
+-----
+Datasets is a lightweight and extensible lib to easily access and process datasets and eval metrics for NLP
+github.com/huggingface/datasets
+
+Features -
+    1) one-line access to 150+ datasets and metrics - open / collaborative hub
+    2) built-in interoperability with numpy, pandas, pyTorch, tensorflow2
+    3) lightweight and fast with a transparent pythonic API
+    4) strive on large datasets (wikipedia - 18 GB only takes about 9 MB of RAM)
+    5) smart caching - never wait for your data to process several times
+
+discuss.huggingface.co - active discussion forum for NLP questions. They also have lots of blogs on NLP.
+
+************************************************************************************************************
+
 Fri, Oct 16, 2020 - DS journal club
 
 https://arxiv.org/pdf/2005.14165.pdf
