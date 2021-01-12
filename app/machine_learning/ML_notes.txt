@@ -1,3 +1,66 @@
+--------------------
+SUPPORT VECTOR MACHINES (SVM) CONCEPTS AND IMPORTANT PROPERTIES -
+1) Try to find the maximal hyperplane differentiating the 2 classes in binary classification.
+
+2) The margins of the hyperplane are chosen such that the data points lying on the margins are called the support
+    vectors and should belong to opposite classes on either margin.
+
+3) The distance between each margin and the MMH ie the parallel line midway between the 2 margins is given by
+    the formula 1 / || W ||
+    ie, the norm of W = sqrt(w1^2 + w2^2 + ... wn^2) where n = number of support vectors. So the maximal margin, ie
+    distance between the 2 margins = 2 / || W ||
+
+4) The separating hyperplane satisfies the equation
+    W dot X + b = 0   ---- [1]
+    Any point above the separating hyperplane aka MMH satisfies
+    w0 + w1 x1 + w2 x2 ... > 0
+    and the one below the separating hyperplane (opposite class in binary classification) satisfies
+    w0 + w1 x1 + w2 x2 + ... < 0
+
+5) The complexity of the learned classifier is directly proportional to the number of support vectors rather than the
+dimensionality of the data. Hence, SVMs tend to be less prone to over-fitting than other methods.
+
+6) The number of support vectors found can be used to compute an upper bound on the expected error rate of the SVM
+classifier, which is independent of the data dimensionality.
+
+7) An SVM with a small number of support vectors can have a good generalization even when the data dimensionality
+is high.
+
+8) When classes are not linearly separable, find a non-linear transformation function to project X into a higher
+dimensional latent space Z. For example, a 3D input vector X = (x1, x2, x3) can be mapped into a 6D space Z using the
+mapping, Φ1(X) = x1,
+         Φ2(X) = x2,
+         Φ3(X) = x3,
+         Φ4(X) = x1^2
+         Φ5(X) = x1 x3
+         Φ6(X) = x2 x3
+         Now d(Z) = WZ + b is linearly separable.
+                  = w1 x1 + w2 x2 + w3 x3 + w4 x1^2 + w5 x1 x2 + w6 x2 x3 + b
+
+9) Using lagrangian formulation, equation [1] can be rewritten as teh decision boundary
+
+d(XT) = Σ (i = 1 to l)  y_i α_i X_i X_T + b_0
+    where l = number of support vectors,
+    y_i = class label of support vector X_i
+    X_T is a test tuple
+    a_i and b_0 are numeric params determined by the SVM optz algo
+
+10) Find W and the bias term such that 1 / || W || is maximized for all pairs of points. Hence, this is a quadratic
+    time-complexity problem to solve and hence computationally slow (since we need to compute the dot product
+    several times). It can reduce to a linear-time solution by some math tricks such as finding a kernel function
+    K(X_i, X_j) and applying it to the original data in X rather than in higher-dim plane Z.
+
+    Popular kernels are
+    a) polynomial kernel of degree h
+    b) gaussian radial basis function kernel
+    c) sigmoid kernel
+
+11) In practice, the kernel chosen does NOT make a big difference to accuracy.
+
+12) SVM training always finds a global solution unlike NN, such as backpropagation where many local minima usually exist
+
+13) very large datasets having millions of support vectors is still a computational challenge for production use cases
+--------------------
 TODO topics  -
 1) markov chain monte carlo
 ------------------------
@@ -111,10 +174,9 @@ but you cant learn a complex model.
 
 ----------------------------
 3) convexity
-4) the kernel trick
-5) classification
-6) clustering
-7) dimensionality reduction
+4) classification
+5) clustering
+6) dimensionality reduction
 
 Conceptual overview of the most common ML algorithms.
 
@@ -330,7 +392,7 @@ spark integration    | yes    | no                   | no                   | ye
 -------
 paper on XG Boost
 
-XGBoost is a very popular gradient boosting library that often wins kaggle competitions.
+XGBoost is a very popular gradient boosting decision tree library that often wins kaggle competitions.
 gradient boosting is a technique to combine many weak learners or to iteratively improve a weak
 learner into a strong learner.
 

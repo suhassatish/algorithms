@@ -15,7 +15,7 @@ into increasing the dimensionality of the embedding or into handling never seen 
     1) Word frequencies
     2) Avg gradient changes
 This can be used to decide when to update an embedding. New system is backward compatible with any gradient descent
-optimizers like AdaGrad, Adam, SGD, Momentum
+optimizers like AdaGrad, Adam, SGD w/ Momentum
 
 2) Reliability: With DES, the actual model becomes small as most data is saved to BigTable. So it becomes more resilient
 to failures due to limited resources.

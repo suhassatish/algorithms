@@ -1,6 +1,80 @@
+Kaggle competition winners interviews notes - NLP sentiment extraction from tweets - Oct 2020
+https://www.youtube.com/watch?v=sQ1qv7b-YOs&list=PLqFaTIg4myu8Iz-n8nGZzfsa4ykvjXnR-&index=1
+
+-----------
+1st place model architecture
+Refer diagrams at
+    ~/Dropbox/tech_extras/nlp/arch-diagrams/kaggle-nlp-1st-model-arch-Oct2020.png
+    ~/Dropbox/tech_extras/nlp/arch-diagrams/kaggle-nlp-1st-model2-arch-Oct2020.png
+    ~/Dropbox/tech_extras/nlp/arch-diagrams/kaggle-nlp-1st-model-ensemble-arch-Oct2020.png
+Key learnings -
+1) Transformers (TXs) (good at learning patterns) training time
+    ~5 mins / fold for small models
+    ~30m / fold for big models
+
+2) Character level NN - stacked on the output of TXs
+    a) aim at refining the predictions and leverage hidden patterns in data
+    b) fast to train (~1 min / fold)
+
+3) TXs are token-level, misses a lot of info. Tokens dont necessarily match the labels.
+
+4) Labels are noisy but the noise is learnable. Noise comes from consecutive spaces.
+
+5) Blending TXs is not good enough, stacking different TXs boosts performance. Bert, alberta and roberta use different
+tokenizers.
+
+6) Arch takes 3 inputs -
+    a) sentence embedded at char level
+    b) sentiment
+    c) probabilities extracted by TXs
+
+7) Training code is available at - kaggle.com/theoviel/character-level-model-magic
+    a) adam optz
+    b) linear learning rate decay w/o warmup
+    c) smoothed cross entropy loss
+    d) multi-sample dropout
+    e) epochs - 2 strategies
+         i) 5
+        ii) 5 + 5 w/ stochastic weighted avg
+
+-----------
+2nd place model architecture
+Arch -
+    ~/Dropbox/tech_extras/nlp/arch-diagrams/kaggle-nlp-2nd-model-arch-Oct2020.png
+    ~/Dropbox/tech_extras/nlp/arch-diagrams/kaggle-nlp-2nd-base-model-Oct2020.png
+1) BERT performed worse than Roberta in this competition although BERT perfoms very well in nlp.
+    a) Roberta is trained on longer sequences, more data (160 GB vs 16 GB for BERT)
+
+2) Used trainable vector to define wt for each hidden layer and multi-sample dropout
+
+3) Stochastic weight averaging works very well to get a stable cross-validation score
+
+4) Take weighted avg of o/p logits for words. Tokenizers have to be same among models for this to work.
+
+5) To suppress variance b/w folds, choose 2 different seeds to split folds and ensemble models trained on both seeds
+    at this stage.
+
+-----------
+3rd place model architecture
+
+2 different modeling methods
+    1) beam search model on word level
+    2) char-level model
+
+1) Replicate each hidden state as many times as the respective token has characters
+2) Pad to a specific size, used max chars allwed for a tweet, ie 140 + 3
+3) Beam search - reused XLNet's decoder head for SQuAD
+
+************************************************************************************************************
+Google AI blog - Nov 2020 -
+NLP language interpretability tool for testing bias in NLP models - can use this is NLP projects for interpretability
+and debugging
+https://ai.googleblog.com/2020/11/the-language-interpretability-tool-lit.html?mc_cid=45c859d036&mc_eid=0dd5d560c3
+************************************************************************************************************
 Transfer learning in NLP - Nov, 2020 state of the art - Thomas Wolf
 https://www.youtube.com/watch?v=-mo5iO7DAt0
 
+Notes from video below -
 Transfer learning from pretrained models which are an ensemble of a few popular ones below like -
  GPT3
  BERT
@@ -337,7 +411,7 @@ RNN notes for language modeling-
     the training set.
 
 4) Heirarchical softmax computation at the output layer of an RNN is the slowest, most computationally expensive step.
-    With time complexity O(D_h * |V|). Asuming |V| the #words in vocabulary >> D_h , the number of hidden units per
+    With time complexity O(D_h * |V|). Assuming |V| the #words in vocabulary >> D_h , the number of hidden units per
     layer. Softmax converts output scores into a probability distribution.
 
     It can be sped-up to a certain extent with negative sampling, although that only improves training time and not

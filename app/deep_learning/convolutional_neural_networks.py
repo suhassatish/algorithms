@@ -39,4 +39,8 @@ on the o/p of max-pooling layer called Local Contrast Normalization (LCN).
 
 5) Some library implementations (like in MATLAB) may convert the convolution step to an FFT
 operation for fast computation.
+
+-----------------------
+
+
 """

@@ -7,6 +7,7 @@ Offline experiment Design -> Collect label dataset ->  offline feature generatio
 -> Model training -> compute validation metrics -> model testing
 
 If offline good, deploy online for A/B testing.
+If new to A/B testing as a company, use a vendor to get bootstrapped - like split, optimizely, launch darkly, etc
 
 How to obtain features for offline training?
 1) Viewing History Service
