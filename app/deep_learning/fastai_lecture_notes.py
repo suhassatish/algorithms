@@ -488,7 +488,8 @@ accurate, since they're calculated from more data. On the downside, though, a la
  
 6) BATCH NORMALIZATION (BN) - Each training mini-batch is normalized so that we dont have to be so careful about weight
 initialization. Large NNs without BN are slow to train as we have to use small learning rates. 
-Batch Normalization allows us to use much higher learning rates and be less careful about initialization.
+BN allows us to use much higher learning rates and be less careful about initialization.
+BN acts as a regularization because of the randomness shown by using mini-batches.
 
 Batch normalization (often just called batchnorm) works by taking an average of the mean and standard deviations of the
  activations of a layer and using those to normalize the activations.
@@ -534,5 +535,35 @@ train in the same amount of time.
 
 LECTURE 15 - Application architectures Deep Dive
 
-           
+1) For a CNN, the head is generally the part after teh avg pooling layer. THe head part thats replaced for transfer
+learning from that of a pretrained model can be seen with the fastai dictionary 
+
+    model_meta[<pretrained_Model_name>]
+    model_meta[resnet50]           
+
+2) By default, fastai applies both max pooling and avg pooling and concat the 2 together, called the AdaptiveConcatPool2d
+    layer.
+
+3) Fastai uses 2 linear layers in the CNN head, it allows transfer learning to be used more quickly and easily, in more
+    situations.
+
+4) Other concepts introduced - stride-half convolutions aka transposed convolutions, nearest neighbor interpolation, 
+skip connections.
+
+5) A splitter is a function that tells the fastai library how to split the model into parameter groups. These are used 
+behind the scenes to train only the head of a model when we do transfer learning.  
+
+6) When you have a model that overfits try the following approaches in order - 
+    a) use more data
+    b) data augmentation
+    c) generalizable architectures (eg - using batch normalization)
+    d) regularization - a larger model with more regularization is more flexible, and can therefore be more accurate 
+        than a smaller model with less regularization
+    e) reduce architecture complexity
+
+********************************************************************************
+
+LECTURE 16 - Optimizers and Using Callbacks
+
+      
 """
