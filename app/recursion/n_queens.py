@@ -47,7 +47,7 @@ def _queens_recursion(arr, i):
         print_chess_board(arr),
         return
 
-    for j in xrange(len(arr)):
+    for j in range(len(arr)):
         arr[i] = j
 
         # standard pattern for back tracking. If conditional check within for-loop in recursive fn
@@ -60,7 +60,7 @@ def print_chess_board(arr):
         print("+-"),
     print('+')
 
-    for k in xrange(len(arr)):
+    for k in range(len(arr)):
         for e in arr:
             print("|" + ('Q' if e == k else ' ')),
         print("|")
@@ -72,7 +72,7 @@ def print_chess_board(arr):
 
 
 def is_valid(arr, i):
-    for k in xrange(i):
+    for k in range(i):
         # if anything previously has been placed on the same row (rank),
         # current placement is invalid
         if arr[k] == arr[i]:

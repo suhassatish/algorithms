@@ -57,7 +57,7 @@ class ThreadPool(object):
         self.thread_q = Queue(maxsize=count)
 
     def quit(self):
-        for i in xrange(self.thread_q.qsize()):
+        for i in range(self.thread_q.qsize()):
             self.add_work(self.shutdown)
 
     def add_work(self, task):
@@ -78,7 +78,7 @@ class Scheduler(Thread):
         Thread.__init__(self)
         q_size = 10
         tp = ThreadPool(q_size)
-        for _ in xrange(q_size):
+        for _ in range(q_size):
             tp.add_work(TaskThread())
         while tp.thread_q:
             task = tp.thread_q.get()

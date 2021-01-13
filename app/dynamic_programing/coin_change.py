@@ -46,8 +46,8 @@ def coin_change(amount, denominations):
     """
     denominations.sort()
     denominations.reverse()
-    # coins = [[] for i in xrange(amount + 1)]
-    min_ways = [float('inf') for i in xrange(amount + 1)]
+    # coins = [[] for i in range(amount + 1)]
+    min_ways = [float('inf') for i in range(amount + 1)]
 
     #  _coin_change(amount, denominations, min_ways, coins)
     _coin_change(amount, denominations, min_ways)
@@ -103,17 +103,17 @@ def _coin_change(amount, denominations, min_ways):
 
 
 def coin_change_iterative(amount, denominations):
-    min_coins = [float('inf') for _ in xrange(amount + 1)]
+    min_coins = [float('inf') for _ in range(amount + 1)]
 
     # 0 coins required for sum of 0
     min_coins[0] = 0
     denominations.sort()
     denominations.reverse()
-    coins = [[] for _ in xrange(amount + 1)]
+    coins = [[] for _ in range(amount + 1)]
     for d in denominations:
         coins[d] = [d]
 
-    for amt in xrange(amount + 1):
+    for amt in range(amount + 1):
         for coin in denominations:
             if coin <= amt:
                 min_coins[amt] = min(min_coins[amt], 1 + min_coins[amt - coin])
@@ -128,4 +128,4 @@ def coin_change_iterative(amount, denominations):
     return -1 if min_coins[amount] == float('inf') else coins[amount]
 
 if __name__ == '__main__':
-    print coin_change_iterative(13, [1, 2, 5, 10])  # returns [1, 2, 10]
+    print(coin_change_iterative(13, [1, 2, 5, 10]))  # returns [1, 2, 10]

@@ -19,7 +19,7 @@ def find_missing_number(intarr):
     n = len(intarr) + 1
     actual_sum = n * (n + 1) / 2
     observed_sum = 0
-    for i in xrange(len(intarr)):
+    for i in range(len(intarr)):
         observed_sum += intarr[i]
     return actual_sum - observed_sum
 
@@ -43,7 +43,7 @@ def kth_missing(a, k):
         return 0
 
     count_missed_so_far = 0
-    for i in xrange(len(a) - 1):
+    for i in range(len(a) - 1):
         nxt = i + 1
         count_missed_so_far += a[nxt] - a[i] - 1
         if count_missed_so_far < k:
@@ -71,4 +71,4 @@ if __name__ == '__main__':
     # print missing([1,2,5,6,9], 1,2)  # 0
 
     # print kth_missing([1,4], 1)  # 2
-    print kth_missing([1,4,6,7,9], 4)  # 3
+    print(kth_missing([1,4,6,7,9], 4))  # 3

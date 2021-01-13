@@ -54,10 +54,10 @@ from itertools import islice
 
 def get_non_dec_non_inc_trend(n, k, arr):
     if not input_constraints_pass(n, k, arr):
-        print "failed on input_constraints check"
+        print("failed on input_constraints check")
         return None
     trend_for_all_windows = []
-    for window in xrange(0, n-k+1):
+    for window in range(0, n-k+1):
         value = get_nd_minus_ni(arr[window:window+k])
         trend_for_all_windows.append(value)
     return trend_for_all_windows
@@ -70,7 +70,7 @@ def get_nd_minus_ni(arr):
 
 
 def total_non_decreasing_subranges(arr):
-    iterator = xrange(0, len(arr)).__iter__()
+    iterator = range(0, len(arr)).__iter__()
     total_non_dec_subranges = 0
     for current_index in iterator:
         l = length_of_longest_non_decreasing_seq_at(current_index, arr)
@@ -84,7 +84,7 @@ def total_non_decreasing_subranges(arr):
 
 def length_of_longest_non_decreasing_seq_at(start_index, arr):
     length = 1
-    for index in xrange(start_index, len(arr)-1):
+    for index in range(start_index, len(arr)-1):
         if arr[index] <= arr[index+1]:
             length += 1
         else:
@@ -93,7 +93,7 @@ def length_of_longest_non_decreasing_seq_at(start_index, arr):
 
 
 def total_non_increasing_subranges(arr):
-    iterator = xrange(0, len(arr)).__iter__()
+    iterator = range(0, len(arr)).__iter__()
     total_non_inc_subranges = 0
     for current_index in iterator:
         l = length_of_longest_non_increasing_seq_at(current_index, arr)
@@ -107,7 +107,7 @@ def total_non_increasing_subranges(arr):
 
 def length_of_longest_non_increasing_seq_at(start_index, arr):
     length = 1
-    for index in xrange(start_index, len(arr)-1):
+    for index in range(start_index, len(arr)-1):
         if arr[index] >= arr[index+1]:
             length += 1
         else:
@@ -140,9 +140,9 @@ def non_positive_or_more_than_billion(element):
     return element <= 0 or element > 1e9
 
 if __name__ == "__main__":
-    input_n, input_k = map(int, raw_input().strip().split(' '))
-    input_array = map(int, raw_input().strip().split(' '))
+    input_n, input_k = map(int, input().strip().split(' '))
+    input_array = map(int, input().strip().split(' '))
     out = get_non_dec_non_inc_trend(input_n, input_k, input_array)
     if out is not None:
         for i in out:
-            print i
+            print(i)

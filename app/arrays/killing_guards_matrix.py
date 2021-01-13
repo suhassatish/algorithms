@@ -29,9 +29,9 @@ def hkill(grid):
     """
     n = len(grid)
     result = [[0 for j in len(grid[0])] for i in len(grid)]
-    for r in xrange(n):
+    for r in range(n):
         kc = KillCount()
-        for c in xrange(n):
+        for c in range(n):
             if grid[r][c] == 'E':
                 kc.count += 1
             elif grid[r][c] == 'W':

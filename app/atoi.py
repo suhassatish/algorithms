@@ -16,7 +16,7 @@ def atoi(s):
 
     sum = 0
     sign = 1
-    for i in xrange(len(s)-1):
+    for i in range(len(s)-1):
         if s[i] in ('-', '+'):
             sign = -1 if s[i] == '-' else 1
             if not s[i+1].isdigit():

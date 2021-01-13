@@ -22,7 +22,7 @@ def duplicate_element(arr):
     :return:
     i =0 arr = [2, 1, 3, 3]
     """
-    for i in xrange(len(arr)):
+    for i in range(len(arr)):
         #  if we reach a negative number, we'd already negated it before
         # we've found the duplicate element
         # have to handle 0 separately

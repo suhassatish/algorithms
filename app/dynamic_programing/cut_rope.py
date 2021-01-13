@@ -29,7 +29,7 @@ def _max_prod(rope_size, initial_rope_size):
         return 1
 
     mx = 0 if rope_size == initial_rope_size else rope_size
-    for i in xrange(1, rope_size):
+    for i in range(1, rope_size):
         mx = max(mx, i * _max_prod(rope_size - i, initial_rope_size))
 
     return mx
@@ -60,11 +60,11 @@ def max_prod_dp(rope_length):
     if rope_length <= 2:
         return 1
 
-    mx_arr = [0 for _ in xrange(rope_length + 1)]
+    mx_arr = [0 for _ in range(rope_length + 1)]
     mx_arr[1] = 1
-    for j in xrange(2, rope_length + 1):
+    for j in range(2, rope_length + 1):
         mx_val = 0 if j == rope_length else j
-        for i in xrange(1, j):
+        for i in range(1, j):
             mx_val = max(mx_val, i * mx_arr[j - i])
         mx_arr[j] = mx_val
     return mx_arr[rope_length]

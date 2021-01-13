@@ -35,5 +35,5 @@ def _brackets(left_remaining, right_remaining, prefix, valid_set):
 
 
 if __name__ == '__main__':
-    for i in xrange(1):
+    for i in range(1):
         brackets(i)

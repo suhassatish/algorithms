@@ -1,11 +1,11 @@
-from digraph import Digraph
+from itu.algs4.graphs.digraph import Digraph
 from collections import namedtuple
 
 
 class EdgeWeightedDigraph(Digraph):
     def _init(self, input_stream_with_edges):
         """
-        Over-rides method from Digraph
+        Over-rides method from itu.algs4.graphs.digraph
         :param input_stream_with_edges: This is a tuple like (src, dest, weight)
         :return:
         """

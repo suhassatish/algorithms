@@ -12,7 +12,7 @@ class UF(object):
         if n < 0:
             raise ValueError("n must be a positive integer")
         self.count = n  # number of connected components
-        self.parent = [i for i in xrange(n)]
+        self.parent = [i for i in range(n)]
         self.size = [0] * n  # size[i] = size of subtree rooted at i
 
     def connected(self, p, q):

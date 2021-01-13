@@ -1,6 +1,6 @@
 import heapq
-from edge_weighted_digraph import EdgeWeightedDigraph
-from index_min_pq import IndexMinPQ
+from itu.algs4.graphs.edge_weighted_digraph import EdgeWeightedDigraph
+from itu.algs4.sorting.index_min_pq import IndexMinPQ
 
 """
 Unlike Dijkstra's algorithm, the Bellman–Ford algorithm can be used on graphs with negative edge weights, 
@@ -74,7 +74,7 @@ if __name__ == '__main__':
                   (5, 1, 0.32), (0, 4, 0.38), (0, 2, 0.26), (7, 3, 0.39), (1, 3, 0.29),
                   (2, 7, 0.34), (6, 2, 0.40), (3, 6, 0.52), (6, 0, 0.58), (6, 4, 0.93)]
     # DijkstrasSP(EdgeWeightedDigraph(graph_data), 0)
-    print EdgeWeightedDigraph(graph_data).edges()
+    print(EdgeWeightedDigraph(graph_data).edges())
     # expected_output
     # 0 to 0 (0.00)
     # 0 to 1 (1.05)  0->4  0.38   4->5  0.35   5->1  0.32

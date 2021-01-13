@@ -20,7 +20,7 @@ class Digraph(object):
 
         # this is an adjacency_list indexed by vertex
         # each indexed element is a set of nodes that are connected to this vertex
-        self._adj = [set() for _ in xrange(num_vertices)]
+        self._adj = [set() for _ in range(num_vertices)]
 
         self._V = num_vertices
         self._E = 0
@@ -46,7 +46,7 @@ class Digraph(object):
         """
         self._init_empty(digraph_obj.v())
         self._E = digraph_obj.e()
-        for v in xrange(digraph_obj.v()):
+        for v in range(digraph_obj.v()):
 
             # keep reverse stack so that adj_list is in same order as original
             rev_stk = []
@@ -91,4 +91,4 @@ if __name__ == '__main__':
     graph_arr = [13, 22, (0, 5), (0, 1), (2, 0), (2, 3), (3, 5), (3, 2), (4, 3), (4, 2),
                  (5, 4), (6, 9), (6, 4), (6, 8), (6, 0), (7, 6), (7, 9), (8, 6), (9, 11), (9, 10),
                  (10, 12), (11, 4), (11, 12), (12, 9)]
-    print Digraph(graph_arr).adj()
+    print(Digraph(graph_arr).adj())

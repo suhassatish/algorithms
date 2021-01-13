@@ -13,7 +13,7 @@ def has_five_or_more_in_ANY_30_days(timestamps):
         start_epoch = time
         end_epoch = epoch(start_epoch + '30days')
         count = 1
-        for j in xrange(i+ 1, len(timestamps)):
+        for j in range(i+ 1, len(timestamps)):
             if timestamps[j] > end_epoch:
                 break
             else:

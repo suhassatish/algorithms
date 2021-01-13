@@ -22,7 +22,7 @@ size 1, and even the first letter-center is of size 1.
 
 def palindromic_substrings(str1):
     palset = set()
-    for i in xrange(len(str1)):
+    for i in range(len(str1)):
         add_palindrome(str1, palset, i, i)  # finds odd-length palindromes
         add_palindrome(str1, palset, i, i + 1)  # finds even-length palindromes
     return palset

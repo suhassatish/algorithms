@@ -8,7 +8,7 @@ def sum3(arr):
         return None
     arr.sort()
     s = set()
-    for k in xrange(len(arr) - 1):
+    for k in range(len(arr) - 1):
         i = k + 1
         j = len(arr) - 1
         while i < j:

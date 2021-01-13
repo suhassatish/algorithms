@@ -132,11 +132,11 @@ class KmpPrinceton(object):
         self.m = len(pat)
 
         # build discrete-finite-automata (DFA) from pattern
-        dfa = [[0 for j in xrange(self.m)] for i in xrange(self.r)]
+        dfa = [[0 for j in range(self.m)] for i in range(self.r)]
         dfa[ord(pat[0])][0] = 1
         x = 0  # this is the restart state
-        for j in xrange(1,self.m):
-            for c in xrange(0, self.r):
+        for j in range(1,self.m):
+            for c in range(0, self.r):
                 dfa[c][j] = dfa[c][x]  # copy mismatch cases
 
             dfa[ord(pat[j])][j] = j + 1  # set match case
@@ -155,7 +155,7 @@ class KmpPrinceton(object):
         n = len(txt)
         j = 0
         i = 0
-        for i in xrange(n):
+        for i in range(n):
             j = self.dfa[ord(txt[i])][j]
             if j >= self.m:
                 break

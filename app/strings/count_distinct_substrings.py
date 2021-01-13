@@ -19,8 +19,8 @@ def count_distinct_substrings(s):
     if s is None or len(s) == 0:
         return 0
     st = set()
-    for i in xrange(len(s)):
-        for j in xrange(i + 1, len(s) + 1):  # since xrange goes 1 less than the end in the range
+    for i in range(len(s)):
+        for j in range(i + 1, len(s) + 1):  # since range goes 1 less than the end in the range
             substr = s[i:j]
             if substr not in st:
                 st.add(substr)
@@ -38,4 +38,4 @@ def count_distinct_substrings_linear(s):
     pass
 
 if __name__ == '__main__':
-    print count_distinct_substrings('abababababababababababababababababab')
+    print(count_distinct_substrings('abababababababababababababababababab'))

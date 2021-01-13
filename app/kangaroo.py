@@ -78,7 +78,8 @@ def will_kangaroos_collide(x1, v1, x2, v2):
                 return "YES"
         return "NO"
 
-#if __name__ == "__main__":
-start1,speed1,start2,speed2 = raw_input().strip().split(' ')
+
+# if __name__ == "__main__":
+start1,speed1,start2,speed2 = input().strip().split(' ')
 start1,speed1,start2,speed2 = [int(start1),int(speed1),int(start2),int(speed2)]
-print will_kangaroos_collide(start1, speed1, start2, speed2)
+print(will_kangaroos_collide(start1, speed1, start2, speed2))

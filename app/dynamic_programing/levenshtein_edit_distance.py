@@ -63,15 +63,15 @@ def edit_dist_iterative(str1, str2):
     :param str2:
     :return:
     """
-    mat = [[0 for j in xrange(len(str2) + 1)] for i in xrange(len(str1) + 1)]
-    for j in xrange(len(str2)):
+    mat = [[0 for j in range(len(str2) + 1)] for i in range(len(str1) + 1)]
+    for j in range(len(str2)):
         mat[0][j + 1] = j + 1
 
-    for i in xrange(len(str1)):
+    for i in range(len(str1)):
         mat[i + 1][0] = i + 1
 
-    for i in xrange(len(str1)):
-        for j in xrange(len(str2)):
+    for i in range(len(str1)):
+        for j in range(len(str2)):
             if str1[i] == str2[j]:
                 mat[i + 1][j + 1] = mat[i][j]
             else:

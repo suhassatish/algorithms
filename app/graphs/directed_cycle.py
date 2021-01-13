@@ -1,7 +1,7 @@
 """
 This finds a cycle in a digraph if it exists
 """
-from digraph import Digraph
+from itu.algs4.graphs.digraph import Digraph
 
 
 class DirectedCycle(object):
@@ -22,7 +22,7 @@ class DirectedCycle(object):
         self._edge_to = [None] * digraph_obj.v()  # edge_to[v] = previous vertex on path to v
         self._on_stack = [False] * digraph_obj.v()  # on_stack[v] = is vertex on the stack?
         self._cycle_stk = None  # None if no cycle in digraph, else the directed cycle as a stack
-        for u in xrange(digraph_obj.v()):
+        for u in range(digraph_obj.v()):
             if not self._marked[u] and self._cycle_stk is None:
                 self._dfs(digraph_obj, u)
 
@@ -66,7 +66,7 @@ class DirectedCycle(object):
 
 if __name__ == '__main__':
     g = Digraph([2, None, (0, 1), (1, 0)])
-    print DirectedCycle(g).cycle() # should print cycle
+    print(DirectedCycle(g).cycle()) # should print cycle
 
     g = Digraph([2, None, (0, 1)])
-    print DirectedCycle(g).cycle()  # should print None
+    print(DirectedCycle(g).cycle())  # should print None

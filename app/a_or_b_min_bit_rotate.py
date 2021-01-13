@@ -76,7 +76,7 @@ def hex2bin(hex_str):
 
 
 def find_msb_index_after_pos(bin_str, pos):
-    for i in xrange(pos, len(bin_str)):
+    for i in range(pos, len(bin_str)):
         if bin_str[i] == '1':
             return i
     return -1
@@ -105,7 +105,7 @@ def minimize(a_bin_str, b_bin_str, c_bin_str, remaining_distance):
 
     a_minimized = ''
     b_minimized = ''
-    for i in xrange(0,len(c_bin_str)):
+    for i in range(0,len(c_bin_str)):
         #import ipdb; ipdb.set_trace()
         if c_bin_str[i]=='0':
             a_minimized += a_bin_str[i]
@@ -155,13 +155,13 @@ def find_min_bit_rotation(a, b, c, k):
     a_prime_bin = ''
     b_prime_bin = ''
     distance = 0
-    for i in xrange(0,len(a)):
+    for i in range(0,len(a)):
         a_4digit_binary = get_4digit_binary(a[i])
         b_4digit_binary = get_4digit_binary(b[i])
         c_4digit_binary = get_4digit_binary(c[i])
         a_prime = ''
         b_prime = ''
-        for j in xrange(0,4):
+        for j in range(0,4):
             #a|b already equals c, no shift required
             if int(a_4digit_binary[j]) | int(b_4digit_binary[j]) == int(c_4digit_binary[j]):
                 a_prime += a_4digit_binary[j]
@@ -205,15 +205,15 @@ def find_min_bit_rotation(a, b, c, k):
     return bin2hex(a_prime_min).lstrip('0'), bin2hex(b_prime_min).lstrip('0')
 
 #if __name__ == "__main__":
-n = int(raw_input().strip())
+n = int(input().strip())
 for i in range(0,n):
-    K = int(raw_input().strip())
-    A = raw_input().strip()
-    B = raw_input().strip()
-    C = raw_input().strip()
+    K = int(input().strip())
+    A = input().strip()
+    B = input().strip()
+    C = input().strip()
     res_a, res_b = find_min_bit_rotation(A, B, C, K)
     if res_a == -1:
-        print res_a
+        print(res_a)
     else:
-        print res_a
-        print res_b
+        print(res_a)
+        print(res_b)

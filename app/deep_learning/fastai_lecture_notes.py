@@ -470,7 +470,69 @@ SGD with momentum key ideas
     local minimums.    
 ********************************************************************************
 LECTURE 13 - convolutions - deep dive 
-
     
-By default, fastai puts data on the GPU when using data blocks.    
+1) By default, fastai puts data on the GPU when using data blocks.
+
+2) fastai's Flatten() is the same as pytorch's squeeze() and removes some dimensions of tensors.
+    fastai and pytorch use NCHW axes order for images ie batch_size, channel (RGB), height (of image in pixels), width
+    on the other hand, tensorflow uses the axes order NHWC
+    
+3) For a deeper n/w, train more epoch  and w/ a smaller learning rate, eg 0.01
+
+4) When we use a stride-N convolution, we're decreasing the #activations by N^2. Hence we increase the #features.  
+    There is 1 bias for each channel.
+    
+5) One way to make training more stable is to increase the batch size. Larger batches have gradients that are more 
+accurate, since they're calculated from more data. On the downside, though, a larger batch size means fewer batches per
+ epoch, which means less opportunities for your model to update weights.
+ 
+6) BATCH NORMALIZATION (BN) - Each training mini-batch is normalized so that we dont have to be so careful about weight
+initialization. Large NNs without BN are slow to train as we have to use small learning rates. 
+Batch Normalization allows us to use much higher learning rates and be less careful about initialization.
+
+Batch normalization (often just called batchnorm) works by taking an average of the mean and standard deviations of the
+ activations of a layer and using those to normalize the activations.
+BN can be represented by 2 hyperparams gamma and beta, such that  
+    y' (after BN TX on y) = gamma*y + beta
+    
+7) Receptive field and dilated convolutions - Refer FSDL slides @ 
+~/Dropbox/tech_extras/deep_learning/full_stack_deep_learning/fsdl-convnets-vInternal.pdf
+
+********************************************************************************
+LECTURE 14 - residual networks (resNet)
+
+1) pyTorch has nn.AdaptiveAvgPool2d, which averages a grid of activations into whatever sized destination you require 
+(although we nearly always use a size of 1).
+Fully convolutional networks are only really a good choice for objects that don't have a single correct orientation or 
+size (e.g., like most natural photos).
+
+Adaptive avg pooling is equivalent to slicing an image into parts, jumbling them up and taking the avg of the parts.
+
+2) Key idea of resnet arch - Equivalent to taking a NN of H conv layers and then adding H' identity (conv1) layers that
+ do nothing with unit weights (aka pass through layers) and then training the larger model of H + H' conv layers 
+use conv2 and conv1 alternate layers where conv1 is an identity layer. 
+
+y = x + conv2(conv1(x)) 
+
+3) STEM - the 1st few layers of a CNN is called a stem. Vast majority of the computations in NNs occur in 1st few layers
+So we should heep them fast and simple.
+
+4) If the first-layer convolution only has 3 input features and 32 output features. 
+Since it is a 3×3 kernel, this is 3×32×3×3 = 864 parameters in the weights. 
+But the last convolution will have 256 input features and 512 output features, resulting in 1,179,648 weights! 
+So the first layers contain the vast majority of the computation, but the last layers contain the vast majority of the 
+parameters.
+
+5) A ResNet block takes more computation than a plain convolutional block, since (in the stride-2 case) a ResNet block 
+has three convolutions and a pooling layer. That's why we want to have plain convolutions to start off our ResNet.
+
+6) BOTTLENECK DESIGN OF RESNET - Instead of stacking two convolutions with a kernel size of 3, bottleneck layers use 
+three different convolutions: two 1×1 (at the beginning and the end) and one 3×3. This lets us use more filters and 
+train in the same amount of time.
+
+********************************************************************************
+
+LECTURE 15 - Application architectures Deep Dive
+
+           
 """

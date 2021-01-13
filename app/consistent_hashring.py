@@ -29,7 +29,7 @@ class ConsistentHashRing(object):
         """Given a node name, return an iterable of replica hashes."""
 
         return (self._hash("%s:%s" % (nodename, i))
-                for i in xrange(self.replicas))
+                for i in range(self.replicas))
 
     def __setitem__(self, nodename, node):
         """Add a node, given its name.

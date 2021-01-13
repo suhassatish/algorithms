@@ -33,8 +33,8 @@ Then push node to a stack. Finally print contents of stack.
 http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/
 """
 
-from digraph import Digraph
-from directed_cycle import DirectedCycle
+from itu.algs4.graphs.digraph import Digraph
+from itu.algs4.graphs.directed_cycle import DirectedCycle
 
 
 def find_order(word_sorted_list):
@@ -73,14 +73,14 @@ def find_order(word_sorted_list):
     letter_to_vertex_id_dict = {}
     vertex_id_to_letter = []
 
-    for i in xrange(len(word_sorted_list) - 1):
+    for i in range(len(word_sorted_list) - 1):
         word1 = word_sorted_list[i]
         word2 = word_sorted_list[i + 1]
         if len(word1) < len(word2):
             smaller_word = word_sorted_list[i]
         else:
             smaller_word = word_sorted_list[i + 1]
-        for word_index in xrange(len(smaller_word)):
+        for word_index in range(len(smaller_word)):
             if word1[word_index] == word2[word_index]:
                 continue
             else:
@@ -129,7 +129,7 @@ def topological_sort(digraph_obj):
     if DirectedCycle(digraph_obj).has_cycle():
         return None
 
-    for u in xrange(digraph_obj.v()):
+    for u in range(digraph_obj.v()):
         if not visited[u]:
             _ts(digraph_obj, u, visited, stk)
 
@@ -159,12 +159,12 @@ def _ts(digraph_obj, v, visited, stack):
 
 if __name__ == '__main__':
     g = Digraph([6, None, (5, 2), (5, 0), (4, 0), (4, 1), (2, 3), (1, 3)])
-    print topological_sort(g)  # [5, 4, 2, 1, 3, 0]
+    print(topological_sort(g))  # [5, 4, 2, 1, 3, 0]
 
     # tests a cyclic digraph, topological_sort should detect cycle and return None
     g = Digraph([2, None, (0, 1), (1, 0)])
-    print topological_sort(g)  # None
+    print(topological_sort(g))  # None
 
-    print find_order(['baa', 'abcd', 'abca', 'cab', 'cad'])  # bdac
-    print find_order(['caa', 'aaa', 'aab'])  # cab
-    print find_order(['aa', 'bb', 'cc', 'dd', 'ee'])  # abcde
+    print(find_order(['baa', 'abcd', 'abca', 'cab', 'cad']))  # bdac
+    print(find_order(['caa', 'aaa', 'aab']))  # cab
+    print(find_order(['aa', 'bb', 'cc', 'dd', 'ee']))  # abcde

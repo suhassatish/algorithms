@@ -53,7 +53,7 @@ def longest_common_substring(s1, s2):
     elif len(s1) == 0 or len(s2) == 0:
         return set("")
     else:
-        matrix = [[0 for j in xrange(len(s2))] for i in xrange(len(s1))]
+        matrix = [[0 for j in range(len(s2))] for i in range(len(s1))]
         rolling_max = 0
         result = set()
         for i in range(len(s1)):

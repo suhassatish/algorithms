@@ -17,7 +17,7 @@ class RabinKarp(object):
         self._Q = 997  # a long random prime is better for security reasons, but avoid overflow
 
         self._RM1 = 1  # pre-compute R**(M-1) (mod Q)
-        for i in xrange(1, self._M):
+        for i in range(1, self._M):
             self._RM1 = (self._R * self._RM1) % self._Q
 
         self._pat_hash = self._hash(pat)  # pattern hash value
@@ -41,7 +41,7 @@ class RabinKarp(object):
         :return: long integer
         """
         h = 0
-        for j in xrange(self._M):
+        for j in range(self._M):
             h = (h * self._R + ord(txt[j])) % self._Q
         return h
 
@@ -75,7 +75,7 @@ class RabinKarp(object):
 
         # now compute the rolling hash on the text by sliding the pattern over the text, and reusing
         # previously computed txt_hash
-        for i in xrange(self._M, n):
+        for i in range(self._M, n):
             txt_hash = (txt_hash + self._Q - self._R * self._M * ord(txt[i - self._M]) % self._Q) %\
                        self._Q
             txt_hash = (txt_hash * self._R + ord(txt[i])) % self._Q

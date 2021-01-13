@@ -24,7 +24,7 @@ def dutch_flag_sort(s):
     r = 0
     b = len(st) - 1
     g = 0
-    # for g in xrange(len(st)): # for-loop doesnt work here since when g and b pointers cross,
+    # for g in range(len(st)): # for-loop doesnt work here since when g and b pointers cross,
     # it will get messed up and undesirable swaps start; eg 'gbggrbrg' returns 'rgggbbrg'
 
     while g <= b:  # be careful about including the equality sign, otherwise 1 item will be left out

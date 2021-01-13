@@ -31,8 +31,8 @@ Time complexity is n*m, memory = n * m
 http://stackoverflow.com/questions/17514999/convert-string-a-to-b-using-a-dictionary-of-words
 If the graph is too big to build in memory, consider using a database with one row for each edge.
 """
-from bfs import BreadthFirstPaths
-from graph_api import Graph
+from itu.algs4.graphs.breadth_first_paths import BreadthFirstPaths
+from itu.algs4.graphs.graph import Graph
 
 
 def word_ladder(word_list, word1, word2):
@@ -51,11 +51,11 @@ class WordLadder(object):
         self.word_list = word_list
         self.graph = Graph(node_count)
         self.word_to_vertex_id = {}
-        for i in xrange(node_count - 1):
+        for i in range(node_count - 1):
             self.word_to_vertex_id[word_list[i]] = i
-            for j in xrange(i + 1, node_count):
+            for j in range(i + 1, node_count):
                 word_distance = 0
-                for k in xrange(len(word_list[i])):
+                for k in range(len(word_list[i])):
                     if word_list[i][k] == word_list[j][k]:
                         continue
                     else:
@@ -84,4 +84,4 @@ if __name__ == '__main__':
     d = ['BAD', 'BAR', 'BAT', 'BOT', 'CAP', 'CAR', 'CAT', 'HAD', 'HAT', 'RAP']
     a = 'BOT'
     b = 'HAD'
-    print word_ladder(d, a, b)  # BOT -> BAT -> BAD -> HAD
+    print(word_ladder(d, a, b))  # BOT -> BAT -> BAD -> HAD

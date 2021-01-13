@@ -23,9 +23,9 @@ def compute_towers_hanoi(num_rings):
     # create 3 separate lists - for source, destination, and spare
     # Its a mistake to create lists as [list()] * 3, this will create 3 references to the same
     # single list under the hood. Hence, need to create lists with for-loop like below
-    for i in xrange(NUM_PEGS):
+    for i in range(NUM_PEGS):
         pegs.append(list())
-    for ring in xrange(num_rings, 0, - 1):  # desc order of size (size = ring_number here)
+    for ring in range(num_rings, 0, - 1):  # desc order of size (size = ring_number here)
         pegs[0].append(ring)  # will look like src_peg = [5, 4, 3, 2, 1]
 
     _compute_towers_hanoi_steps(pegs, num_rings, 0, 1, 2)

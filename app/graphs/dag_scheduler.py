@@ -4,7 +4,7 @@ from topological_sort import topological_sort
 class Digraph(object):
 
     def __init__(self, num_vertices):
-        self._adj = [set() for _ in xrange(num_vertices)]  # _adj[0] gives the neighbors of vertex 0 -> 1
+        self._adj = [set() for _ in range(num_vertices)]  # _adj[0] gives the neighbors of vertex 0 -> 1
         self.v = num_vertices
         self.e = 0
         pass

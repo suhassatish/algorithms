@@ -17,7 +17,7 @@ class ConsistentHashRingTest(unittest.TestCase):
             ring["node%d" % i] = "node_value%d" % i
 
         distributions = collections.defaultdict(int)
-        for i in xrange(numhits):
+        for i in range(numhits):
             key = str(random.randint(1, numvalues))
             node = ring[key]
             distributions[node] += 1

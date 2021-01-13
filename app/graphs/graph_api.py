@@ -88,7 +88,7 @@ class Graph(object):
         self._E = 0
 
         # each indexed element is a set of nodes that are connected to this vertex
-        for v in xrange(num_vertices):
+        for v in range(num_vertices):
             self._adj[v] = set()
 
     def _init(self, input_stream_with_edges):
@@ -115,7 +115,7 @@ class Graph(object):
         """
         self._init_empty(graph_obj.v())
         self._E = graph_obj.e()
-        for v in xrange(graph_obj.v()):
+        for v in range(graph_obj.v()):
             for w in graph_obj.adj(v):
                 self._adj[v].add(w)
 

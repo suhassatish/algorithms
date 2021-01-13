@@ -69,7 +69,7 @@ def _permutations(a, i, result):
         result.append(list(a))
         return
 
-    for j in xrange(i, len(a)):
+    for j in range(i, len(a)):
         a[i], a[j] = a[j], a[i]
         _permutations(a, i + 1, result)  # generates all permutations for sublist a[i:]
         a[i], a[j] = a[j], a[i]

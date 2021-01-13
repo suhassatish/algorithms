@@ -347,10 +347,10 @@ then exception wont buble up to ipython;
 # 	shares  = Integer('shares')
 # 	price = Float('price')
 # -------------
-# range() returns  a list while xrange returns an object
+# range() returns  a list while range returns an object
 #
-# The advantage of the xrange type is that an xrange object will always take the same amount of memory, no matter the size of the range it represents. There are no consistent performance advantages.
-# XRange objects (immutable sequence) have very little behavior: they only support indexing, iteration, and the len() function.
+# The advantage of the range type is that an range object will always take the same amount of memory, no matter the size of the range it represents. There are no consistent performance advantages.
+# range objects (immutable sequence) have very little behavior: they only support indexing, iteration, and the len() function.
 # -------------------
 # string formatting for octal and hexadecimal -
 # print "Octal = %#o Hexadecimal = %#x" % (number, number)
@@ -627,7 +627,7 @@ then exception wont buble up to ipython;
 #     h = []
 #     for v in iterable:
 #         heappush(h, v)
-#     return [heappop(h) for i in xrange(len(h))]
+#     return [heappop(h) for i in range(len(h))]
 #
 # # heap elements can be tuples as well as shown blow
 # # application 2
@@ -741,7 +741,7 @@ then exception wont buble up to ipython;
 #
 # GIL ensures that each thread gets exclusive access to the python interpreter internals when its running. Threads hold the GIL mutex while running. Hoever, they release it when blocking for I/O. When a thread is waiting on I/O, other "ready" threads get their chance to run.
 #
-# So CPU-bound threads that never are blocked on IO, the interpreter periodically performs a "check", every 100 interpreter ticks. Ticks are uninterruptible (ctrl-C signal cannot kill it), and NOT time-based. Long operations can block everything . eg - nums in xrange(100000000); -1 in nums ; takes 6.6 seconds to iterate over whole array and then return result.
+# So CPU-bound threads that never are blocked on IO, the interpreter periodically performs a "check", every 100 interpreter ticks. Ticks are uninterruptible (ctrl-C signal cannot kill it), and NOT time-based. Long operations can block everything . eg - nums in range(100000000); -1 in nums ; takes 6.6 seconds to iterate over whole array and then return result.
 #
 # The above implies that threaded operations in python cannot be killed with keyboard interrupt. You have to use kill -9 in a separate window.
 # Signal handlers can only run in the main thread. The interpreter quickly acquires/releases the GIL after every tick until it gets scheduled.
@@ -1084,7 +1084,7 @@ then exception wont buble up to ipython;
 # # 2) use metaclass if you're trying to perform actions in combination with inheritance
 # --------------
 # #best way to declare list of lists in pythonic way
-# four_lists = [[] for __ in xrange(4)]
+# four_lists = [[] for __ in range(4)]
 #
 # # list comprehension example - pythonic way
 # ','.join([str(x) for x in foo])
@@ -1096,10 +1096,10 @@ then exception wont buble up to ipython;
 # # 2D dimensional matrix initialization in pythonic way -
 # x = [[0 for j in range(10)] for i in range(10)]
 # # when writing nested lists for 2D array, its in the inside-out order of writing for-loop.
-# # for i in xrange(N1):
-# #   for j in xrange(N2):
-# #       for k in xrange(N3):
-# #is written as [[[0 for k in xrange(N3)] for j in xrange(N2)] for i in xrange(N1)]
+# # for i in range(N1):
+# #   for j in range(N2):
+# #       for k in range(N3):
+# #is written as [[[0 for k in range(N3)] for j in range(N2)] for i in range(N1)]
 #
 # --------
 # sorting - using the 'key=' is much faster o(n lg n) vs using the 'cmp=' which compares all pairs ie o(n^2 lg n)

@@ -73,7 +73,7 @@ class Tracker(object):
         for e in a:
             st.add(e)
 
-        for i in xrange(1, len(a) + 2):
+        for i in range(1, len(a) + 2):
             if i not in st:
                 return i
 

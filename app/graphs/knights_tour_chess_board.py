@@ -23,8 +23,8 @@ Without the trouble of defining nodes and edges, the below dynamic programing fo
 NumWays(x,y)= 1+ min(NumWays(x+-2,y-+1),NumWays(x+-1,y+-2));
 """
 from collections import deque
-from bfs import BreadthFirstPaths
-from graph_api import Graph
+from itu.algs4.graphs.breadth_first_paths import BreadthFirstPaths
+from itu.algs4.graphs.graph import Graph
 
 
 def min_knight_moves(rows, cols, startx, starty, endx, endy):
@@ -42,7 +42,7 @@ class Board(object):
         self.endx = endx
         self.endy = endy
         self.graph = Graph(rows * cols)
-        self.visited = [[False for _ in xrange(cols)] for r in xrange(rows)]
+        self.visited = [[False for _ in range(cols)] for r in range(rows)]
         q = deque()
         q.append((startx, starty))
         self.visited[startx][starty] = True
@@ -98,8 +98,8 @@ class Board(object):
         return self.cols * i + j
 
 if __name__ == '__main__':
-    print min_knight_moves(3, 3, 0, 0, 2, 2)  # 4
-    print min_knight_moves(8, 8, 0, 0, 7, 7)  # 6
-    print min_knight_moves(16, 16, 4, 3, 12, 13)  # 6
-    print min_knight_moves(64, 64, 4, 3, 56, 56)  # 35
-    print min_knight_moves(64, 64, 11, 14, 56, 62)  # 31
+    print(min_knight_moves(3, 3, 0, 0, 2, 2))  # 4
+    print(min_knight_moves(8, 8, 0, 0, 7, 7))  # 6
+    print(min_knight_moves(16, 16, 4, 3, 12, 13))  # 6
+    print(min_knight_moves(64, 64, 4, 3, 56, 56))  # 35
+    print(min_knight_moves(64, 64, 11, 14, 56, 62))  # 31

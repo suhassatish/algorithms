@@ -37,15 +37,15 @@ def matrix_mult_naive(A, B):
     :param B: N x K
     :return: C of dimension M x K
     """
-    C = [[0 for col in xrange(len(B[0]))] for row in xrange(len(A))]
-    for row in xrange(len(A)):  # M
-        for col in xrange(len(B[0])):  # K
-            for k in xrange(len(A[0])):
+    C = [[0 for col in range(len(B[0]))] for row in range(len(A))]
+    for row in range(len(A)):  # M
+        for col in range(len(B[0])):  # K
+            for k in range(len(A[0])):
                 C[row][col] += A[row][k] * B[k][col]
     return C
 
 
 if __name__ == '__main__':
-    print matrix_mult_naive([[1, 0, 0], [-1, 0, 3]], [[7, 0, 0], [0,0,0], [0,0,1]])
+    print(matrix_mult_naive([[1, 0, 0], [-1, 0, 3]], [[7, 0, 0], [0,0,0], [0,0,1]]))
     # [[7, 0, 0], [-7, 0, 3]]
 

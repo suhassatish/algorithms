@@ -18,10 +18,10 @@ For implicit graph problems, dont create a graph of vertices.
 
 
 def count_islands(matrix):
-    visited = [0 for i in xrange(len(matrix)) for j in xrange(len(matrix[0]))]
+    visited = [0 for i in range(len(matrix)) for j in range(len(matrix[0]))]
     count = 0
-    for i in xrange(len(matrix)):
-        for j in xrange(len(matrix[0])):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
             if matrix[i][j] and visited[i][j] == 0:
                 exhaust_cc(matrix, i, j, visited)
                 count += 1

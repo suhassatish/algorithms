@@ -20,7 +20,7 @@ ANSWER: DFS->Stack BFS->Queue
 EXPLANATION: With DFS, it is either an explicit stack(w/ nonrecursive version)
 or the function-call stack (w/a recursive version)
 """
-from graph_api import Graph
+from itu.algs4.graphs.graph import Graph
 
 
 class DepthFirstPaths(object):
@@ -77,7 +77,7 @@ if __name__ == '__main__':
          (7,8), (9,11), (5,3)]
     g = Graph(l)
     dfp = DepthFirstPaths(g, 6)
-    print dfp.edge_to  # [6, 0, 0, 5, 3, 0, None, None, None, None, None, None, None]
-    print dfp.marked  # [True, True, True, True, True, True, True, False, False, False, False,
+    print(dfp.edge_to)  # [6, 0, 0, 5, 3, 0, None, None, None, None, None, None, None]
+    print(dfp.marked)  # [True, True, True, True, True, True, True, False, False, False, False,
     # False, False]
-    print dfp.path_to(4)  # [4, 3, 5, 0, 6]  Note: not necessarily the shortest path
+    print(dfp.path_to(4))  # [4, 3, 5, 0, 6]  Note: not necessarily the shortest path

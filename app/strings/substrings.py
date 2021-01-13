@@ -10,8 +10,8 @@ def findSubstrings(s):
     if not constraint_check_pass(s):
         return None
     filtered_substrs = []
-    for i in xrange(0, len(s)):
-        for j in xrange(i, len(s)):
+    for i in range(0, len(s)):
+        for j in range(i, len(s)):
             if isVowel(s[i]):
                 if isVowel(s[j]):
                     continue

@@ -46,7 +46,7 @@ def count_trees(n):
         # on the left and right each forming their own subtrees.
         # Iterate through all the values that could be the root...
         sums = 0
-        for k in xrange(1,n+1):
+        for k in range(1,n+1):
             left = count_trees(k - 1)
             right = count_trees(n - k)
 

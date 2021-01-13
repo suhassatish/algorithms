@@ -46,19 +46,19 @@ def number_of_paths(a):
 
     R = len(a)
     C = len(a[0])
-    paths = [[0 for _ in xrange(C)] for __ in xrange(R)]
+    paths = [[0 for _ in range(C)] for __ in range(R)]
 
     paths[0][0] = a[0][0]
 
     # count paths along top row, its only 1 way if there are adjacent 1s, else 0
     # if the top row is 1 0 1 1, ie after the 1st 0 is enountered, the number of paths along
     # it will be all 0s; 1 1 0 0
-    for j in xrange(1, C):
+    for j in range(1, C):
         if a[0][j - 1] == 0:
             paths[0][j] = 0
 
             # short circuit and make all subsequent entries on this row 0s as it hit a road block
-            for k in xrange(j,C):
+            for k in range(j,C):
                 paths[0][k] = 0
             break # breaks out of outer for-loop
 
@@ -66,20 +66,20 @@ def number_of_paths(a):
             paths[0][j] = 1
 
     # count paths along left-most column, its only 1 way if there are adjacent 1s, else 0
-    for i in xrange(1, R):
+    for i in range(1, R):
         if a[i - 1][0] == 0:
             paths[i][0] = 0
 
             # short circuit and make all subsequent entries on this row 0s as it hit a road block
-            for k in xrange(i,R):
+            for k in range(i,R):
                 paths[0][k] = 0
             break # breaks out of outer for-loop
 
         else:
             paths[i][0] = 1
 
-    for i in xrange(1, R):
-        for j in xrange(1, C):
+    for i in range(1, R):
+        for j in range(1, C):
             if a[i - 1][j] == 0 and a[i][j - 1] == 0:
                 paths[i][j] = 0
 

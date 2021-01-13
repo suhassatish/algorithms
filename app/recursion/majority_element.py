@@ -41,7 +41,7 @@ def confirm_majority(arr, c, start, end):
     """
     count = 0
     n = len(arr)
-    for i in xrange(n):
+    for i in range(n):
         if c == arr[i]:
             count += 1
     return count > n/2

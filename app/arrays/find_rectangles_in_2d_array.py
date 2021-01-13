@@ -23,7 +23,7 @@
 # def say_hello():
 #     print 'Hello, World'
 
-# for i in xrange(5):
+# for i in range(5):
 #     say_hello()
 
 
@@ -66,8 +66,8 @@ def get_rectangle_coordinates(matrix):
     start_x = None
     start_y = None
     height = width = None
-    for row in xrange(len(matrix)):
-        for col in xrange(len(matrix[0])):
+    for row in range(len(matrix)):
+        for col in range(len(matrix[0])):
             if matrix[row][col] == 1:
                 continue
             else:
@@ -108,10 +108,10 @@ def get_rectangle_coordinates2(matrix):
     start_x = None
     start_y = None
     height = width = None
-    visited = [[0 for col in xrange(cols)] for row in xrange(rows)]
+    visited = [[0 for col in range(cols)] for row in range(rows)]
     rectangles = []
-    for row in xrange(len(matrix)):
-        for col in xrange(len(matrix[0])):
+    for row in range(len(matrix)):
+        for col in range(len(matrix[0])):
             if visited[row][col]:
                 continue
 
@@ -140,8 +140,8 @@ def get_rectangle_coordinates2(matrix):
                         r += 1
                     else:
                         break
-                for x in xrange(start_x,start_x + height):
-                    for y in xrange(start_y, start_y + width):
+                for x in range(start_x,start_x + height):
+                    for y in range(start_y, start_y + width):
                         visited[x][y] = 1
                 rectangles.append(((start_x, start_y), height,  width))
                 start_x = start_y = height = width = None

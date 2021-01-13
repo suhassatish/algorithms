@@ -43,7 +43,7 @@ def _palindromic_decompositions(s, index, partial_decomposition, result):
         result.append(list(partial_decomposition))
         return
 
-    for i in xrange(index + 1, len(s) + 1):
+    for i in range(index + 1, len(s) + 1):
         prefix = s[index:i]
         if is_palindrome(prefix):
             partial_decomposition.append(prefix)

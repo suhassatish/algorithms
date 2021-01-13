@@ -36,8 +36,8 @@ def merge(list_of_lists):
     # push all elements into the priority queue (needs memory O(NK))
     # If its infinite stream, this wont work. Then you will have to maintain
     # priority queue of size k only
-    for k in xrange(K):
-        for n in xrange(N):
+    for k in range(K):
+        for n in range(N):
             heapq.heappush(h, list_of_lists[k][n])
 
     # now pop from priority queue
@@ -72,7 +72,7 @@ def merge_infinite(list_of_lists):
 
     while len(out) != N * K:
         # push upto k elements at a time into pq. Takes O(lg k)
-        for k in xrange(K):
+        for k in range(K):
             if list_of_linked_lists[k].first is not None:
                 # remove the head of corresponding linked list and advance its pointer
                 # this is an O(1) operation
@@ -96,6 +96,6 @@ if __name__ == '__main__':
          [0, 9, 10, 11]
         ]
 
-    # print [a[i] for i in xrange(len(merge(a)))]
+    # print [a[i] for i in range(len(merge(a)))]
     # print merge(a)
     print merge_infinite(a)

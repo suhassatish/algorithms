@@ -37,7 +37,7 @@ def _word_break_1(input_string, word_set, index, tmp_word_list, result_str):
         result_str = " ".join([word for word in list(tmp_word_list)])
         return
 
-    for i in xrange(index + 1, len(input_string) + 1):
+    for i in range(index + 1, len(input_string) + 1):
         prefix = input_string[index:i]
         print index, tmp_word_list, prefix, result_str
         # O(1) look-up in hash-set vs O(lg n) binary search look-up in sorted_list
@@ -82,15 +82,15 @@ def word_break(input_string, word_set):
     :param word_set:
     :return:
     """
-    last_length = [-1 for i in xrange(len(input_string))]
-    for i in xrange(len(input_string)):
+    last_length = [-1 for i in range(len(input_string))]
+    for i in range(len(input_string)):
         if input_string[0:i+1] in word_set:
             last_length[i] = i + 1
 
         # if last_length[i] = -1, look for j < i st
         # s[0:j+1] is_valid_word && s[j+1:i+1] is_valid_word
         if last_length[i] == -1:
-            for j in xrange(0, i+1):
+            for j in range(0, i+1):
                 if last_length[j] != -1 and input_string[j + 1: i + 1] in word_set:
                     last_length[i] = i - j
 

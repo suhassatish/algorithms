@@ -2,7 +2,7 @@
 Finds shortest path from a source vertex s to every other vertex in an undirected graph
 """
 
-from graph_api import Graph
+from itu.algs4.graphs.graph import Graph
 from collections import deque
 
 
@@ -48,8 +48,8 @@ if __name__ == '__main__':
          (7,8), (9,11), (5,3)]
     g = Graph(l)
     bfp = BreadthFirstPaths(g, 6)
-    print bfp.edge_to  # [6, 0, 0, 4, 6, 0, None, None, None, None, None, None, None]
-    print bfp._marked  # [True, True, True, True, True, True, True, False, False, False, False,
+    print(bfp.edge_to)  # [6, 0, 0, 4, 6, 0, None, None, None, None, None, None, None]
+    print(bfp._marked)  # [True, True, True, True, True, True, True, False, False, False, False,
     # False, False]
-    print bfp.dist_to  # [1, 2, 2, 2, 1, 2, 0, inf, inf, inf, inf, inf, inf]
+    print(bfp.dist_to)  # [1, 2, 2, 2, 1, 2, 0, inf, inf, inf, inf, inf, inf]
     # shortest path array from src 6

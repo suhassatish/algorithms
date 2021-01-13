@@ -13,7 +13,7 @@ So you have to consider the whole set.
 
 
 def find_controlling_set(input_str, input_set):
-    for c in xrange(len(input_str)):
+    for c in range(len(input_str)):
         _find_controlling_set(input_str, input_set, c, c)
         _find_controlling_set(input_str, input_set, c, c + 1)
 
@@ -35,4 +35,4 @@ def _find_controlling_set(input_str, input_set, start_index, end_index):
 
 
 if __name__ == '__main__':
-    print find_controlling_set('btabbtgdyafy', {'a', 't', 'd'})
+    print(find_controlling_set('btabbtgdyafy', {'a', 't', 'd'}))
