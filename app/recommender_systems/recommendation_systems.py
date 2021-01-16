@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-********************************************************************************
 Apr 10, 2020 - Real-time, Contextual and Personalized Recommendations
 https://www.youtube.com/watch?v=2qood2d-HYk
 

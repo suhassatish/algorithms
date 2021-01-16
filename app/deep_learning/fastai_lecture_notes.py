@@ -1,4 +1,3 @@
-from torch import exp
 
 """
 Notes from 2020 version of fast.ai lectures and book notes
@@ -92,6 +91,7 @@ import torch
 
 
 def mnist_loss(inputs, targets):
+    from torch import exp
     """
     :param inputs:
     :param targets:
@@ -564,6 +564,46 @@ behind the scenes to train only the head of a model when we do transfer learning
 ********************************************************************************
 
 LECTURE 16 - Optimizers and Using Callbacks
+https://github.com/fastai/fastbook/blob/master/16_accel_sgd.ipynb
 
-      
+1) RMSProp is another variant of SGD. It uses an adaptive learning rate instead of the same LR for every param in SGD.
+Every param gets its own LR.
+If a param's gradient has been 0 for a while, it needs a bigger LR as the loss is flat.
+If a param's gradient is all over the place, it needs a smaller LR to avoid divergence.    
+
+We use the moving avg of gradient^2 (smoothing like momentum but on abs values of grad)
+
+w.square_avg = alpha * w.square_avg + (1-alpha) * (w.grad ** 2)
+new_w = w - lr * w.grad / math.sqrt(w.square_avg + eps)
+The eps (epsilon) is added for numerical stability (usually set at 1e-8), and the default value for alpha is usually 0.99
+
+2) ADAM brings SGD and RMSProp ideas together.    
+Examples of optimizer code with tests in - https://github.com/fastai/fastai/blob/master/nbs/12_optimizer.ipynb
+   
+********************************************************************************
+
+LECTURE 17 - FOUNDATIONS (of NNs)
+1) NN back & fwd pass from scratch
+
+2) Properly initializing a neural net is crucial to get training started. Kaiming initialization should be used when we 
+have ReLU nonlinearities.
+
+3) When subclassing pyTorch's nn.Module (if not using fastai's Module) we have to call the superclass __init__ method in
+ our __init__ method and we have to define a forward function that takes an input and returns the desired result.
+
+********************************************************************************
+ 
+LECTURE 18 - CNN Interpretation with CAM (class activation map)
+
+1) CAM - It uses the output of the last convolutional layer (just before the average pooling layer) together with the 
+predictions to give us a heatmap visualization of why the model made its decision.
+
+2) Hooks are PyTorch's equivalent of fastai's callbacks. Rather than allowing you to inject code into the training loop 
+like a fastai Learner callback, hooks allow you to inject code into the forward and backward calculations themselves.  
+
+********************************************************************************
+LECTURE 19 - fastai Learner from scratch
+
+
+
 """

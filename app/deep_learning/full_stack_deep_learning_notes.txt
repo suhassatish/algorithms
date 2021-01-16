@@ -1,3 +1,81 @@
+FSDL Josh Tobin talk on production ML on Jan 13, 2021
+
+DQ (AWS) and TFX (google) are data quality metrics papers about pragmatic trade-offs.
+Another OSS library - great expectations.
+
+Alibi and OD libs - answers how unlikely is this data point? Works for small dimensionality uncorrelated data.
+Dont trust model's confidence.
+
+Tuning outlier detection systems is really hard. Lots of FP and FN. Dont do that as a starting point. Maybe for a few
+important features after projecting down for outlier detection.
+
+DRIFT DETECTION - for a window of data points, how similar is that data distribution to our training data distribution?
+Open problem. Consider starting with monitoring the projection of the data using a random auto-encoder, or monitoring
+other things like "shape of the image" or "length of the sentence", etc.
+
+Compute some distance metric /w 2 feature distributions - eg -
+
+1) KL-divergence. Con - not very interpretable.
+Has numerical stability issues.
+D_KL (p || q) = E_x~p (log(p(x) / q(x)))
+
+
+2) Cumulative data distribution - Kolmogorov-Smirnof test
+
+3) Google paper recommends - discritized distribution, look at difference at each of those points and sum them.
+
+Compute all 3 of these for all our features. To set alerts, use the google's metric as its robust.
+Other 2 maybe sensitive on threshold leading to FP and FN.
+
+Continuous retraining can mitigate distribution shifts. But if you dont have monitoring to detect bad data,
+then you may continuously retrain on bad data.
+----
+
+Drift detection with multiple features -
+Compare univariate tests - avg p-values across features is going to be wrong.
+
+Cant also take min p-value,
+
+Min p-value across features, corrected for multiple hypothesis testing.
+    Bonferroni test is good : p < α / K
+
+Multivariate test out of the box - max mean discrepancy test.
+1 of the only papers - failing loudly: empirical study of methods for detecting dataset shift
+----
+SYSTEM DESIGN CONSIDERATIONS
+
+1) Keep around a reference distribution or a summary of it to use for comparisons. Version it.
+
+2) In batch case, compare each batch to the ref distro. Get 1 or more scores like KL-divergence, etc.
+Compare scores to a threshold you set, version that.
+
+3) Streaming makes things harder
+    a) how often to run which checks?
+    b) min sample size for different checks?
+    c) how to subsample data accurately?
+    d) Does setting thresholds dynamically deal with seasonality?
+    e) Computing moving windows efficiently, eg - if your window size is 1 day, but you want to compute it every 1 min,
+        how not to waste compute?
+        check out sketching algorithms - https://sketchingbigdata.org/fall20
+            (~/Dropbox/tech_extras/Algos/sketching-algorithms-Berkeley-Dec-2020.pdf)
+
+4) DAGs of models makes things harder
+
+5) Monitoring needs to be connected back to debugging
+-------
+
+MONITORING as the MLOps Orchestrator
+1) CI / testing : Anomalies and drifted data should be fed back into tests
+
+2) Deployment: Shadow tests, AB tests can be run by monitoring system
+
+3) Retraining: Monitoring system tells you when to retrain. Make sure you retrain on the right data.
+
+4) Active learning: monitoring system points out interesting examples in prod, which are exactly what you want to label
+and retrain on.
+
+********************************************************************************
+
 Fri, Aug 3, 2018 -
 
 Find High impact, high  feasibility (low cost) projects in industry: mental models
