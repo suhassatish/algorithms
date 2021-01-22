@@ -1,5 +1,110 @@
 # -*- coding: utf-8 -*-
 """
+https://towardsdatascience.com/factorization-machines-for-item-recommendation-with-implicit-feedback-data-5655a7c749db
+TODO
+
+************************************************************************
+FACTORIZATION MACHINES (FM) - https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf
+1) A FM is a general predictor that combines advantages of SVMs with factorization models.
+
+2) Unlike SVMs, they model all INTERACTIONS (eg user item interactions in rec sys) b/w variables using factorized params
+
+3) Hence, they can estimate interactions even where there's huge sparsity (eg rec sys) where SVMs fail.
+
+4) Model equations in FMs can be calculated in linear time and hence, FMs can be optimized directly.
+
+5) Traditional matrix factorization methods like SVD++, PITF (pairwise interaction tensor factorization)
+    or FPMC (factorized personalized markov chains) fail for COLD-START situations when there is no
+    user interaction data for items. They're also not applicable for general prediction tasks since their model eqns
+    and optz algos are derived individually for each task. FMs can mimic these models by specifying input data (
+    ie feature vectors). THis makes FMs easily applicable even for users w/o expert knowledge of factorization models.
+
+6) To learn the FM model, we typically use
+    a) MSE loss for regression task,
+    b) cross entropy loss for classification tasks, and
+    c) BPR loss for ranking task.
+    Standard optimizers such as SGD and Adam are viable for optimization.
+************************************************************************
+
+paper - https://arxiv.org/pdf/1905.01997.pdf
+Deep Learning sequential recommendation: algorithms, influential factors and evaluations
+Oct 10, 2020
+
+For sequential rec sys, DL-based methods have recently surpassed traditional models like matrix-factorization (MF) based
+ones and markov-chain (MC) based models.
+
+PROS of DL -
+1) MC and MF methods assume a user's BH is only related to a few recent actions but DL methods can have a much longer
+    sequence.
+2) DL methods are more robust to sparse data and can adapt to varied length of i/p seq.
+CONS of DL -
+1) lack of interpretability
+2) optz is v/difficult and needs more training data
+3) They largely emphasize item representation, but lack of a careful design on user representation.
+
+Important to model user's short term interests within a session as well as their long term interests across sessions.
+Markov-chain and sesion-based KNN have traditionally been used to model these effects before DL-based RNNs.
+
+Behavior trajectory is a sequence of (behaviour actions on behavior object) tuples.
+1) experience-based - interact with same object in different way, eg - search, click, buy
+2) transaction-based - different objects but same behavior, eg - buy item 1, buy item 2 , etc
+3) interaction-based - hybrid of above 2. Predict the next BH obj user will interact with.
+------
+TRADITIONAL APPROACHES -
+1) FREQUENT PATTERN MINING with sufficient support and confidence.
+    Recommend frequently co-occuring items
+    PROS -
+        1) Easy to interpret
+    CONS -
+        1) Scalability issue for large number of items, it becomes too restrictive
+        2) Choosing threshold for min support and confidence is tricky. Too low and random things recommended, too high
+            a threshold and you will only recommend very sparsely to really similar users.
+
+2) K-NEAREST NEIGHBORS - 2 types -
+    a) item-based KNN - Considers last BH in a given session and similar items in current session based on
+        cosine-similarity.
+    b) session-based KNN - Compares current session with all previous sessions and similarity based on jaccard or cosine
+        on binary vectors in item space.
+
+    PROS -
+        a) highly explainable
+    CONS -
+        a) Sequential dependency among items not captured.
+
+3) MARKOV CHAINS (MC) - 1st order MC only considers the most recent BH. Higher order MCs are required for long sequences
+    PROS - sequences captured
+    CONS -
+        a) Fails to capture more intricate dynamics of complex scenarios.
+        b) data sparsity issues
+
+4) MF - BPR-MF optimizes pair-wise user-item ranking objective function with SGD.
+    CONS - a) only low-order effects among latent factors are considered.
+        b) except a handful of algos like timeSVD++, others ignore time effects both within and across sessions.
+
+5) REINFORCEMENT LEARNING - This learns from user actions dynamically.
+
+6) RNNs
+    a) GRU4Rec proposed popular item sampling and uniform sampling that significantly improved perf.
+
+    b) Context-aware RNN ie CA-RNN considers user's context such as location, time of day, age, etc
+
+    c) With self-attention, it is capable of estimating weights of each item in the user’s interaction trajectories
+    to learn more accurate representations of the user’s short-term intention, while it uses a metric
+    learning framework to learn the user’s long-term interest.
+
+    Side info such as item ID, first level category, leaf category, brand and shop in the user’s historical transactions
+
+   CONS -
+   a) Dont support parallelisem that well.
+   b) Can only model 1-way transitions b/w consecutive items
+
+7) A paper explored variational autoencoder for modeling a user’s preference through his/her historical sequence, which
+combines latent variables with temporal dependencies for preference modeling.
+
+Metrics - Besides accuracy, DIVERSITY of recommendations is also an important business metric to measure. (TODO)
+
+************************************************************************
+
 Apr 10, 2020 - Real-time, Contextual and Personalized Recommendations
 https://www.youtube.com/watch?v=2qood2d-HYk
 
@@ -103,7 +208,7 @@ top-n precision / recall -
 
 top-n coverage - uniqueness of top-n items over the whole set
 
-NDCG - gives higher weight to higher ranked items
+NDCG - gives higher weight to higher ranked items that are clicked and vice versa.
 -----------
 Overview of Baselines -
 1) Top popular

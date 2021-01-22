@@ -195,13 +195,37 @@ which do both sigmoid and binary cross-entropy in a single function
 
 ----------
 Summary - 
-for single-label classification
+for single-label classification use categorical cross-entropy loss ie softmax + cross-entropy loss
     F.cross_entropy or  nn.CrossEntropyLoss is the version with softmax included
     F.nll_loss or nn.NLLLoss is the version w/o softmax
      
-nn.BCEWithLogitsLoss for multi-label classification (BCE = binary cross entropy)
-nn.MSELoss for regression 
+for multi-label classification use binary cross entropy (BCE) ie sigmoid + cross entropy loss
+    nn.BCEWithLogitsLoss 
+    nn.MSELoss for regression 
 
+For heirarchical labels (eg - a dataset that has labels at many levels like mammal, canine, carnivore, dog, husky, etc),
+    2 common approach patterns - 
+    1) use flat approach, put every label in same output array
+    2) use cascade design pattern, ie leveraging multiple models based on the output of previous models. Risk is 
+        overfitting due to accumulation of errors from previous stages.
+        
+When labelers are captioning images, use multi-label design pattern for overlapping labels. Eg - 
+    when possible labels are [maxi skirt, mini skirt, sundress, denim skirt, pleated skirt], give a bit for each label,
+    so the resulting label array becomes [1, 0, 0, 1, 0] if 2 different people labeled an image as maxi & pleated skirt 
+    respectively. 
+    
+Model versioning - Each new version is deployed as a different REST endpoint. Allows for backwards compatibility.
+    Allows for A/B testing, fine-grained performance monitoring and decoupling model from app frontend.
+    
+    Alternatively, can have multiple serving functions, 1 for each model to the same REST endpoint. Can support
+    different input formats , raw text inputs for 1 function vs embeddings for another function. 
+    
+    Rule of thumb: if your prediction task changes or if your change will break existing clients, create a new model .
+    eg - Going from a regression model that predicts flight delay in minutes to a classification model predicting if 
+    a flight delay is > or < 15 mins => create a new model. 
+    
+    Eg2 - If model is updated, then just create a new version of the same model. 
+      
 ********************************************************************************
 LECTURE 7 - Sizing and TTA ie test time augmentation
 https://github.com/fastai/fastbook/blob/master/07_sizing_and_tta.ipynb
@@ -499,6 +523,24 @@ BN can be represented by 2 hyperparams gamma and beta, such that
 7) Receptive field and dilated convolutions - Refer FSDL slides @ 
 ~/Dropbox/tech_extras/deep_learning/full_stack_deep_learning/fsdl-convnets-vInternal.pdf
 
+An important thing to note is a kernel size of 3 x 3  is the least possible size for capturing the notion of left/right,
+ up/down, and center. 
+ 
+8) Also, a stack of two 3 × 3 convolution layers (without spatial pooling or max-pooling in between) has an effective 
+ receptive field of 5×5 and the same three 3 × 3 (f in formula below) 
+ convolution layers has an effective receptive field of 7 × 7.
+This is because:
+The formula involved in calculating the output size from each convolution layer is given as- 
+    [(N-f + 2P)/S] + 1 where S = stride length, P = padding
+    
+for an image of N x N x k with k channels, output shape after 1 conv-layer =  (224 -3 ) / 1 + 1 = 222
+Similarly, after 2nd conv, o/p size = 220 and after 3nd conv layer, o/p size = 218
+ 
+With 3,conv3 layers stacked, we get o/p size of 218, which is the same as 1 conv7 layer, ie (224-7)/1 + 1 = 218
+MORE LAYERS WILL GIVE US SHARPER FEATURES because # trainable params in 3x3 conv is 9K^2 while for 7x7 , its 49K^2 params
+Further reading: VGG16 arch - https://medium.com/towards-artificial-intelligence/the-architecture-and-implementation-of-vgg-16-b050e5a5920b
+
+
 ********************************************************************************
 LECTURE 14 - residual networks (resNet)
 
@@ -604,6 +646,6 @@ like a fastai Learner callback, hooks allow you to inject code into the forward 
 ********************************************************************************
 LECTURE 19 - fastai Learner from scratch
 
-
+********************************************************************************
 
 """
