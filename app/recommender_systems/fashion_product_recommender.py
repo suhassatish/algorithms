@@ -51,10 +51,39 @@ https://github.com/open-mmlab/mmfashion/blob/master/mmfashion/models/fashion_rec
 
 4) explore public datasets
 5) openCV MMFashion lib - find product compatibility
-    1) Based on this paper for polyvore dataset - https://arxiv.org/pdf/1803.09196.pdf
+    a) Based on this paper for polyvore dataset - https://arxiv.org/pdf/1803.09196.pdf
         Learning Type-Aware Embeddings for Fashion Compatibility - Jul 27, 2018
-    2) https://arxiv.org/pdf/1707.05691.pdf
-        Learning Fashion Compatibility with Bidirectional LSTMs
+    Notes from paper -
+    1) 1st learn single shared embedding space. Then project from it to subspaces identified by type. Eg - all shoes
+        that match a given top MUST be close in shoe-top space but can be very different in the general embedding space.
+
+    2) Do not respect types, ie a shoes embed into same spaces that hats do. This means a shoe should match a blouse
+        and a hat should match a blouse, but the hat may not actually match the blouse in reality. In other words,
+        items should be allowed to match in 1 context and not match in another. Thus, an embedding that clusters items
+        close together is not a natural way to measure compatibility without paying attention to context.
+
+    3) By learning type-respecting spaces to measure compatibility, we avoid the issues stemming from using a single
+    embedding.
+
+    4) General emb trained using Visual semantic loss b/w image emb and features representing a text description of item
+
+    5) we use a learned projection which maps our general embedding to a secondary embedding space that scores
+        compatibility between two item types.
+
+    6) Metric = triplet loss
+    In the triplet loss, rather than minimizing Euclidean distance between compatible items and maximizing the same for
+    incompatible ones, an empirically more robust way is to optimize over the inner products instead.
+    To generalize the distance metric, we take an element-wise product of the embedding vectors in the type-specific
+    spaces and feed it into a fully-connected layer, the learned weights of which act as a generalized distance function
+
+    7) Ablation study
+    we see that using a FC layer provides a small performance improvement at a higher computation cost while our learned
+    metric performs slightly better than using cosine distance.
+
+
+-----------------
+    b) https://arxiv.org/pdf/1707.05691.pdf
+        Learning Fashion Compatibility with Bidirectional LSTMs - Jul 2017
 
 ************************************************************************
 

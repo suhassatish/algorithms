@@ -52,5 +52,5 @@ def strange_counter(t):
         #print("time_at_counter_end = %s" % time_at_counter_end)
 
 if __name__ == "__main__":
-    t = int(raw_input().strip())
-    print strange_counter(t)
+    t = int(input().strip())
+    print(strange_counter(t))

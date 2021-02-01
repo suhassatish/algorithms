@@ -52,7 +52,7 @@ def _palindromic_decompositions(s, index, partial_decomposition, result):
 
 
 if __name__ == '__main__':
-    print palindromic_decompositions("abracadabra")
+    print(palindromic_decompositions("abracadabra"))
     # a|b|r|a|c|a|d|a|b|r|a
     # a|b|r|aca|d|a|b|r|a
     # a|b|r|a|c|ada|b|r|a

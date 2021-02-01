@@ -46,8 +46,8 @@ def gcd_std_lib_impl(a, b):
 
 
 if __name__ == '__main__':
-    print gcd(12, 36)  # 12
-    print gcd(156, 36)  # 12
-    print gcd(13, 0)  # 13
-    print gcd(-12, 36)  # 12 but returns -12, this is just a convention
-    print gcd(36.3, 24.2)  # 3.5e-15 even std lib returns the same, but actual answer is 12.1
+    print(gcd(12, 36))  # 12
+    print(gcd(156, 36))  # 12
+    print(gcd(13, 0))  # 13
+    print(gcd(-12, 36))  # 12 but returns -12, this is just a convention
+    print(gcd(36.3, 24.2))  # 3.5e-15 even std lib returns the same, but actual answer is 12.1

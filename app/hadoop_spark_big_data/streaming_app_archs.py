@@ -1,4 +1,11 @@
 """
+Jan 2021 - Netflix talk on Backfilling Flink pipelines at fractional cost using Iceberg
+Summary slides at ~/Dropbox/tech_extras/distributed_systems_big_data/streaming-flink-backfill-iceberg-Jan2021-Netflix
+https://docs.google.com/presentation/d/1xU4CifwsXlJk8NzGe_e383kE6Ly26yQOP2YKaLPsFn8/edit#slide=id.gb6ff85dcb0_0_115
+
+
+
+---------
 Global Software Architecture Conference - Software Architectures for Streaming Applications
 Dr Vladimir Bacvanski - founder of SciSpike
 

@@ -105,4 +105,4 @@ def _power_set(input_list, index, selected_so_far, output_list):
 
 if __name__ == '__main__':
     for i in power_set([2, 7, 3, 2]):
-        print i
+        print(i)

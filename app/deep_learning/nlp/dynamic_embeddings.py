@@ -39,7 +39,7 @@ In normal NN, you have the full model on 1 machine & you do data partitioning.
 But here they do model partitioning by embedding in separate cells.
 
 
-1) Infinitie compute - uses BigTable
+1) Infiniti compute - uses BigTable
 2) Flexible gradient descent update
 3) Reliability
 4) Transfer learning capable

@@ -1733,4 +1733,39 @@ sorted(students, key=newgrades.__getitem__) # ['jane', 'dave', 'john']
 # pip install --no-index --find-links=/opt/program/libs sa-models
 
 # to package sa-models whl - 
-python3 setup.py sdist bdist_wheel
+# python3 setup.py sdist bdist_wheel
+
+#------------------------
+# pandas join example merge
+def join_data_with_embeddings():
+    import turicreate as tc
+    import pandas as pd
+    sf = tc.SFrame.read_csv("sample_data.csv", header=True, delimiter=',')
+    df = sf.to_dataframe()
+    # print(df["image_url_x"][0])
+    df["image_name"] = df["image_url_x"].map(get_image_name_from_path)
+    # print(df["image_name"][0])
+    import pickle
+    with open("image_embeddings.txt", 'rb') as f:
+        image_name_to_embeddings_map = pickle.load(f)
+    d = {
+            'image_name': list(image_name_to_embeddings_map.keys()),
+            'image_embedding': list(image_name_to_embeddings_map.values())
+         }
+    embeddings_df = pd.DataFrame.from_dict(d, orient="columns")
+    return pd.merge(df, embeddings_df, on='image_name', how='left')
+
+
+def get_image_name_from_path(path: str):
+    """
+
+    :param path: input like https://lsco.scene7.com/is/image/lsco/dockers/clothing/863380001-front-pdp.jpg?$grid_desktop_full$
+    :return: 863380001-front-pdp.jpg
+    """
+    return path.split("/")[-1].split("?")[0]
+
+# pandas sample a data frame
+#df['image_embedding'].sample(n=3, random_state=1)
+
+# pandas filter by null
+# filtered_df = df[df['image_embedding'].isnull()]

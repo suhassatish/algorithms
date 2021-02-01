@@ -3,7 +3,7 @@ import unittest
 import collections
 import random
 import math
-from app.consistent_hashring import ConsistentHashRing
+from app.distributed_systems.consistent_hashring import ConsistentHashRing
 
 class ConsistentHashRingTest(unittest.TestCase):
     def test_get_distribution(self):

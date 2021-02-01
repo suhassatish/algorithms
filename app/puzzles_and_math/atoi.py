@@ -14,7 +14,7 @@ def atoi(s):
     #     return 0
     # pass
 
-    sum = 0
+    summ = 0
     sign = 1
     for i in range(len(s)-1):
         if s[i] in ('-', '+'):
@@ -23,14 +23,15 @@ def atoi(s):
                 return 0
         else:
             if s[i].isdigit():
-                sum = 10 * sum + int(s[i])
+                summ = 10 * summ + int(s[i])
             else:
-                return sum * sign
-    return sum * sign
+                return summ * sign
+    return summ * sign
 
-print atoi('-3924x8fc') # -3924
-print atoi('c++') # 0
-print atoi('++i') # 0
-print atoi('++1') # 0
+
+print(atoi('-3924x8fc')) # -3924
+print(atoi('c++')) # 0
+print(atoi('++i')) # 0
+print(atoi('++1')) # 0
 
 

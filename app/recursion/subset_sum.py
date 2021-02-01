@@ -71,7 +71,7 @@ def _is_subset_sum(input_list, num_elements_remaining, remaining_target):
 
 
 if __name__ == '__main__':
-    print is_subset_sum([2,4,8], 6)   # True since 2+4 = 6
-    print is_subset_sum([2,-4,8], 1)  # False
-    print is_subset_sum([2,4,8], 14)  # True since 2+4+8 = 14
-    print is_subset_sum([2,4,8], 9)  # False
+    print(is_subset_sum([2,4,8], 6))   # True since 2+4 = 6
+    print(is_subset_sum([2,-4,8], 1))  # False
+    print(is_subset_sum([2,4,8], 14))  # True since 2+4+8 = 14
+    print(is_subset_sum([2,4,8], 9))  # False

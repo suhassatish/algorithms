@@ -99,5 +99,5 @@ def quick_select(arr_a, k):
 
 
 if __name__ == '__main__':
-    print quick_select([12, 90, -01, 789, -9, 0, 23], 1)  # not working; infinite-loop
+    print(quick_select([12, 90, -1, 789, -9, 0, 23], 1))  # not working; infinite-loop
     # print median_3([12, 90, -01, 789, -9, 0, 23], 0, 5, 2)

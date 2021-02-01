@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-https://towardsdatascience.com/factorization-machines-for-item-recommendation-with-implicit-feedback-data-5655a7c749db
-TODO
-
 ************************************************************************
 FACTORIZATION MACHINES (FM) - https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf
 1) A FM is a general predictor that combines advantages of SVMs with factorization models.
@@ -24,6 +21,18 @@ FACTORIZATION MACHINES (FM) - https://www.csie.ntu.edu.tw/~b97053/paper/Rendle20
     b) cross entropy loss for classification tasks, and
     c) BPR loss for ranking task.
     Standard optimizers such as SGD and Adam are viable for optimization.
+
+7) it’s not immediately obvious how to adapt FM models for implicit feedback data. One naïve approach would be to label
+ all observed user-item interactions as (1) and all unobserved interactions as (-1) and train the model using a common
+ classification loss function such as hinge or log loss. But with real-world recommendation data sets this would require
+  the creation of billions of unobserved user-item training samples and result in a severe class imbalance due to
+  interaction sparsity. This approach also has the same conceptual problem as the implicit feedback MF adaptation:
+  it’s still minimizing RATING PREDICTION ERROR instead of directly optimizing ITEM RANK-ORDER.
+    Source - https://towardsdatascience.com/factorization-machines-for-item-recommendation-with-implicit-feedback-data-5655a7c749db
+
+8) https://github.com/etlundquist/rankfm
+RankFM: a new python package for building and evaluating FM models for recommendation problems with implicit feedback
+data
 ************************************************************************
 
 paper - https://arxiv.org/pdf/1905.01997.pdf
@@ -101,7 +110,7 @@ TRADITIONAL APPROACHES -
 7) A paper explored variational autoencoder for modeling a user’s preference through his/her historical sequence, which
 combines latent variables with temporal dependencies for preference modeling.
 
-Metrics - Besides accuracy, DIVERSITY of recommendations is also an important business metric to measure. (TODO)
+Metrics - Besides accuracy, DIVERSITY of recommendations is also an important business metric to measure.
 
 ************************************************************************
 
@@ -170,9 +179,7 @@ ENGG ARCH v5:
 
 PERSONALIZATION THINKING AHEAD -
     1) Ask users' permissions to take their instagram fashion style photos (eg Levi's jeans) to personalize recs.
-    2) Bayesian Personalized Ranking & other ranking algorithms
-    (TODO: read up http://ethen8181.github.io/machine-learning/recsys/4_bpr.html
-        https://towardsdatascience.com/recommender-system-using-bayesian-personalized-ranking-d30e98bba0b9)
+    2) ranking algorithms
     3) Purchase propensity based recommendations
     4) Customer lifetime value based recommendations
 
@@ -236,8 +243,7 @@ Some popular recommender systems NN architecture papers - TODO
 ********************************************************************************
 TODO - read
 https://medium.com/recombee-blog/machine-learning-for-recommender-systems-part-1-algorithms-evaluation-and-cold-start-6f696683d0ed
-http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/, 
-https://datasciencemadesimpler.wordpress.com/tag/alternating-least-squares/, 
+https://datasciencemadesimpler.wordpress.com/tag/alternating-least-squares/, (ALS)
 
 ***** reco sys book reading notes ***************************************************
 
@@ -333,15 +339,52 @@ can be used with data updated since training. Decrease the need for refitting mo
 Combining information to build new models for better results (eg - User geolocation & IP address info)
 Item popularity - popular items are often relevant.
 
-"Learning to rank" - The way you incorporate the above information into an existing model without these features
- about popularity, geolocation, IP-address etc is called learning to rank.
+LEARNING TO RANK (LTR) - Its an optz technique that learns rank-order directly instead of minimizing prediction error.
 If you have recommendation_score & item_popularity_score, have weights for both of these scores.
 Combine them to produce a new score thru learning-to-rank.
+
+LTR models train on pairs or lists of training samples instead of individual observations. The loss functions are based
+on the relative ordering of items instead of their raw scores. Models using LTR have produced state-of-the-art results
+in search, information retrieval, and collaborative filtering. These techniques are the key to adapting FM models to
+implicit feedback recommendation problems.
+One of the most popular LTR techniques for item recommendation is Bayesian Personalized Ranking (BPR). BPR attempts to
+learn the correct rank-ordering of items for each user by maximizing the posterior probability (MAP) of the model
+parameters given a data set of observed user-item preferences and a chosen prior distribution. Each user’s observed
+items (implicit feedback) are assumed to be preferred over the unobserved items, and all pairwise preferences are
+assumed to be independent. To learn these preferences, one creates training samples comprised of [user (u), observed
+item (i), unobserved item (j)] tuples and maximizes the following log-likelihood function with respect to the model
+parameters.
+
+Max_θ ln[p(>_u | θ) p(θ)]
+where (>_u | θ) is the model's predicted item ranking for user u.
+
+Source: https://towardsdatascience.com/factorization-machines-for-item-recommendation-with-implicit-feedback-data-5655a7c749db
 -----------
+WEIGHTED APPROXIMATE PAIRWISE RANK (WARP) doesn’t simply sample unobserved items (j) at random, but rather samples many
+unobserved items for each observed training sample until it finds a rank-reversal for the user, thus yielding a more
+informative gradient update. This is especially important in contexts with a large number of items and highly skewed
+item popularity (very common).
+
+The basic procedure is:
+1. Randomly sample an unobserved item for the user and compute its utility score. If the unobserved item’s score exceeds
+ the observed item’s score plus a fixed margin then make a gradient update, otherwise continue to sample negative items
+2. Scale the magnitude of the gradient update based on the number of negative items sampled before finding a margin
+violation — make smaller updates if more negative items were sampled as it’s more likely the model is currently ranking
+ user preferences correctly
+
+In fact, if you scale the magnitude of the gradient updates with a (0, 1] multiplier, BPR can be seen as a special case
+of WARP where the maximum number of negative samples is equal to one, resulting in a constant gradient update multiplier
+ of one. Using WARP increases per-epoch training time relative to BPR, but often yields faster convergence and superior
+ model performance.
+
+Source: https://towardsdatascience.com/factorization-machines-for-item-recommendation-with-implicit-feedback-data-5655a7c749db
+
+Above link also shows that FM model incorporating auxiliary features and trained using LTR optimization techniques
+yields superior performance relative to a similarly-specified classical MF model with ALS.
+
+------------
 1) For cold start problem, having the right defaults can help a lot. Eg - when there are lots of new users,
 serving up the most popular items can give a huge lift (> 20% lift in recall on some data sets).
-
-
 
 **************************************************   Notes from Leah McGuire talk (SFDC PMTS Einstein)  *************
 

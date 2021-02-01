@@ -1,3 +1,34 @@
+DBSCAN (density based spatial clustering of applications with noise). Worst case runtime of O(n**2)
+
+Its a clustering algorithm that makes no assumptions about the number or shape of cluster (unlike k-means).
+1) A random observation Xi is selected.
+2) If it has a min of close neighbours j, its part of a cluster.
+3) step 2) is repeated recursively for all of Xi's neighbors, their neighbors, etc These are the cluster's core members
+4) Once step 3 runs out of observations, a new random point is chosen.
+
+Observations not part of a core are assigned to a nearby cluster or marked as outliers.
+
+Pros-
+1) Robust to outliers due to in-built concept of noise
+2) Designed for Databases that can accelerate region queries using R* trees and make use of indexes
+3) Params minPts and e for circle radius can be set by a domain expert, if data is well understood.
+
+Cons -
+1) Not entirely deterministic (but its determinsitic on core points and noise points),
+    border points can belong to either cluster. depends on the order data is processed in. This situation rarely occurs
+    in practice though.
+
+2) Distance metrics used, if euclidean distance, can be useless for high-dimensional sparse data, just like for any
+    other clustering algo using this distance metric.
+
+3) Cannot cluster well when there are large differences in densities between clusters, as minPts and ε cannot be chosen
+    accurately.
+
+
+--------------------
+t-SNE - t-Distributed Stochastic neighbour embedding is an algo for visualizing embeddings in 2-d space after
+dimensionality reduction from multi-dimensional space such that clusters form for nearest neighbors in multi-D space.
+
 --------------------
 SUPPORT VECTOR MACHINES (SVM) CONCEPTS AND IMPORTANT PROPERTIES -
 1) Try to find the maximal hyperplane differentiating the 2 classes in binary classification.
@@ -60,9 +91,7 @@ d(XT) = Σ (i = 1 to l)  y_i α_i X_i X_T + b_0
 12) SVM training always finds a global solution unlike NN, such as backpropagation where many local minima usually exist
 
 13) very large datasets having millions of support vectors is still a computational challenge for production use cases
---------------------
-TODO topics  -
-1) markov chain monte carlo
+
 ------------------------
 Non-parametric models differ from parametric models. The model structure is not specified a priori
 but is determined from data. Eg of parametric models are neural networks and support vector machines (SVM).
@@ -238,15 +267,6 @@ Cons:
 1) lots of data
 2) sample distribution changes during learning
 3) samples are not independent & identically distributed (iid)
------------
-deep reinforcement learning - 
-method called DQN 
-
-
-"Something of the previous state, however, survives every change. This is called in the language of
- cybernetics feedback, the advantages of learning from experience and of having developed reflexes."
- - Guy Davenport
-
 --------------
 some blogs & links reporting latest developments in AI/ML
 http://www.offconvex.org/
@@ -426,6 +446,10 @@ Logistic function is typically used for binary classification and softmax functi
 
 Gradient boosted decision tree - Misclassified training example weights are boosted and a new tree is formed.
   The final score is weighted sum of scores from all trees.
+
+Decision tree regression, unlike decision tree classification, uses mean square error or similar metrics instead of
+gini impurity or cross-entropy loss to determine splits.
+
 ************************************************************************************************************************
 TIPS ON GRADIENT BOOSTING HYPER_PARAMETER TUNING (from http://explained.ai/gradient-boosting/index.html)
 
@@ -490,7 +514,7 @@ docker menu.
 
 --------------
 
-Hinge loss aka max-margin loss is the term used when they threshold to max 0 by using max(0, *). Squared hinge loss
+HINGE LOSS aka max-margin loss is the term used when they threshold to max 0 by using max(0, *). Squared hinge loss
     [max(0, *)]^2 is sometimes used that penalizes violated margins more strongly. Hinge loss is often used in
     multi-class SVM classifiers while cross-entropy loss is used in softmax classifiers.
 -------------

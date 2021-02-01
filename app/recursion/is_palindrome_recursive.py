@@ -32,4 +32,4 @@ def _is_palindrome(s):
 
 
 # print is_palindrome('racecar')
-print is_palindrome('Never a foot too far, even.!')
+print(is_palindrome('Never a foot too far, even.!'))

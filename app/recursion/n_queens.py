@@ -92,7 +92,7 @@ def is_valid(arr, i):
 
 
 if __name__ == '__main__':
-    print queens(4)
+    print(queens(4))
     """
     +- +- +- +- +
     |  |  |Q |  |

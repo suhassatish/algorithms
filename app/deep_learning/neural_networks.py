@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 """
+TODO - study about posterior approximation algos for deep neural networks
+
+1) Linear upper confidence bound algorithm
+2) Context-free model
+3) ε-greedy policy
+4) Deep queue networks (DQN)
 -------
 Back propagation:
 In back propagation of the error function, a general method for non-linear optimization called
