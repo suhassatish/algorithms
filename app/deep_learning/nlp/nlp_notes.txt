@@ -198,7 +198,12 @@ NLP Models Playlist (recommended by Ankur which goes from basic to advanced)
 3. 2015 - Bengio - [1409.0473] Neural Machine Translation by Jointly Learning to Align and Translate (main attention paper)
 4. 2017 - Google - [1706.03762] Attention Is All You Need (Transformer)
 4a. 2020 - Google - [2001.04451] Reformer: The Efficient Transformer
+
+------------------------------------------------------------------------------------------------------------------------
 4b. 2018 - Google - [1810.04805] BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
+
+
+------------------------------------------------------------------------------------------------------------------------
 4c. 2018 - OpenAI - https://openai.com/blog/language-unsupervised/ (GPT)
 4d. 2019 - OpenAI - https://openai.com/blog/better-language-models/ (GPT2)
 ************************************************************************************************************

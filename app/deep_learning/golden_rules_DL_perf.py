@@ -53,5 +53,5 @@ without giving up eager exeuction benefits of TF2.0.
     exploit parallelism between different operations
     tf.config.threading.set_intra_op_parallelism_threads(num_threads)
 
-
+9) Need 10M input data size to match human performance. Need atleast 5K input samples per output class for good perf.
 """

@@ -317,6 +317,7 @@ a tendency to overfit.
 sklearn's HistGradientBoostingRegressor provides excellent performance.  GBMs have a lot of hyperparams to tune.
 
 Recommend starting with random forest to get a baseline, then use feature importance from it and then try GBM and NNs.
+Feature importance in a random forest is calculated as mean decrease in impurity for a feature across all trees. 
 If RFs work well, try adding embeddings for categorical variables.
 
 ********************************************************************************
@@ -608,8 +609,8 @@ behind the scenes to train only the head of a model when we do transfer learning
 LECTURE 16 - Optimizers and Using Callbacks
 https://github.com/fastai/fastbook/blob/master/16_accel_sgd.ipynb
 
-1) RMSProp is another variant of SGD. It uses an adaptive learning rate instead of the same LR for every param in SGD.
-Every param gets its own LR.
+1) RMSProp is another variant of SGD optimizer. It uses an adaptive learning rate instead of the same LR for every param
+ in SGD. Every param gets its own LR.
 If a param's gradient has been 0 for a while, it needs a bigger LR as the loss is flat.
 If a param's gradient is all over the place, it needs a smaller LR to avoid divergence.    
 

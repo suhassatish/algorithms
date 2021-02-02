@@ -1,3 +1,30 @@
+Batch gradient descent vs SGD vs mini-batch GD with python implementation
+https://medium.com/towards-artificial-intelligence/closed-form-and-gradient-descent-regression-explained-with-python-1627c9eeb60e
+
+
+--------------------
+Naive Bayes Classifier
+
+Assumes features of X are independent and uncorrelated in how they impact y.
+p(class | data) = p(data | class) * p(class) / p(data)
+
+In naive bayes, we dont calculate p(data).
+p(class) is the prior.
+p(data | class) is assumed to be a normal distribution.
+
+--------------------
+Feature Selection Strategies
+
+1) Remove highly correlated features
+2) Run ordinal least squares (OLS) to select significant features.
+3) forward selection and backwards selection (or recursive)
+    https://towardsdatascience.com/backward-elimination-for-feature-selection-in-machine-learning-c6a3a8f8cef4
+    https://towardsdatascience.com/using-forward-selection-to-filter-out-unnecessary-features-in-a-machine-learning-dataset-e36c62431781
+
+4) can also use a lib such as random forest feature importance in scikit learn.
+5) lasso
+
+--------------------
 DBSCAN (density based spatial clustering of applications with noise). Worst case runtime of O(n**2)
 
 Its a clustering algorithm that makes no assumptions about the number or shape of cluster (unlike k-means).
@@ -182,6 +209,10 @@ Additionally, even when n > p , ridge regularization tends to perform better. El
 https://www.slideshare.net/ShangxuanZhang/ridge-regression-lasso-and-elastic-net
   a) Another type of regularization method is ElasticNet. It linearly combines the L1 and L2 penalties of the lasso and ridge methods.
 
+Elastic net regularization is given by the equation -
+Residual sum of squares + αρ ||w||+ α (1 - ρ)/2 ||w||^2
+where alpha = regularization stength; rho = split between L1 and L2 regularization.
+
   b) It introduces a quadratic term which makes the function strictly convex and hence,
   having a single minimum. Common applications - SVMs, portfolio optimization, metric learning.
 
@@ -345,6 +376,8 @@ personalization & scalable deep learning with MXNET - AWS Machine Learning
 ------------------------------------------------
 L-BFGS is an optimization gradient descent algorithm for faster convergence, better than
 traditional stochastic gradient descent (SGD), since tt takes curvature into account.
+SGD will take longer if features are not similarly scaled. Andrew NG's rule of thumb is that if feature values range
+from (-3, 3) or (-1/3 to 1/3) then it is ok.
 
 It models curvature as a (d x d) matrix of partial derivatives, and then takes the inverse of this
  hessian matrix.
@@ -460,7 +493,9 @@ TIPS ON GRADIENT BOOSTING HYPER_PARAMETER TUNING (from http://explained.ai/gradi
 --------
 Random forest usually does not overfit. 
 sci-kit learn currently only has one-hot encoding of categorical features which is a drawback that
-will be fixed soon. one-hot encoding creates more sparse data that can be a disadvantage.
+will be fixed soon. one-hot encoding creates more sparse data that can be a disadvantage. This affects feature
+importance analysis of 1-hot encoded features, it gets distributed across all the 1-hot values.
+
 -------------
 Notes from XG Boost paper - 
 http://www.kdd.org/kdd2016/papers/files/rfp0697-chenAemb.pdf

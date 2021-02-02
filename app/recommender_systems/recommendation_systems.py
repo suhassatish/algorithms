@@ -261,7 +261,7 @@ MF is better than SVD in handling missing values by adding a bias term.
 k nearest neighbours (kNN) is a lazy learner since it does not build models explicitly, but just
 computes the k-nearest neighbours of a query point and takes the majority label to assign to the
 query point. But how to decide k is the big question. Its 1 of the simplest ML classification
-algorithms.
+algorithms. It is computationally intensive at inference time.
 
 -------
 gini index is a measure of impurity in a decision tree.
