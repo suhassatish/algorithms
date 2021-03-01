@@ -1,8 +1,6 @@
 """
 use case: low latency serving use cases such as ecommerce application to track user activity
 
-ccccccccccccc
-
 CDN = content delivery network, on GCP (google cloud platform) can cache content from 2 types of backend services-
 1) VM instance groups
 2) GCS buckets
@@ -12,7 +10,7 @@ For subsequent cache hits, still incur egress bandwidth.
 For cache misses, also incur the cache fill bandwidth
 
 Some responses cannot be cached such as - cache control no store, no cache or private directive, if response has a set-cookie header
-HTTP PUTs and POSTs are not cacheable, it has to nbe a GET request. It has to be a specific response code.
+HTTP PUTs and POSTs are not cacheable, it has to be a GET request. It has to be a specific response code.
 
 CDN may decline to cache large content or if it has to evict more popular content.
 

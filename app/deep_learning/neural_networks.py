@@ -169,7 +169,7 @@ Variational autoencoders (VAE) are powerful generative models from neural networ
 generate purely synthetic music, generating fake human faces, etc
 Source - https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf
 
-1) An autoencoder is typically a pair of 2 connected networks - an encoder and a decoder.
+1) An auto encoder is typically a pair of 2 connected networks - an encoder and a decoder.
 
 2) The entire network is trained as a whole.
 

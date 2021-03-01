@@ -1,5 +1,8 @@
 """
 Asked by Todd Lipcon in Cloudera interview.
+
+Reference: https://techtakshila.com/system-design-interview/chapter-1/
+
 End to end encryption achieved using public - private key encryption.
 Its not decrypted by the web servers.
 

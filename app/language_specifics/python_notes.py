@@ -1765,7 +1765,42 @@ def get_image_name_from_path(path: str):
     return path.split("/")[-1].split("?")[0]
 
 # pandas sample a data frame
-#df['image_embedding'].sample(n=3, random_state=1)
+df['image_embedding'].sample(n=3, random_state=1)
 
 # pandas filter by null
-# filtered_df = df[df['image_embedding'].isnull()]
+filtered_df = df[df['image_embedding'].isnull()]
+#------------------------------------------
+# pandas select t.x from t where t.y = 'A'
+df["image_url_x"].where(df["product_id"]=="274060059")
+# this replaces non-matching columns with NaN and returns the entire columnar data, not what we want
+
+#below is what we want
+df.loc[df['product_id'] =="274060059", ['image_url_x']].iloc[0].astype(str)
+# returns the 1st match among all rows as an object, typecast as a string
+
+df.loc[df['product_id'] =="274060059", ['image_url_x']] returns a series while
+df.loc[df['product_id'] =="274060059", 'image_url_x'] returns a str
+
+#------------------------------------------
+# code to display images in jupyter notebook
+from IPython.display import Image, display
+from IPython.core.display import HTML
+import ipyplot
+for index in [43, 494, 127, 41, 302, 709, 737, 744, 47]:
+    product_id = index_to_item[index]
+    image_url = df.loc[df['product_id'] == product_id, 'image_url_x'].iloc[0].split("?")[0]
+    display(Image(image_url, width=400, height=400))
+
+#------------------------------------------
+
+df.info()
+# gives summary of nulls on pandas dataframe
+
+# pandas fill nulls with 0
+for col in ["snds_opens_dec", "hard_sale_price"]:
+    df2[col].fillna(value=0,inplace=True)
+
+# create new virtual environment in python3
+python3 -m venv /path/to/new/virtual/environment
+# note that venv doesnt let you use different python3 versions, for that use virtualenv
+virtualenv --python=/usr/bin/python2.6 <path/to/new/virtualenv/>

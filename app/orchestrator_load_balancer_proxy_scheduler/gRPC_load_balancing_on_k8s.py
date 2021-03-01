@@ -15,7 +15,7 @@ Connection based (L4) vs Stream-based L7 balancing -
 4) Potential problem: Kubernetes LB is only L4 (= in service types ClusterIP and LoadBalancer)
 ----------------------------------------------------------------------
 
-Proxy LB vs Client LB
+Proxy LB (aka reverse proxy) vs Client LB (aka forward proxy)
 Proxy Load Balancer - eg - envoy, nginx (full gRPC support from Mar 2018)
     Pros:
         simple client, untrusted clients are fine
@@ -57,5 +57,12 @@ restart streaming calls periodically. Can set MAX_CONNECTION_AGE to limit lifeti
 when designing APIs.
 ----------------------------------------------------------------------
 
+Load balancing algorithms -
+1) Least connection method - route to server with least # of active connections
+2) round robin
+3) weighted round robin
+4) hash the requestId or clientId mo N where N servers
+5) least response time method - fwd to fastest server in the fleet
+6) least bandwidth method - fwd to server serving least amt of traffic measured in Mbps
 
 """

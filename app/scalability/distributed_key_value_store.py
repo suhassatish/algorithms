@@ -32,7 +32,7 @@ when N = 3, hence its eventually consistent, but its fastest. Read from 1 server
 server. Netflix uses cassandra. Shopping cart items may also sometimes temporarily disappear.
 But this cant be designed for brokerage account or bank accounts.
 
-TODO - Read about consistent hashing. Allows minimal data movement when a server goes down.
+Read about consistent hashing. Allows minimal data movement when a server goes down.
 
 This is used to go from partition_id -> server_id
 

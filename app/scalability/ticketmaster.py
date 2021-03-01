@@ -27,7 +27,7 @@ There are 2 services acting on the same collection.
 
 Is it a good pattern or a bad pattern?
 Its a bad pattern because each microservice should be isolated from each other.
-If payment service corrupts one of the fields, it causes repurcussions everywhere.
+If payment service corrupts one of the fields, it causes repercussions everywhere.
 Violates single-line-of-responsibility.
 
 Use messaging system to highlight & decouple the propagation of state between services.

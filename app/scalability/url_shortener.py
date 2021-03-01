@@ -125,6 +125,9 @@ Assign a long URL to the unique key and then
 interviewkickstart.com -> shard_id=0 => value of 65 =
 0*62^6 +0*62^5 +0*62^4 +0*62^3 +0*62^2 + 1* 62^1 + 3 -> aaaaabd
 
+What uri schemes to validate for? Anti-pattern: storing uri as string and assuming everything is https:// can result in
+many sec
+
 References -
 1) https://www.quora.com/What-is-the-architecture-of-a-scalable-URL-shortener
 2) https://blog.codinghorror.com/url-shortening-hashes-in-practice/

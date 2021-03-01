@@ -154,7 +154,7 @@ All servers:
 -----------------------
 BIG TABLE SYSTEM STRUCTURE (ANALOGOUS TO HBASE):
 
-Each web page url is represented as (row, colum, timestamp) in big table. Each webpage has several
+Each web page url is represented as (row, column, timestamp) in big table. Each webpage has several
 version, hence timestamps become critical.
 
 1) Bigtable master - Performs metadata ops + load balancing

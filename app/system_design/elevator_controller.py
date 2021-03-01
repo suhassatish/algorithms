@@ -16,7 +16,7 @@ Elevator controller -> command_to_go -> elevator
 
 Flow chart:
 Start
-Sensors notify elevatro fir a stop at floor-x
+Sensors notify elevator for a stop at floor-x
 elevator matches x with the next in the queue
 if match:
     make stop

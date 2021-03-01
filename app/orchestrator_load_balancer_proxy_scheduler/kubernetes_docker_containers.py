@@ -37,7 +37,7 @@ Features - rolling upgrades, roll backs, etc
 -------
 L4 vs L7 load balancer. Ingres. Specified declaratively with rules, plain and simple.
 
-Kubenetes can be run in hybrid multiple cloud + on-prem environments. Gives 1 unified API.
+Kubernetes can be run in hybrid multiple cloud + on-prem environments. Gives 1 unified API.
 
 Istio project - announced on May 24 by Google, IBM, Lyft. Declaratively specify interfaces and have
 services talk to each other.

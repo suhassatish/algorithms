@@ -9,6 +9,7 @@ Optionally, state diagrams and flow chart of main use cases if it helps bolster 
 
 future directions:
 1) what are the design assumptions and how will design change if those assumptions change?
-2) How will you scale the library?
+2) How will you scale the library? - Optimize memory footprint by doing bitwise operations for the 52-deck of cards
+    if required.
 
 """

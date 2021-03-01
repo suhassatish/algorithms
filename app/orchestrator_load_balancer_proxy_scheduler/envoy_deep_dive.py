@@ -61,7 +61,7 @@ TLS slots can be allocated dynamically by objects
 RCU is used to post shared read-only data from the main thread to workers
 ------
 Envoy hot restart - full binary reload without dropping any connections.
-Very useful in logacy/non-container scheduler worlds.
+Very useful in legacy/non-container scheduler worlds.
 ------
 
 Envoy can work in both push mode and pull mode.
