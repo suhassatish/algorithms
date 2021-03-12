@@ -20,7 +20,7 @@ Has numerical stability issues.
 D_KL (p || q) = E_x~p (log(p(x) / q(x)))
 
 
-2) Cumulative data distribution - Kolmogorov-Smirnof test
+2) Cumulative data distribution - Kolmogorov-Smirnof test (KS-test)
 
 3) Google paper recommends - discritized distribution, look at difference at each of those points and sum them.
 

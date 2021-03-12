@@ -3,8 +3,16 @@ Jun 20, 2020 - 10 am to 1 PM - PyTorch Fundamentals - Ravi Ilango Sr Data Scient
 
 Typical nlp pipeline: ~/Dropbox/Tech_extras/nlp/nlp-pipeline.png
 
-Sentence segmentation -> tokenization -> POS, lemmatization -> dependency parsing -> named entity recognition ->
-stop words -> noun phrases -> coreference resolution -> data structures
+Sentence segmentation ->
+tokenization ->
+POS, lemmatization (same as stemming ie use of a vocabulary and morphological
+analysis of words, and to return the base or dictionary form of a word) ->
+ dependency parsing ->
+ named entity recognition ->
+stop words ->
+noun phrases ->
+coreference resolution (finding all expressions that refer to the same entity in a text) ->
+data structures
 
 Transformer networks are parallelizable during training while LSTMs are not. Hence LSTM is getting phased out
 in production in favour of transformer networks, BERT, etc.

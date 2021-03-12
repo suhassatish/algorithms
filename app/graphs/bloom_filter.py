@@ -42,6 +42,26 @@ Above also shows on slides 20-22 that read(), write() and sendfile() syscalls ma
         3) Limited number of mmap handles
         4) 32-bit signed integer addressing (2 GB limit)
 https://xunnanxu.github.io/2016/09/10/It-s-all-about-buffers-zero-copy-mmap-and-Java-NIO/
+
+
+How to ensure that as a bloom filter gets filled with elements, its rate of FPR does not increase? How to live-swap a
+production bloom filter that has degraded with another one?
+
+A study of many different variants of bloom filters grouped by applications in caching, p2p systems, routing &
+forwarding, monitoring & measurement.
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.457.4228&rep=rep1&type=pdf
+
+Bloom filters do not support deletions because hashing is lossy and irreversible. Though counting bloom filters solve
+that problem, CUCKOO FILTERS are useful in the case where you would require deletions. Cockoo filter when full,
+gives an error instead of rehashing over an existing entry.
+https://hackernoon.com/cuckoo-filter-vs-bloom-filter-from-a-gophers-perspective-94d5e6c53299
+
+Important properties of cuckoo filters -
+1) deletion support in O(1)
+2) upper bound on FPR - false positive rate
+3) limited counting support
+Cons:
+    Degraded insertion times when close to capacity
 """
 
 
