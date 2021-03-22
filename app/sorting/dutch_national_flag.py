@@ -43,4 +43,4 @@ def dutch_flag_sort(s):
 
 
 if __name__ == '__main__':
-    print dutch_flag_sort("GBGGRBRG")  # rrggggbb
+    print(dutch_flag_sort("GBGGRBRG"))  # rrggggbb

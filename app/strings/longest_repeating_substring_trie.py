@@ -21,4 +21,4 @@ def longest_repeating_substring(s):
 
 
 if __name__ == '__main__':
-    print longest_repeating_substring('banana')  # should print ana
+    print(longest_repeating_substring('banana'))  # should print ana

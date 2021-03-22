@@ -13,7 +13,7 @@ def longest_consecutive_substring_char(s):
     if len(s) == 0:
         return s
     if len(s) == 1:
-        return (s, 1)
+        return s, 1
     
     longest_char = None
     longest_count = 0
@@ -32,15 +32,16 @@ def longest_consecutive_substring_char(s):
                 longest_char = s[i]  # A
         else:
             count = 1
-            i += 1 # i = 2
-            ip1 += 1 # ip1 = 3
+            i += 1  # i = 2
+            ip1 += 1  # ip1 = 3
 
     return longest_char,longest_count
-               
+
+
 if __name__ == '__main__':
-    print longest_consecutive_substring_char('AABBCCCCCBABAA')
-    print longest_consecutive_substring_char(None)
-    print longest_consecutive_substring_char('')
-    print longest_consecutive_substring_char('AAAAAA')
-    print longest_consecutive_substring_char('abfffaaaafff')
-    print longest_consecutive_substring_char('a')
+    print(longest_consecutive_substring_char('AABBCCCCCBABAA'))
+    print(longest_consecutive_substring_char(None))
+    print(longest_consecutive_substring_char(''))
+    print(longest_consecutive_substring_char('AAAAAA'))
+    print(longest_consecutive_substring_char('abfffaaaafff'))
+    print(longest_consecutive_substring_char('a'))

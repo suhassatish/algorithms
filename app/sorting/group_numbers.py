@@ -29,5 +29,5 @@ def group_numbers(arr):
 
 if __name__ == '__main__':
     a = [1, 2, 3, 4, 5, 6, 10, 8]
-    print group_numbers(a)
-    print group_numbers([1, 1])
+    print(group_numbers(a))
+    print(group_numbers([1, 1]))

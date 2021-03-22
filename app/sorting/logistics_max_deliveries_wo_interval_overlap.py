@@ -23,7 +23,7 @@ def get_valid_tasks(tasks):
                 i += 1
                 continue
             else:
-                #if end_sorted[j][0] >= curr_end:
+                # if end_sorted[j][0] >= curr_end:
                 out.append(end_sorted[i])
                 i += 1
 
@@ -38,5 +38,6 @@ def overlap(first_interval, second_interval):
     else:
         return False
 
+
 if __name__ == '__main__':
-    print get_valid_tasks([(1,7), (9, 12), (5,11), (8,12), (6,10), (2,3), (1,4), (5,8), (9,12)])
+    print(get_valid_tasks([(1,7), (9, 12), (5,11), (8,12), (6,10), (2,3), (1,4), (5,8), (9,12)]))

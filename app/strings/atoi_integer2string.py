@@ -45,5 +45,5 @@ def int2str(num):
 
 
 if __name__ == '__main__':
-    print str2int('-0123')  #-123
-    print int2str(-123)
+    print(str2int('-0123'))  # -123
+    print(int2str(-123))

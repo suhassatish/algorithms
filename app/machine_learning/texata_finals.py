@@ -30,7 +30,7 @@ from sklearn import metrics
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel
 
-#twenty = fetch_20newsgroups()
+# twenty = fetch_20newsgroups()
 
 def extract_entities(text):
   entities = []
@@ -39,9 +39,11 @@ def extract_entities(text):
     entities.extend([chunk for chunk in chunks if hasattr(chunk, 'node')])
   return entities
 
+
 #-----------------------------------------------------
 cisco_xml = LazyCorpusLoader(
     'cisco_xml', XMLCorpusReader, r'(?!\.).*\.xml')
+
 
 def tokenize_and_stem(text):
     tokens_inner = [word for sent in nltk.sent_tokenize(text) for word in nltk.word_tokenize(sent)]
@@ -58,9 +60,10 @@ def tokenize_and_stem(text):
     stems = [stemmer.stem(t) for t in filtered_tokens]
     return stems
 
-#this is the main entry point for code
+
+# this is the main entry point for code
 def summarize_cisco_support_forum_texts():
-    #cisco_plain_text = LazyCorpusLoader(
+    # cisco_plain_text = LazyCorpusLoader(
     #    'content', PlaintextCorpusReader, r'(?!\.).*\.txt', encoding='latin_1')
     cisco_plain_text = LazyCorpusLoader(
         'cisco_forum_subset', PlaintextCorpusReader, r'(?!\.).*\.txt', encoding='latin_1')
@@ -72,11 +75,11 @@ def summarize_cisco_support_forum_texts():
 
     sys.stdout.flush()
 
-    #creates Compressed Sparse Row format numpy matrix
+    # creates Compressed Sparse Row format numpy matrix
     tdm = tfidf.fit_transform(token_dict.values())
     feature_names = tfidf.get_feature_names()
 
-    #problem_statement_#1 - summarize support_forum articles automatically
+    # problem_statement_#1 - summarize support_forum articles automatically
     for article_id in range(0,tdm.shape[0] - 2):
         article_text = cisco_plain_text.raw(cisco_plain_text.fileids()[article_id])
         sent_scores = []
@@ -88,17 +91,17 @@ def summarize_cisco_support_forum_texts():
             sent_scores.append((score / len(sent_tokens), sentence))
         summary_length = int(math.ceil(len(sent_scores) / 5))
         sent_scores.sort(key=lambda sent: sent[0])
-        print '\n*** SUMMARY ***'
+        print('\n*** SUMMARY ***')
         for summary_sentence in sent_scores[:summary_length]:
-            print summary_sentence[1]
-        print '\n*** ORIGINAL ***'
-        print article_text
+            print(summary_sentence[1])
+        print('\n*** ORIGINAL ***')
+        print(article_text)
 
-    #problem_statement_#2 - automatically categorize forum posts by tags into various groups
+    # problem_statement_#2 - automatically categorize forum posts by tags into various groups
     reduce_dimensionality_and_cluster_docs(tfidf,tdm,num_features=200)
 
-    #problem_statement_#3 - find similar documents to a current document (that user is reading) automatically
-    #eg - quora: find similar questions, find similar answers
+    # problem_statement_#3 - find similar documents to a current document (that user is reading) automatically
+    # eg - quora: find similar questions, find similar answers
     cosine_similarity(tdm[0:1], tdm)
     '''
     output looks like this
@@ -119,7 +122,7 @@ def summarize_cisco_support_forum_texts():
 
     cosine_similarities = linear_kernel(tdm[0:1], tdm).flatten()
 
-    #mapping back to document_name space
+    # mapping back to document_name space
     related_docs_indices = cosine_similarities.argsort()
     '''
     document_ids
@@ -136,24 +139,25 @@ def summarize_cisco_support_forum_texts():
 
     cosine_similarities[related_docs_indices]
     for key, value in token_dict.iteritems():
-        print key, value
-    #find the actual posts which are the most similar
+        print(key, value)
+    # find the actual posts which are the most similar
     tfidf.inverse_transform(tdm)[0]
     tfidf.inverse_transform(tdm)[1]
 
+
 def reduce_dimensionality_and_cluster_docs(tfidf,term_document_numpy_sparse_matrix,num_features):
     print("Performing dimensionality reduction using LSA")
-    #n_components = num_features = 200
+    # n_components = num_features = 200
     svd = TruncatedSVD(num_features)
     normalizer = Normalizer(copy=False)
     lsa = make_pipeline(svd, normalizer)
     X = lsa.fit_transform(term_document_numpy_sparse_matrix)
-    #explained_variance = svd.explained_variance_ratio_.sum()
-    #print("Explained variance of the SVD step: {}%".format(
+    # explained_variance = svd.explained_variance_ratio_.sum()
+    # print("Explained variance of the SVD step: {}%".format(
     #    int(explained_variance * 100)))
     km = KMeans(n_clusters=5, init='k-means++', max_iter=100, n_init=3)
     km.fit(X)
-    print km.labels_
+    print(km.labels_)
     '''
     output looks like this
     array([3, 3, 4, 2, 2, 3, 4, 4, 2, 0, 3, 0, 3, 0, 3, 0, 4, 4, 0, 3, 2, 3, 3,
@@ -176,18 +180,18 @@ def reduce_dimensionality_and_cluster_docs(tfidf,term_document_numpy_sparse_matr
         print()
 
 
-
 def find_item_similarity_using_gensim(tdm):
-    #find item similarity
-    corpus = gensim.matutils.Sparse2Corpus(tdm,documents_columns=False)
+    # find item similarity
+    corpus = gensim.matutils.Sparse2Corpus(tdm,documents,_columns=False)
     gensim_tfidf = models.TfidfModel(corpus)
     index = similarities.SparseMatrixSimilarity(gensim_tfidf[corpus], num_features=3494)
     vec = [(0, 1), (4, 1)]
     sims = index[gensim_tfidf[vec]]
     print(list(enumerate(sims)))
-    #lsi = models.LsiModel(cisco_plain_text, num_topics=200)
-    #dictionary = corpora.Dictionary.load('/tmp/deerwester.dict')
-    #corpus = corpora.MmCorpus('/tmp/deerwester.mm')
+    # lsi = models.LsiModel(cisco_plain_text, num_topics=200)
+    # dictionary = corpora.Dictionary.load('/tmp/deerwester.dict')
+    # corpus = corpora.MmCorpus('/tmp/deerwester.mm')
+
 
 def get_bag_of_words_model_for_gensim():
     # remove common words and tokenize

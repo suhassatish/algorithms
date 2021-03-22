@@ -92,5 +92,5 @@ def partition_no_dups_v2(s):
 
 
 if __name__ == '__main__':
-    print partition_no_dups("abbaghhigfedd")
-    print partition_no_dups_v2("abbaghhigfedd")
+    print(partition_no_dups("abbaghhigfedd"))
+    print(partition_no_dups_v2("abbaghhigfedd"))

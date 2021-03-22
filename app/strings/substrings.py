@@ -16,9 +16,9 @@ def findSubstrings(s):
                 if isVowel(s[j]):
                     continue
                 filtered_substrs.append(s[i:j+1])
-                #keep track of only the first and last to keep the list small
+                # keep track of only the first and last to keep the list small
                 filtered_substrs.sort()
-                if (len(filtered_substrs) > 2):
+                if len(filtered_substrs) > 2:
                     filtered_substrs = [filtered_substrs[0], filtered_substrs[-1]]
 
     return filtered_substrs[0], filtered_substrs[-1]
@@ -36,8 +36,9 @@ def constraint_check_pass(s):
     else:
         return True
 
-if __name__ ==  "__main__":
-    _s = raw_input()
+
+if __name__ == "__main__":
+    _s = input()
     first, second = findSubstrings(_s)
-    print first
-    print second
+    print(first)
+    print(second)

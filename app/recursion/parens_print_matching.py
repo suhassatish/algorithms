@@ -1,7 +1,7 @@
 """
 Given N, print all valid pairs of parentheses with N pairs.
 eg - brackets(1) = ()
-brackets(2) = ()(), (()))
+brackets(2) = ()(), (())
 brackets(3) = ((())), ()()(), (())(), ()(()), (()())
 
 We observe that

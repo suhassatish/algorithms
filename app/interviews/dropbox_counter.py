@@ -58,7 +58,7 @@ class WebHits(object):
     def log_hit(self):
 
         curr_time = int(time.time())
-        #heapq.heappush(pq, curr_time)
+        # heapq.heappush(pq, curr_time)
         if curr_time not in self.st:
             self.st[curr_time] = 1
         else:
@@ -77,12 +77,12 @@ class WebHits(object):
         """
         curr_time = int(time.time())
         # copy_pq = list()
-        #for e in self.pq:
+        # for e in self.pq:
         #    copy_pq.append(e)
         count = 0
         for key, val in self.st.iteritems():
-        #while curr_time - copy_pq[0] < 300:  # unit in seconds
+            # while curr_time - copy_pq[0] < 300:  # unit in seconds
             if curr_time - key < 300:
                 count += val
-            #heapq.heappop(copy_pq)
+            # heapq.heappop(copy_pq)
         return count

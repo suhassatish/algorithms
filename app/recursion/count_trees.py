@@ -28,7 +28,7 @@ count_trees(4) -> 14 =
 
 Intuition here:
 https://www.youtube.com/watch?v=UfA_v0VmiDg
-recursive relation count(n) = sigma [k = 1:n] count(k - 1) * count( n - k)
+recursive relation count(n) = Σ [k = 1:n] count(k - 1) * count( n - k)
 
 code here:
 http://cslibrary.stanford.edu/110/BinaryTrees.html
@@ -38,7 +38,7 @@ http://cslibrary.stanford.edu/110/BinaryTrees.html
 
 
 def count_trees(n):
-    if n in [0,1]:
+    if n in [0, 1]:
         return 1
 
     else:
@@ -54,5 +54,6 @@ def count_trees(n):
             sums += left * right
         return sums
 
+
 if __name__ == '__main__':
-    print count_trees(4)
+    print(count_trees(4))

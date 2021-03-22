@@ -12,10 +12,10 @@ list is big (~billions words), and we call this API ~10000 QPS
 
 class FindWordDist(object):
     def __init__(self, word_list):
-        self.d = {}
+        self.d = {}  # dict of hashed word to list of indices that it appears in. Constructed in O(n)
         for i,e in enumerate(word_list):
             if hash(e) in self.d:
-                val_list = d[e]
+                val_list = self.d[e]
             else:
                 val_list = list()
             val_list.append(i)
@@ -86,6 +86,7 @@ class FindWordDist(object):
 
         return min_dist
 
+
 if __name__ == '__main__':
     fwd = FindWordDist(["fox", "cat", "rabbit", "dog", "fish", "fox"])
-    print fwd.get_shortest_dist2('fox', 'dog')
+    print(fwd.get_shortest_dist2('fox', 'dog'))

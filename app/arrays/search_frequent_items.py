@@ -1,3 +1,7 @@
+"""
+Source: https://github.com/adnanaziz/EPIJudge/blob/master/epi_judge_python_solutions/search_frequent_items.py
+
+"""
 import sys
 import random
 import string

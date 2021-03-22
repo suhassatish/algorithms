@@ -35,5 +35,5 @@ def divide(x, y):
 
 
 if __name__ == '__main__':
-    print divide(11, 2)  # 5
-    print divide(49, 7)  # 7
+    print(divide(11, 2))  # 5
+    print(divide(49, 7))  # 7
