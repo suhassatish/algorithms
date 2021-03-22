@@ -162,11 +162,12 @@ class Trie(object):
 
         return current_node.data
 
+
 if __name__ == '__main__':
     trie = Trie()
     words = 'hello goodbye help gerald gold tea ted team to too tom stan standard money'
     for word in words.split():
         trie.add(word)
-    print trie.has_word('goodbye')
-    print trie.start_with_prefix('g')
-    print trie.start_with_prefix('to')
+    print(trie.has_word('goodbye'))
+    print(trie.start_with_prefix('g'))
+    print(trie.start_with_prefix('to'))

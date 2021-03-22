@@ -11,7 +11,7 @@ examples -
 2) input = 1->11->45->12->67->89->None
    output = 12
 """
-from llist import sllist
+from llist import sllist  # pip install llist
 
 
 def sll_find_mid(arr):
@@ -41,8 +41,8 @@ def sll_find_mid(arr):
     return slow.value
 
 if __name__ == '__main__':
-    print sll_find_mid([1, 11, 45, 12, 67, 89])  # 12
-    print sll_find_mid([1, 11, 45, 12, 67])  # 45
-    print sll_find_mid([1, 11])  # 11
-    print sll_find_mid([])  # None
-    print sll_find_mid(None)  # None
+    print(sll_find_mid([1, 11, 45, 12, 67, 89]))  # 12
+    print(sll_find_mid([1, 11, 45, 12, 67]))  # 45
+    print(sll_find_mid([1, 11]))  # 11
+    print(sll_find_mid([]))  # None
+    print(sll_find_mid(None))  # None

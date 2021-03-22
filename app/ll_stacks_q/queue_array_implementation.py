@@ -50,18 +50,18 @@ if __name__ == '__main__':
     try:
         q.put(34) # should raise is_full exception.
         raise Exception("should not be here")
-    except Exception, e:
+    except Exception as e:
         pass
-    print q.get()
-    print q.get()
-    print q.get()
-    print q.get()
-    print q.get()
+    print(q.get())
+    print(q.get())
+    print(q.get())
+    print(q.get())
+    print(q.get())
     try:
         q.get() # should raise is_empty exception
         raise Exception("should not be here")
-    except Exception, e:
+    except Exception as e:
         pass
 
     q.put('wrap')
-    print q.get()
+    print(q.get())

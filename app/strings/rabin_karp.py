@@ -83,6 +83,7 @@ class RabinKarp(object):
                 return i + 1 - self._M  # found, return index of start of first match
         return n  # not found
 
+
 if __name__ == '__main__':
     for pat, txt in [('abracadabra', 'abacadabrabracabracadabrabrabracad'),  # 14
                      ('rab', 'abacadabrabracabracadabrabrabracad'),  # 8
@@ -90,4 +91,4 @@ if __name__ == '__main__':
                      ('rabrabracad', 'abacadabrabracabracadabrabrabracad'),  # 23
                      ('abacad', 'abacadabrabracabracadabrabrabracad')]:  # 0
         rk = RabinKarp(pat)
-        print rk.search(txt)  # TODO - doesnt work, debug test cases
+        print(rk.search(txt))  # TODO - doesnt work, debug test cases

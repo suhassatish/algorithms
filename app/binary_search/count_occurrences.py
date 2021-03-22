@@ -78,8 +78,8 @@ def _find_last_index(a, x, lo, hi):
 
 
 if __name__ == '__main__':
-    print count_occurrences([0], 0)  # 1
-    print count_occurrences([0], 1)  # 0
-    print count_occurrences([0, 1, 2, 3, 4, 5, 6, 7, 8], 9)  # 0
-    print count_occurrences([1, 1, 2, 2, 2, 2, 3], 2)  # 4
-    print count_occurrences([0, 2, 2, 3, 4, 5, 6, 7, 8], 2)  # 2
+    print(count_occurrences([0], 0))  # 1
+    print(count_occurrences([0], 1))  # 0
+    print(count_occurrences([0, 1, 2, 3, 4, 5, 6, 7, 8], 9))  # 0
+    print(count_occurrences([1, 1, 2, 2, 2, 2, 3], 2))  # 4
+    print(count_occurrences([0, 2, 2, 3, 4, 5, 6, 7, 8], 2))  # 2

@@ -17,7 +17,7 @@ eg - this would avoid scenario like '))'
 def brackets(n):
     st = set()
     _brackets(n, n, '', st)
-    print st
+    print(st)
 
 
 def _brackets(left_remaining, right_remaining, prefix, valid_set):

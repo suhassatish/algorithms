@@ -64,5 +64,6 @@ def sliding_window_max(arr, k):
             max_arr.append(arr[q[0]])
     return max_arr
 
+
 if __name__ == '__main__':
-    print sliding_window_max([1, 3, -1, -3, 5, 3, 6, 7], 3)
+    print(sliding_window_max([1, 3, -1, -3, 5, 3, 6, 7], 3))

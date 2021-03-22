@@ -1,6 +1,6 @@
 import random
 import sys
-from binary_tree_prototype import BinaryTreeNode
+from .binary_tree_prototype import BinaryTreeNode
 # from binary_tree_utils import generate_rand_binary_tree
 
 
@@ -15,18 +15,18 @@ def is_binary_tree_bst(tree, low_range=float('-inf'), high_range=float('inf')):
 # @exclude
 
 
-def is_binary_tree_bst_alternative(tree):
-    def inorder_traversal(tree):
-        if not tree:
+def is_binary_tree_bst_alternative(root):
+    def inorder_traversal(node):
+        if not node:
             return True
-        elif not inorder_traversal(tree.left):
+        elif not inorder_traversal(node.left):
             return False
-        elif prev[0] and prev[0].data > tree.data:
+        elif prev[0] and prev[0].data > node.data:
             return False
-        prev[0] = tree
-        return inorder_traversal(tree.right)
+        prev[0] = node
+        return inorder_traversal(node.right)
     prev = [None]
-    return inorder_traversal(tree)
+    return inorder_traversal(root)
 
 
 def test():
@@ -53,6 +53,18 @@ def test():
     assert is_binary_tree_bst(None)
     assert is_binary_tree_bst_alternative(None)
 
+    # corner test case when grandchild violates the bst rule but imediate parent-child do not.
+    #     3
+    #   2    5
+    #       2  7
+    # other corner cases - all duplicate values
+    tree2 = BinaryTreeNode(3)
+    tree2.left = BinaryTreeNode(3)
+    tree2.right = BinaryTreeNode(5)
+    tree2.right.left = BinaryTreeNode(2)
+    assert not is_binary_tree_bst(tree)
+    assert not is_binary_tree_bst_alternative(tree)
+
 
 def main():
     test()
@@ -63,4 +75,5 @@ def main():
 
 
 if __name__ == '__main__':
+    # run script from $REPO_ROOT with `python3 -m app.trees.is_binary_tree_a_bst`
     main()

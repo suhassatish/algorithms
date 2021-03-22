@@ -67,4 +67,4 @@ def find_best_knapsack(items, capacity):
 
 if __name__ == '__main__':
     Item = namedtuple('Item', ['wt', 'val'])
-    print find_best_knapsack(map(Item._make, [(5, 9), (2, 3), (8, 1), (6, 4)]), 10)  # 12
+    print(find_best_knapsack(map(Item._make, [(5, 9), (2, 3), (8, 1), (6, 4)]), 10))  # 12

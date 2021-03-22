@@ -53,7 +53,7 @@ class TreeIterator(object):
 
     def nexxt(self):
         """
-        Typo in method name sinxe next is already a builtin key word in python std lib
+        Typo in method name since next is already a builtin key word in python std lib
         :return:
         """
         node = self.stk.pop()

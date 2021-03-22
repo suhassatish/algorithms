@@ -24,7 +24,7 @@ Output: 6
 """
 
 
-def ArrayChallenge(arr):
+def array_challenge(arr):
     cnt = 0
     desks = []
     for i, e in enumerate(arr):
@@ -35,8 +35,8 @@ def ArrayChallenge(arr):
     for i, desk_number in enumerate(desks):
         if desk_number == 0:
             continue  # occupied
-        elif desk_number % 2 == 1: # odd desk number check to the right
-            if desks[i + 1] !=0:  # right
+        elif desk_number % 2 == 1:  # odd desk number check to the right
+            if desks[i + 1] != 0:  # right
                 cnt += 1
 
         # both odd and even desks check the row behind them
@@ -46,6 +46,6 @@ def ArrayChallenge(arr):
 
 
 if __name__ == '__main__':
-    print(ArrayChallenge([12, 2, 6, 7, 11]))  # expected = 6
-    print(ArrayChallenge([6, 3]))  # 4
-    print(ArrayChallenge([6, 6]))  # 5
+    print(array_challenge([12, 2, 6, 7, 11]))  # expected = 6
+    print(array_challenge([6, 3]))  # 4
+    print(array_challenge([6, 6]))  # 5

@@ -48,7 +48,7 @@ def find_pair_sum_k(A, k):
         # result.index_1 for positive, and result.index_2 for negative.
         result = IndexPair(len(A) - 1, len(A) - 1)
         # Find the last positive or zero.
-        while result.index_1 >= 0 and A[result.index_1] < 0:
+        while result.index_1 >= 0 > A[result.index_1]:
             result.index_1 -= 1
 
         # Find the last negative.

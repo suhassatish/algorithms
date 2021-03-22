@@ -40,7 +40,7 @@ def solve():
 
 def extending(prefix, path):
     if prefix in words:
-        yield (prefix, path)
+        yield prefix, path
     for (nx, ny) in neighbors(path[-1]):
         if (nx, ny) not in path:
             prefix1 = prefix + grid[ny][nx]
@@ -49,7 +49,7 @@ def extending(prefix, path):
                     yield result
 
 
-def neighbors((x, y)):
+def neighbors(x, y):
     for nx in range(max(0, x-1), min(x+2, ncols)):
         for ny in range(max(0, y-1), min(y+2, nrows)):
-            yield (nx, ny)
+            yield nx, ny

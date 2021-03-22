@@ -52,12 +52,12 @@ def step(x, v):
 
 def will_kangaroos_collide(x1, v1, x2, v2):
     if v1 < 1 or v1 > 10000 or v2 < 1 or v2 > 10000 \
-        or x1 < 0 or x2 < 0 or x1 > 10000 or x2 > 10000:
+            or x1 < 0 or x2 < 0 or x1 > 10000 or x2 > 10000:
         return "NO"
     if (v1 <= v2 and x1 < x2) \
-        or (v1 < v2 and x1 <= x2) \
-        or (v2 <= v1 and x2 < x1) \
-        or (v2 < v1 and x2 <= x1):
+            or (v1 < v2 and x1 <= x2) \
+            or (v2 <= v1 and x2 < x1) \
+            or (v2 < v1 and x2 <= x1):
         return "NO"
     elif x1 == x2 and v1 == v2:
         return "YES"
@@ -80,6 +80,6 @@ def will_kangaroos_collide(x1, v1, x2, v2):
 
 
 # if __name__ == "__main__":
-start1,speed1,start2,speed2 = input().strip().split(' ')
-start1,speed1,start2,speed2 = [int(start1),int(speed1),int(start2),int(speed2)]
+start1, speed1, start2, speed2 = input().strip().split(' ')
+start1, speed1, start2, speed2 = [int(start1), int(speed1), int(start2), int(speed2)]
 print(will_kangaroos_collide(start1, speed1, start2, speed2))

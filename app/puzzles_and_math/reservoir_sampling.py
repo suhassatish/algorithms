@@ -6,6 +6,8 @@ import itertools
 
 # @include
 # Assumption: there are at least k elements in the stream.
+# asymptotic time complexity is mainly to choose a random number for each element seen in the stream, so it degrades to
+# O(n). If n is large it can be very long running time.
 def online_random_sample(it, k):
     # Stores the first k elements.
     sampling_results = list(itertools.islice(it, k))

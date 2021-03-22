@@ -6,6 +6,9 @@ Red-Black - more lenient, less rotations.
 height(longer_side)/height(shorter_side) <=2  (faster inserts)
 
 Splay trees? self-adjusting trees?
+https://en.wikipedia.org/wiki/Splay_tree
+A splay tree gets rebalanced on new inserts such that frequent items become the root. amortiized O(lg n) for search,
+insert, delete but worst case height can degrade to O(n).
 """
 
 

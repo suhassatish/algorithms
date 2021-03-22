@@ -74,6 +74,7 @@ def _permutations(a, i, result):
         _permutations(a, i + 1, result)  # generates all permutations for sublist a[i:]
         a[i], a[j] = a[j], a[i]
 
+
 if __name__ == "__main__":
-    print permutations([1, 2, 3])
+    print(permutations([1, 2, 3]))
     # [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 1, 2], [3, 2, 1]]

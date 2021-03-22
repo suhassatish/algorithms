@@ -71,4 +71,4 @@ if __name__ == '__main__':
     # print missing([1,2,5,6,9], 1,2)  # 0
 
     # print kth_missing([1,4], 1)  # 2
-    print(kth_missing([1,4,6,7,9], 4))  # 3
+    print(kth_missing([1, 4, 6, 7, 9], 4))  # 3

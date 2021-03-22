@@ -5,7 +5,7 @@ Given a binary matrix, find out the maximum size rectangle sub-matrix with all 1
 """
 import sys
 import random
-from largest_rectangle_under_skyline import calculate_largest_rectangle
+from .largest_rectangle_under_skyline import calculate_largest_rectangle
 
 
 # @include

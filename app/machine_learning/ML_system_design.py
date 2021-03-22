@@ -7,30 +7,159 @@ https://github.com/alirezadir/machine-learning-interview-enlightener
 
 https://developers.google.com/machine-learning/guides/rules-of-ml
 
+************************************************************************************************************************
+Design Flow
+
+1) Problem Description
+    What does it mean?
+        Use cases
+        Requirements
+        Assumptions
+
+2) Do we need ML to solve this problem?
+    Trade off between impact and cost
+    Costs: Data collection, data annotation, compute
+
+    if Yes, go to the next topic. If No, follow a general system design flow.
+
+3) ML Metrics
+    Accuracy metrics:
+        imbalanced data?
+    Latency
+    Problem specific metric (e.g. CTR)
+
+4) Data Needs
+    type (e.g. image, text, video, etc) and volume
+    Sources
+    availability and cost
+    Labelling (if needed)
+    labeling cost
+
+5) MVP Logic
+    Model based vs rule based logic
+        Pros and cons, and decision
+
+    Note: Always start as simple as possible and iterate over
+    Propose a simple model (e.g. a binary logistic regression classifier)
+    Features/ Signals (if needed)
+    what to chose as and how to chose features
+    feature representation
+
+6) Training (if needed)
+    data splits (train, dev, test)
+        portions
+        how to chose a test set
+
+    debugging
+    Iterate over MVP model (if needed)
+        data augmentation
+
+7) Inference (online)
+    Data processing and verification
+    Prediction module
+    Serving infra
+    Web app
+
+8) Scaling
+    Scaling for increased demand (same as in distributed systems)
+        Scaling web app and serving system
+        Data partitioning
+    Data parallelism
+    Model parallelism
+
+9) A/B test and deployment
+    How to A/B test?
+        what portion of users?
+        control and test groups
+
+10) Monitoring and Updates
+    seasonality
+
+************************************************************************************************************************
 Components -
 
 1) Project setup
 
 2) data pipeline
-    a) Sampling
-    b) randomization
+    a) SAMPLING techniques
+        1) stratified sampling - segment into groups and sample from each group. It can produce WEIGHTED MEAN that has
+            LESS VARIANCE than the arithmetic mean of a simple random sample. In context of case-article attaches,
+            negative sampling can be grouped into clicked articles but not attached, hovered but not attached, overall
+            popular articles for views.
+
+            a) # of samples in each group should be proportional to the whole population ratio of that group.
+
+        2) uniform sampling - random sampling from a uniform distribution ie step function b/w ranges a & b with
+            amplitude 1 / (b-a)
+
+        3) reservoir sampling - sample k-items w/o replacement from a stream of data of unknown size n in single pass
+
+        4) sampling multinomial distribution - It models the probability of counts for each side of a k-sided dice with
+            n rolls. Generalization of binomial distribution which models probability of Head / tail of a coin flip,
+            with replacement.
+        eg code: np.random.multinomial(20, [1/6.]*6, size=1)
+
+        5) random generator
+
+        6) thompson sampling based on user affinities.
+            affinity modeled as a beta distribution
+            E(beta) = #actions / # views
+
+    b) RANDOMIZATION
+
+    c) bootstrapping from COLD START situations - squad 2.0 dataset for EAR
+        content based (item-item) vs collaborative filtering (user-item)
+        MF vs FM w/ side features support.
+
 
 ------------
 
 3) modeling & training
-think of 3 different BASELINES -
+    A) think of 3 different BASELINES -
     a) Random baseline - if model just predicts everything at random, whats the expected perf?
     b) human baseline - how well do humans perform on this task?
     c) simple heuristic - eg - recommending most popular app can have a  70% accuracy, does a sophisticated model do
         much better than this? It has to, to justify the cost
 
-    DISTRIBUTED TRAINING
+    B) DISTRIBUTED TRAINING
     Synchronous SGD where you wait for gradients to come from every machine before updating weights, slow machines
         can slow down the whole system.
 
     Async SGD - update weights as gradients come from each machine. Can lead to gradient staleness.
 
-    MIXED PRECISION TRAINING
+    C) MIXED PRECISION TRAINING
+
+    D) OPTIMIZER to use? choices w/ trade-offs
+        1) SGD
+        2) SGD w/ momentum
+        3) Adam
+
+    E) REGULARIZATION
+        1) L1 vs L2 trade-offs and elasticNet
+
+    F) what model to use? trade-offs - missing data ? SVM cannot tolerate missing data. interpretability (LR)? overfitting
+        tendency (tree-based models) ? random forests dont overfit but gradient boosted ensemble learners like XGBoost
+        can overfit.
+
+    G) LOSS function
+        single class (and multi-label) - sigmoid
+            vs
+        multi-class (and single label) classification - categorical cross-entropy loss with softmax
+
+    H) TRAINING METRICS
+        a) AUPR
+        b) AUC ROC
+        c) f1-score
+
+    I) Online metrics for ranking
+        a) NDCG
+        b) MAP
+        c) Recall @ k for search layer
+        d) hit rate @ 1
+        e) MRR
+
+    J) Online instrumentation
+        clicks, attaches, hovers,
 ------------
     Model selection & benchmarking: autoML
 

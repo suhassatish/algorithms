@@ -1,4 +1,4 @@
-from binary_tree_prototype import BinaryTreeNode
+from .binary_tree_prototype import BinaryTreeNode
 
 
 # @include

@@ -30,7 +30,7 @@ def merge(list_of_lists):
         return list_of_lists
 
     K = len(list_of_lists)
-    N = len(list_of_lists[0]) # input specification = all sublists are of equal length
+    N = len(list_of_lists[0])  # input specification = all sublists are of equal length
     h = []
     out = []
     # push all elements into the priority queue (needs memory O(NK))
@@ -98,4 +98,4 @@ if __name__ == '__main__':
 
     # print [a[i] for i in range(len(merge(a)))]
     # print merge(a)
-    print merge_infinite(a)
+    print(merge_infinite(a))

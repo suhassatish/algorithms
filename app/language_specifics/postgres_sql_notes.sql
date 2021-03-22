@@ -2273,3 +2273,48 @@ from pg_locks;
 -------------
 postgres OFFSET is like LIMIT but will skip the 1st so many rows. For deterministic ordering, it needs to be
 used with an ORDER BY query.
+
+
+/*
+select max(Salary) as SecondHighestSalary
+from Employee
+where Salary < (select max(Salary) from Employee) ;
+
+-------------------------
+
+With T as
+(
+select *, dense_rank() over (order by Salary desc) as rnk
+from Employee
+)
+select Salary as SecondHighestSalary
+from T
+where rnk = 2
+
+-------------------------
+
+select round(100*sum(case when order_date = customer_pref_delivery_date then 1 else 0 end )  / count(distinct customer_id), 2) as immediate_percentage
+from Delivery d
+where (customer_id, order_date) in (
+    select customer_id, min(order_date)
+    from Delivery d
+    group by customer_id)
+
+-------------------------
+# mysql date format
+select seller_id
+     from Orders
+     where date_format(sale_date, '%Y-%m') = '2020-02'
+
+--postgres date format
+SELECT TO_CHAR(NOW() :: DATE, 'dd/mm/yyyy');
+
+-------------------------
+
+UPDATE salary
+SET
+    sex = CASE sex
+        WHEN 'm' THEN 'f'
+        ELSE 'm'
+    END;
+*/

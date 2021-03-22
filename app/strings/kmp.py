@@ -178,4 +178,4 @@ if __name__ == '__main__':
                      ('rabrabracad', 'abacadabrabracabracadabrabrabracad'),  # 23
                      ('abacad', 'abacadabrabracabracadabrabrabracad')]:  # 0
         kmp = KmpPrinceton(pat)
-        print kmp.search(txt)
+        print(kmp.search(txt))

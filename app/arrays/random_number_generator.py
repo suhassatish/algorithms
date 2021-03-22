@@ -28,4 +28,7 @@ Program should implement the following hard-coded table
 Running time of algorithm is unbounded.
 Compare the number of executions to the number of outcomes and just by comparing these 2 numbers,
 you will have solid talking points.
+
+Also see intuition using rejection sampling at - https://leetcode.com/articles/implement-rand10-using-rand7/
+
 """

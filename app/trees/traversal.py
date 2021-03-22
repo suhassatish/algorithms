@@ -5,7 +5,7 @@ def dfs_recursive(root):
     if root is None:
         return
     else:
-        print root.val
+        print(root.val)
         dfs_recursive(root.left)
         dfs_recursive(root.right)
 
@@ -21,7 +21,7 @@ def dfs_iterative(root):
             return
 
         else:
-            print root.val
+            print(root.val)
             if root.left is not None:
                 stk.append(root.left)
 
@@ -37,7 +37,7 @@ def bfs(root):
     q.append(root)
 
     while q:
-        print node.val
+        print(node.val)
         node = q.popleft()
         if node.left is not None:
             q.append(node.left)

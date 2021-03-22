@@ -74,10 +74,12 @@ def maxsubarrayproduct(arr):
             max_so_far  =  max_ending_here
     return max_so_far
 
+
 # Driver function to test above function
 arr = [1, -2, -3, 0, 7, -8, -2]
-print "Maximum product subarray is",maxsubarrayproduct(arr)
+print("Maximum product subarray is " + maxsubarrayproduct(arr))
 
-#related problem
-#max product of 3 elements in an array - optimal solution = O(n) time, O(1) space
-#http://www.geeksforgeeks.org/find-maximum-product-of-a-triplet-in-array/
+
+# related problem
+# max product of 3 elements in an array - optimal solution = O(n) time, O(1) space
+# http://www.geeksforgeeks.org/find-maximum-product-of-a-triplet-in-array/

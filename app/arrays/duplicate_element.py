@@ -32,5 +32,5 @@ def duplicate_element(arr):
 
 
 if __name__ == '__main__':
-    print duplicate_element([2, 1, 3, 3])  # 3
-    print duplicate_element([2, 1, 3, 4, 5, 6, 6, 4])  # 6
+    print(duplicate_element([2, 1, 3, 3]))  # 3
+    print(duplicate_element([2, 1, 3, 4, 5, 6, 6, 4]))  # 6

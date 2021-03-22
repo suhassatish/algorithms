@@ -47,8 +47,8 @@ def edit_dist_iterative(str1, str2):
     Walk along a 2 dimensional array of strings and store the edit_dist at each matrix[i][j]
         M  E  A  T
       0 1  2  3  4
-    M 1 0
-    E 2
+    M 1 0  1  2  3
+    E 2 1  0  1  2
     E 3
     T 4
     S 5
@@ -78,8 +78,9 @@ def edit_dist_iterative(str1, str2):
                 mat[i + 1][j + 1] = 1 + min(mat[i][j + 1], mat[i + 1][j], mat[i][j])
     return mat[len(str1)][len(str2)]
 
+
 if __name__ == '__main__':
-    print edit_dist_recursive("tell", "table")  # 3
-    print edit_dist_iterative("cat", "bat")  # 1
-    print edit_dist_iterative("pizza", "yolo")  # 5
-    print edit_dist_iterative("kitten", "sitting")  # 3
+    print(edit_dist_recursive("tell", "table"))  # 3
+    print(edit_dist_iterative("cat", "bat"))  # 1
+    print(edit_dist_iterative("pizza", "yolo"))  # 5
+    print(edit_dist_iterative("kitten", "sitting"))  # 3

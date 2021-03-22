@@ -119,19 +119,25 @@ d(XT) = Σ (i = 1 to l)  y_i α_i X_i X_T + b_0
 
 13) very large datasets having millions of support vectors is still a computational challenge for production use cases
 
+14) SVM loss is usually measured as Hinge loss. HINGE LOSS aka max-margin loss is the term used when they threshold to
+max 0 by using max(0, *). Squared hinge loss [max(0, *)]^2 is sometimes used that penalizes violated margins more
+strongly. Hinge loss is often used in multi-class SVM classifiers while cross-entropy loss is used in softmax
+classifiers.
 ------------------------
 Non-parametric models differ from parametric models. The model structure is not specified a priori
 but is determined from data. Eg of parametric models are neural networks and support vector machines (SVM).
 Examples of non-parametric models are k-nearest neighbors (KNN) and gaussian processes.
 ------------------------
-an F-test in regression compares the fits of different linear models. Unlike t-tests that can assess only one regression coefficient at a time, the F-test can assess multiple coefficients simultaneously.
+an F-test in regression compares the fits of different linear models. Unlike t-tests that can assess only one regression
+ coefficient at a time, the F-test can assess multiple coefficients simultaneously.
 
 The hypotheses for the F-test of the overall significance are as follows:
 
 Null hypothesis: The fit of the intercept-only model and your model are equal.
 Alternative hypothesis: The fit of the intercept-only model is significantly reduced compared to your model.
 
-If the P value for the F-test of overall significance test is less than your significance level, you can reject the null-hypothesis and conclude that your model provides a better fit than the intercept-only model.
+If the P value for the F-test of overall significance test is less than your significance level, you can reject the
+null-hypothesis and conclude that your model provides a better fit than the intercept-only model.
 ------------------------
 dummy variables - war_happens - binary 0 or 1 . to model qualitative outcomes
 --------
@@ -152,7 +158,8 @@ SVM-loss = avg(data loss) over N examples + λ(regularized loss).
 
 Q) What is the advantage of combining L1 (ridge) and L2 (lasso aka least absolute shrinkage and
 selection operator) regularization?
-A) Lasso (aka L2, uses sum of squares of co-efficients) or ridge (aka L1, uses absolute value of coefficients) are forms of regularized linear regressions.
+A) Lasso (aka L2, uses sum of squares of co-efficients) or ridge (aka L1, uses absolute value of coefficients) are
+forms of regularized linear regressions.
 Linear regression in 1 variable can be written as
 Y = aX + b + e (error)
 
@@ -175,7 +182,7 @@ support vector machines and matrix factorization.
 The coefficients in A are regularized to control the variance. 
 
 Ridge regression solves the multi-co-linearity problem (correlated independent variables) through
- shrinkage parameter Γ. Γ controls the size of the coefficients as well as the amount of regularization.
+ shrinkage parameter Γ. Γ (capital gamma) controls the size of the coefficients as well as the amount of regularization.
 
 Ridge regression can't zero coefficients.
  Here, YOU EITHER SELECT ALL THE COEFFICIENTS OR NONE OF THEM (very important property of L1 regularization) whereas
@@ -211,14 +218,15 @@ https://www.slideshare.net/ShangxuanZhang/ridge-regression-lasso-and-elastic-net
 
 Elastic net regularization is given by the equation -
 Residual sum of squares + αρ ||w||+ α (1 - ρ)/2 ||w||^2
-where alpha = regularization stength; rho = split between L1 and L2 regularization.
+where alpha = regularization strength; rho = split between L1 and L2 regularization.
 
   b) It introduces a quadratic term which makes the function strictly convex and hence,
   having a single minimum. Common applications - SVMs, portfolio optimization, metric learning.
 
   c) It is trained with L1 and L2 prior as regularizer.
 
-  d) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of Ridge’s stability under rotation. (not sure what this means)
+  d) A practical advantage of trading-off between Lasso and Ridge is that, it allows Elastic-Net to inherit some of
+  Ridge’s stability under rotation. (not sure what this means)
 
 Pros and Cons of ElasticNet:
 Pros - 
@@ -229,8 +237,8 @@ Cons -
   a) Naive elastic net suffers from double shrinkage
 ---------------------------
 2) cross-validation - For really large datasets, its usually not worth the trouble to do k-fold cross validation.
-In this case, ML researchers just do train/test/validate split. Cross-validation becomes useful when the dataset is tiny (~100s of examples),
-but you cant learn a complex model. 
+In this case, ML researchers just do train/test/validate split. Cross-validation becomes useful when the dataset is tiny
+ (~100s of examples), but you cant learn a complex model.
 
 ----------------------------
 3) convexity
@@ -255,11 +263,11 @@ Components of RL -
 It can be a look-up table, stochastic (ie probabilistic randomness) or search process.
 
 2) REWARD - defines the goal of a reinforcement learning problem. In game, its to maximize the score.
-Learning to run can be a more abstract reward tto define mathematically. Reward is not LOSS, since it
+Learning to run can be a more abstract reward to define mathematically. Reward is not LOSS, since it
 need not be differentiable.
 
 Exploration vs exploitation trade-offs -
-There's an approach  called episolon greedy which adds a bit of random noise.
+There's an approach  called epsilon greedy which adds a bit of random noise.
 Its not just simulated annealing . There's a cost to choosing a behaviour.
 -------
 MODEL-BASED VS MODEL-FREE METHODS -
@@ -345,7 +353,7 @@ A9 - Amazon - Amazon Search
 each model is small and specific.
 
 
-positive labels - added to card, wishlist
+positive labels - added to cart, wishlist
 
 negative- shown but not clicked
 ------------
@@ -362,11 +370,6 @@ fast feature evaluation -
 pinterest - 
 multi-armed bandit model for merging ranks based on different criteria- from recommendations, from
 past history, network of friends ,etc
-
-sampling technique = thompson sampling based on user affinities.
-
-affinity modeled as a beta distribution 
-E(beta) = #actions / # views
 ---------------------------
 personalization & scalable deep learning with MXNET - AWS Machine Learning
 
@@ -374,8 +377,8 @@ personalization & scalable deep learning with MXNET - AWS Machine Learning
 **** end ML conf 2016 notes *********
 
 ------------------------------------------------
-L-BFGS is an optimization gradient descent algorithm for faster convergence, better than
-traditional stochastic gradient descent (SGD), since tt takes curvature into account.
+L-BFGS is an optimization over gradient descent algorithm for faster convergence, better than
+traditional stochastic gradient descent (SGD), since it takes curvature into account.
 SGD will take longer if features are not similarly scaled. Andrew NG's rule of thumb is that if feature values range
 from (-3, 3) or (-1/3 to 1/3) then it is ok.
 
@@ -397,7 +400,7 @@ where:
 source: spark summit 2016 Yahoo talk 
 https://www.youtube.com/watch?v=l_1S7W_l2cI&list=PL-x35fyliRwiz70bTSSK4HmOZ4JazCFUj&index=5
 Yahoo has built their own parameter server on spark.
-Subset of state vectors stored in different shards (scaling ML to billions of params using spask
+Subset of state vectors stored in different shards (scaling ML to billions of params using spark
 MLLib @ Yahoo)
 Different columns stored on different shards for efficiency of dot product, matrix multiplication
 and other linear algebra computations.
@@ -422,7 +425,7 @@ algorithm: determine w -> u(w), v(w) so that sigmoid(u(w) dot_product v(w')) is 
 (minimizes log loss) the probability that w' is a neighbor of w as opposed to a randomly selected
 word.
 
-SGD involces computing many dot products, eg  u(w).v(w')  and vector linear combos,
+SGD involves computing many dot products, eg  u(w).v(w')  and vector linear combos,
 eg u(w) += a * v(w')
 ------------------
 Spark Summit 2016: Distributed deep learning on spark at Baidu:
@@ -528,9 +531,11 @@ function minimizing step that is CPU-intensive.
 Tree-based model is better at handling continuous features (like add_edit_dist and geo_dist and
 name_edit_dist)
 -----------
-AuPR = area under the precision -recall curve where precision = y-axis and recall= x-axis. This uses the prediction of a model as the basis.
+AuPR = area under the precision -recall curve where precision = y-axis and recall= x-axis. This uses the prediction of
+a model as the basis.
 
-In this regard, its different from the area under the ROC (receiver operating characteristics) curve which is TPR (y-axis) vs FPR (x-axis). AUC uses the data as the basis rather than the model prediction.
+In this regard, its different from the area under the ROC (receiver operating characteristics) curve which is TPR
+(y-axis) vs FPR (x-axis). AUC uses the data as the basis rather than the model prediction.
 
 TPR = same definition as precision while FPR = FP / (FP + TN). FPR is the lateral-inversion mirror image of recall.
 
@@ -547,11 +552,6 @@ your team. Cookiecutter scripts available to get started with the right project 
 Also comes with a gui if you're not familiar with docker CLI cmds. Its called "Kitematic" and is available from the
 docker menu.
 
---------------
-
-HINGE LOSS aka max-margin loss is the term used when they threshold to max 0 by using max(0, *). Squared hinge loss
-    [max(0, *)]^2 is sometimes used that penalizes violated margins more strongly. Hinge loss is often used in
-    multi-class SVM classifiers while cross-entropy loss is used in softmax classifiers.
 -------------
 Hyperparameter relative importances for binary classification - einstein modeling research for AuPR curves
 ~/Dropbox/Tech_extras/ML/hyperparameter-tuning-approaches-tradeOffs.png
@@ -565,7 +565,9 @@ How is logistic regression affected by multi-collinearity?
 Colinearity has two main effects on logistic regression:
 
 The variances of the parameter estimates are large
-The model is unstable - that is, small changes to the data can result in large changes to parameter estimates, even reversing their sign and making them significant in the other direction.
-If your only goal is prediction (or categorization) then colinearity isn’t problematic. But you may get a very distorted idea of what the model is doing.
+The model is unstable - that is, small changes to the data can result in large changes to parameter estimates, even
+reversing their sign and making them significant in the other direction.
+If your only goal is prediction (or categorization) then colinearity isn’t problematic. But you may get a very
+distorted idea of what the model is doing.
 
 --------------

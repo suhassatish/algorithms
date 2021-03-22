@@ -1,7 +1,7 @@
 import sys
 import random
 import heapq
-from order_statistic import find_kth_largest
+from .order_statistic import find_kth_largest
 
 
 # @include

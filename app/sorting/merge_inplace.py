@@ -42,6 +42,6 @@ def merge_inplace(a, b):
 
 
 if __name__ == '__main__':
-    print merge_inplace([2, 4, 5, 5, 123], [1, 3, 7, 7, 11, 0, 0, 0, 0, 0])
-    print merge_inplace([1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 0, 0, 0, 0, 0])
-    print merge_inplace([6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 0, 0, 0, 0, 0])
+    print(merge_inplace([2, 4, 5, 5, 123], [1, 3, 7, 7, 11, 0, 0, 0, 0, 0]))
+    print(merge_inplace([1, 2, 3, 4, 5], [6, 7, 8, 9, 10, 0, 0, 0, 0, 0]))
+    print(merge_inplace([6, 7, 8, 9, 10], [1, 2, 3, 4, 5, 0, 0, 0, 0, 0]))

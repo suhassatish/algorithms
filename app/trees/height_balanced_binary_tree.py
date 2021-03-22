@@ -1,24 +1,24 @@
-from binary_tree_prototype import BinaryTreeNode
+from .binary_tree_prototype import BinaryTreeNode
 import collections
 
 
 # @include
-def is_balanced_binary_tree(tree):
+def is_balanced_binary_tree(root):
     BalancedStatusWithHeight = collections.namedtuple(
         'BalancedStatusWithHeight', ('balanced', 'height'))
 
     # First value of the return value indicates if tree is balanced, and if
     # balanced the second value of the return value is the height of tree.
-    def check_balanced(tree):
-        if not tree:
+    def check_balanced(node):
+        if not node:
             return BalancedStatusWithHeight(True, -1)  # Base case.
 
-        left_result = check_balanced(tree.left)
+        left_result = check_balanced(node.left)
         if not left_result.balanced:
             # Left subtree is not balanced.
             return BalancedStatusWithHeight(False, 0)
 
-        right_result = check_balanced(tree.right)
+        right_result = check_balanced(node.right)
         if not right_result.balanced:
             # Right subtree is not balanced.
             return BalancedStatusWithHeight(False, 0)
@@ -26,7 +26,7 @@ def is_balanced_binary_tree(tree):
         is_balanced = abs(left_result.height - right_result.height) <= 1
         height = max(left_result.height, right_result.height) + 1
         return BalancedStatusWithHeight(is_balanced, height)
-    return check_balanced(tree).balanced
+    return check_balanced(root).balanced
 # @exclude
 
 

@@ -35,11 +35,11 @@ The answer is 3.
 
 def find_min_distance_bw_equals(n, A):
 
-    #invalid input or array of size 1
+    # invalid input or array of size 1
     if n <= 1 or len(set(A)) == n or len(A) != n:
         return -1
 
-    #all distinct array elements, no duplicates
+    # all distinct array elements, no duplicates
     elif len(set(A)) == n:
         return -1
 
@@ -65,10 +65,11 @@ def _find_min_distance_from_dict(d):
 def positive(element):
     return element > 0
 
+
 if __name__ == "__main__":
-    n = int(raw_input().strip())
-    A = map(int, raw_input().strip().split(' '))
-    print find_min_distance_bw_equals(n, A)
+    n = int(input().strip())
+    A = map(int, input().strip().split(' '))
+    print(find_min_distance_bw_equals(n, A))
 
 
 
