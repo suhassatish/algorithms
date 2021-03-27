@@ -43,5 +43,5 @@ def intersect_LL(arr_a, arr_b):
 
 
 if __name__ == '__main__':
-    print intersect_LL([4, 5, 0, 6, 1], [7, 9, 0, 6, 1])  # 0
-    print intersect_LL([4, 5, 0, 6, 1], [7, 9, 8, 16, 11])  # -1
+    print(intersect_LL([4, 5, 0, 6, 1], [7, 9, 0, 6, 1]))  # 0
+    print(intersect_LL([4, 5, 0, 6, 1], [7, 9, 8, 16, 11]))  # -1

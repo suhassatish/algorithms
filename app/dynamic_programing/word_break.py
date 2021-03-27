@@ -39,7 +39,7 @@ def _word_break_1(input_string, word_set, index, tmp_word_list, result_str):
 
     for i in range(index + 1, len(input_string) + 1):
         prefix = input_string[index:i]
-        print index, tmp_word_list, prefix, result_str
+        print(index, tmp_word_list, prefix, result_str)
         # O(1) look-up in hash-set vs O(lg n) binary search look-up in sorted_list
         if prefix in word_set:
             tmp_word_list.append(prefix)
@@ -105,15 +105,16 @@ def word_break(input_string, word_set):
     ret_str = ' '.join([word for word in decompositions])
     return ret_str
 
+
 if __name__ == '__main__':
     d = {'apple', 'pie'}
-    print word_break("applepie", d)  # apple pie
+    print(word_break("applepie", d))  # apple pie
 
     d = {'its', 'it', 'sits', 'sit'}
-    print word_break("itsitsitsits", d)  # its its its its
+    print(word_break("itsitsitsits", d))  # its its its its
 
     d = {'cat', 'cats', 'an', 'and', 'dog', 'sand', 'dogs'}
-    print word_break("catsanddogs", d)  # cats and dogs
+    print(word_break("catsanddogs", d))  # cats and dogs
 
     d = {'a', 'aaa', 'is', 'name'}
-    print word_break("aaaisaname", d)  # aaa is a name
+    print(word_break("aaaisaname", d))  # aaa is a name

@@ -157,4 +157,4 @@ def display_pages_working(a):
 
 for page_number, page in enumerate(display_pages_working(inp)):
     for result in page:
-        print page_number, result
+        print(page_number, result)

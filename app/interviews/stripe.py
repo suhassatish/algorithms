@@ -77,13 +77,14 @@ class Tracker(object):
             if i not in st:
                 return i
 
+
 if __name__ == '__main__':
     tracker = Tracker()
-    print tracker.allocate("apibox")
-    print tracker.allocate("apibox")
-    print tracker.deallocate("apibox1")
-    print tracker.allocate("apibox")
-    print tracker.allocate("sitebox")
+    print(tracker.allocate("apibox"))
+    print(tracker.allocate("apibox"))
+    print(tracker.deallocate("apibox1"))
+    print(tracker.allocate("apibox"))
+    print(tracker.allocate("sitebox"))
 
     # print next_server_number([5, 3, 1])  # 2
     # print next_server_number([5, 4, 1, 2]) # 3
